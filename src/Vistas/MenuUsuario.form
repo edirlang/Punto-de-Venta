@@ -110,6 +110,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Productos (F4)"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProductosActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.edisoncor.gui.button.ButtonAero" name="buttonAero1">
           <Properties>

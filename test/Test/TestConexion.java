@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  * @author Mis-Dark
  */
 public class TestConexion {
-    Productos producto;
+    ProductosBD producto;
     public TestConexion() {
         
     }

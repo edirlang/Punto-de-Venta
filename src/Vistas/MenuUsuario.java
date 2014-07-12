@@ -7,6 +7,7 @@ package Vistas;
 
 import Vistas.Clientes.Clientes;
 import Vistas.Facturacion.Factura;
+import Vistas.Productos.Productos;
 
 /**
  *
@@ -74,6 +75,11 @@ public class MenuUsuario extends javax.swing.JFrame {
         btnProductos.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         btnProductos.setForeground(new java.awt.Color(0, 0, 0));
         btnProductos.setText("Productos (F4)");
+        btnProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductosActionPerformed(evt);
+            }
+        });
         panelRound1.add(btnProductos);
 
         buttonAero1.setForeground(new java.awt.Color(0, 0, 0));
@@ -150,6 +156,13 @@ public class MenuUsuario extends javax.swing.JFrame {
         Factura fac = new Factura();
         fac.setVisible(true);
     }//GEN-LAST:event_btnFacturaActionPerformed
+
+    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
+        Productos pro = new Productos();
+        pro.setVisible(true);
+        this.PanelPrincipal.removeAll();
+        this.PanelPrincipal.add(pro);
+    }//GEN-LAST:event_btnProductosActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane PanelPrincipal;
