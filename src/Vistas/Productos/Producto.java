@@ -5,6 +5,8 @@
  */
 package Vistas.Productos;
 
+import Controladores.ProductosController;
+
 /**
  *
  * @author Caja1
@@ -14,15 +16,24 @@ public class Producto extends javax.swing.JFrame {
     /**
      * Creates new form Producto
      */
+    ProductosController Producto;
+    String[] pro;
     public Producto(String[] producto) {
         initComponents();
+        Producto = new ProductosController();
+        pro = producto;
         if (producto != null) {
             this.txtCodigo.setText(producto[0]);
             this.txtNombre.setText(producto[1]);
             this.txtPrecio.setText(producto[2]);
             this.txtCantidad.setText(producto[4]);
-            this.txtJueves.setText(producto[5]);
-        }else{
+            if (producto[5] == "1") {
+                this.txtJueves.setText("SI");
+            } else {
+                this.txtJueves.setText("NO");
+            }
+            this.setVisible(true);
+        } else {
             return;
         }
     }
@@ -103,16 +114,19 @@ public class Producto extends javax.swing.JFrame {
         labelCustom2.setText("CODIGO");
         labelCustom2.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
+        txtCodigo.setEnabled(false);
         txtCodigo.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         labelCustom3.setText("NOMBRE");
         labelCustom3.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
+        txtNombre.setEnabled(false);
         txtNombre.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         labelCustom4.setText("CANTIDAD");
         labelCustom4.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
+        txtCantidad.setEnabled(false);
         txtCantidad.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         labelCustom5.setText("PRECIO");
@@ -128,10 +142,16 @@ public class Producto extends javax.swing.JFrame {
         labelCustom7.setText("JUEVES DE MIL");
         labelCustom7.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
+        txtJueves.setEnabled(false);
         txtJueves.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         btnActualizar.setText("ACTUALIZAR");
         btnActualizar.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelLlamada1Layout = new javax.swing.GroupLayout(panelLlamada1);
         panelLlamada1.setLayout(panelLlamada1Layout);
@@ -221,6 +241,17 @@ public class Producto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        String[] producto ={
+            this.txtCodigo.getText(),
+            this.txtNombre.getText(),
+            this.txtPrecio.getText(),
+            pro[3],
+            this.txtCantidad.getText(),
+            this.txtJueves.getText()
+        };
+        this.Producto.EditarProducto(producto);
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonPopup btnActualizar;

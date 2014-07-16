@@ -29,7 +29,7 @@ public class ProductosBD extends Thread {
             producto.tabla.updateString("Precio", "" + pro[2]);
             producto.tabla.updateString("PrecioCompra", "" + pro[3]);
             producto.tabla.updateString("Cantidad", "" + pro[4]);
-            if ((pro[5].equalsIgnoreCase("si"))||(pro[5].equalsIgnoreCase("SI"))||(pro[5].equalsIgnoreCase("Si"))) {
+            if ((pro[5].equalsIgnoreCase("si")) || (pro[5].equalsIgnoreCase("SI")) || (pro[5].equalsIgnoreCase("Si"))) {
                 producto.tabla.updateBoolean("Jueves", true);
             } else {
                 producto.tabla.updateBoolean("Jueves", false);
@@ -47,11 +47,11 @@ public class ProductosBD extends Thread {
             while (producto.tabla.next()) {
                 if (producto.tabla.getString("Codigo").equalsIgnoreCase(codigo)) {
                     fila = new String[]{
-                        producto.tabla.getString("Codigo"), 
-                        producto.tabla.getString("Descripcion"), 
-                        producto.tabla.getString("Precio"), 
+                        producto.tabla.getString("Codigo"),
+                        producto.tabla.getString("Descripcion"),
+                        producto.tabla.getString("Precio"),
                         producto.tabla.getString("PrecioCompra"),
-                        producto.tabla.getString("Cantidad"), 
+                        producto.tabla.getString("Cantidad"),
                         producto.tabla.getString("Jueves")
                     };
                     return fila;
@@ -60,21 +60,26 @@ public class ProductosBD extends Thread {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
         }
-        if(fila == null){
-            JOptionPane.showMessageDialog(null,"Producto no encontrado");
+        if (fila == null) {
+            JOptionPane.showMessageDialog(null, "Producto no encontrado");
         }
         return fila;
     }
-    
-    public void editar(String codigo, String descripcion, int cantidad, long precio, long comprado, boolean jueves) {
+
+    public void editar(String[] pro) {
         try {
             while (producto.tabla.next()) {
-                if (producto.tabla.getString("codigo").equalsIgnoreCase(codigo)) {
-                    producto.tabla.updateString("descripcion", descripcion);
-                    producto.tabla.updateString("cantidad", "" + cantidad);
-                    producto.tabla.updateString("precio", "" + precio);
-                    producto.tabla.updateString("comprado", "" + comprado);
-                    producto.tabla.updateBoolean("jueves", jueves);
+                if (producto.tabla.getString("codigo").equalsIgnoreCase(pro[0])) {
+                    producto.tabla.updateString("Codigo", pro[0]);
+                    producto.tabla.updateString("Descripcion", pro[1]);
+                    producto.tabla.updateString("Precio",pro[2]);
+                    producto.tabla.updateString("PrecioCompra",pro[3]);
+                    producto.tabla.updateString("Cantidad",pro[4]);
+                    if ((pro[5].equalsIgnoreCase("si")) || (pro[5].equalsIgnoreCase("SI")) || (pro[5].equalsIgnoreCase("Si"))) {
+                        producto.tabla.updateBoolean("Jueves", true);
+                    } else {
+                        producto.tabla.updateBoolean("Jueves", false);
+                    }
                     producto.tabla.updateRow();
                 }
             }
@@ -99,7 +104,7 @@ public class ProductosBD extends Thread {
         DefaultTableModel productos = null;
         try {
             while (producto.tabla.next()) {
-                productos.addRow(consultar(producto.tabla.getString("codigo")));
+                productos.addRow(consultar(producto.tabla.getString("Codigo")));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");

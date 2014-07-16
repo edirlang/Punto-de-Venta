@@ -38,4 +38,8 @@ public class ProductosController extends ProductosBD{
     public String[] Buscar(String codigo){
         return this.consultar(codigo);
     }
+    
+    public void EditarProducto(String[] pro){
+        this.editar(pro);
+    }
 }

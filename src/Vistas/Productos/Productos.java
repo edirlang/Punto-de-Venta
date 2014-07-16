@@ -169,7 +169,10 @@ public class Productos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       Producto modificar = new Producto(Producto.Buscar(this.txtCodigo.getText()));
+       String[] fila = Producto.Buscar(this.txtCodigo.getText());
+       
+       Producto modificar = new Producto(fila);
+       
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void ListaProductos(){
