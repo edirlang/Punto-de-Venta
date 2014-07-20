@@ -6,6 +6,7 @@
 package Vistas.Productos;
 
 import Controladores.ProductosController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,24 +19,11 @@ public class Producto extends javax.swing.JFrame {
      */
     ProductosController Producto;
     String[] pro;
+
     public Producto(String[] producto) {
         initComponents();
-        Producto = new ProductosController();
-        pro = producto;
-        if (producto != null) {
-            this.txtCodigo.setText(producto[0]);
-            this.txtNombre.setText(producto[1]);
-            this.txtPrecio.setText(producto[2]);
-            this.txtCantidad.setText(producto[4]);
-            if (producto[5] == "1") {
-                this.txtJueves.setText("SI");
-            } else {
-                this.txtJueves.setText("NO");
-            }
-            this.setVisible(true);
-        } else {
-            return;
-        }
+        this.CargarCampos(producto);
+        this.setVisible(true);
     }
 
     /**
@@ -50,8 +38,8 @@ public class Producto extends javax.swing.JFrame {
         panel1 = new org.edisoncor.gui.panel.Panel();
         panel2 = new org.edisoncor.gui.panel.Panel();
         labelCustom1 = new org.edisoncor.gui.label.LabelCustom();
-        buttonSeven1 = new org.edisoncor.gui.button.ButtonSeven();
-        textFieldRectBackground1 = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        btnBuscar = new org.edisoncor.gui.button.ButtonSeven();
+        txtBuscarCodigo = new org.edisoncor.gui.textField.TextFieldRectBackground();
         panelLlamada1 = new org.edisoncor.gui.panel.PanelLlamada();
         labelCustom2 = new org.edisoncor.gui.label.LabelCustom();
         txtCodigo = new org.edisoncor.gui.textField.TextField();
@@ -67,9 +55,14 @@ public class Producto extends javax.swing.JFrame {
         txtJueves = new org.edisoncor.gui.textField.TextField();
         btnActualizar = new org.edisoncor.gui.button.ButtonPopup();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("SURTIALISS - PRODUCTO");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         panel1.setPreferredSize(new java.awt.Dimension(550, 420));
@@ -79,10 +72,20 @@ public class Producto extends javax.swing.JFrame {
         labelCustom1.setText("CODIGO:");
         labelCustom1.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
-        buttonSeven1.setText("BUSCAR");
+        btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
-        textFieldRectBackground1.setDescripcion("INGRESE CODIGO");
-        textFieldRectBackground1.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
+        txtBuscarCodigo.setDescripcion("INGRESE CODIGO");
+        txtBuscarCodigo.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
+        txtBuscarCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarCodigoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
@@ -92,12 +95,12 @@ public class Producto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(labelCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textFieldRectBackground1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(panel2Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(buttonSeven1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,9 +108,9 @@ public class Producto extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textFieldRectBackground1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBuscarCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
-                .addComponent(buttonSeven1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -142,7 +145,6 @@ public class Producto extends javax.swing.JFrame {
         labelCustom7.setText("JUEVES DE MIL");
         labelCustom7.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
-        txtJueves.setEnabled(false);
         txtJueves.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         btnActualizar.setText("ACTUALIZAR");
@@ -178,7 +180,7 @@ public class Producto extends javax.swing.JFrame {
             .addGroup(panelLlamada1Layout.createSequentialGroup()
                 .addGap(96, 96, 96)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(142, Short.MAX_VALUE))
         );
         panelLlamada1Layout.setVerticalGroup(
             panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,7 +244,10 @@ public class Producto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        String[] producto ={
+        if(Integer.parseInt(this.txtUnidades.getText())==0){
+            this.txtCantidad.setText("0");
+        }
+        String[] producto = {
             this.txtCodigo.getText(),
             this.txtNombre.getText(),
             this.txtPrecio.getText(),
@@ -251,11 +256,52 @@ public class Producto extends javax.swing.JFrame {
             this.txtJueves.getText()
         };
         this.Producto.EditarProducto(producto);
+        this.txtBuscarCodigo.requestFocus();
+        this.CargarCampos(producto);
+        this.txtUnidades.setText("");
     }//GEN-LAST:event_btnActualizarActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String[] fila = Producto.Buscar(this.txtBuscarCodigo.getText());
+        this.CargarCampos(fila);
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        cerrar();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void txtBuscarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarCodigoActionPerformed
+        String[] fila = Producto.Buscar(this.txtBuscarCodigo.getText());
+        this.CargarCampos(fila);
+    }//GEN-LAST:event_txtBuscarCodigoActionPerformed
+
+    private void CargarCampos(String[] producto) {
+        Producto = new ProductosController();
+        pro = producto;
+        if (producto != null) {
+            this.txtCodigo.setText(producto[0]);
+            this.txtNombre.setText(producto[1]);
+            this.txtPrecio.setText(producto[2]);
+            this.txtCantidad.setText(producto[4]);
+            this.txtJueves.setText(producto[5]);
+            this.txtUnidades.requestFocus();
+        }
+    }
+
+    public void cerrar() {
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(rootPane, "No vas ingresar mas cambios?", "Mensaje de Confirmacion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
+        if (eleccion == JOptionPane.YES_OPTION) {
+            this.setVisible(false);
+            this.dispose();
+        } else {
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonPopup btnActualizar;
-    private org.edisoncor.gui.button.ButtonSeven buttonSeven1;
+    private org.edisoncor.gui.button.ButtonSeven btnBuscar;
     private org.edisoncor.gui.label.LabelCustom labelCustom1;
     private org.edisoncor.gui.label.LabelCustom labelCustom2;
     private org.edisoncor.gui.label.LabelCustom labelCustom3;
@@ -266,7 +312,7 @@ public class Producto extends javax.swing.JFrame {
     private org.edisoncor.gui.panel.Panel panel1;
     private org.edisoncor.gui.panel.Panel panel2;
     private org.edisoncor.gui.panel.PanelLlamada panelLlamada1;
-    private org.edisoncor.gui.textField.TextFieldRectBackground textFieldRectBackground1;
+    private org.edisoncor.gui.textField.TextFieldRectBackground txtBuscarCodigo;
     private org.edisoncor.gui.textField.TextField txtCantidad;
     private org.edisoncor.gui.textField.TextField txtCodigo;
     private org.edisoncor.gui.textField.TextField txtJueves;

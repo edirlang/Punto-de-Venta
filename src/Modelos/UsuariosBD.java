@@ -13,16 +13,17 @@ import javax.swing.JOptionPane;
  *
  * @author Caja1
  */
-public class UsuariosBD {
+public class UsuariosBD extends Thread{
 
     public Conexion usuario;
-
     public UsuariosBD() {
-        usuario = new Conexion("usuarios");
+        usuario = new Conexion();
+        
     }
-
+    
     public void nuevo(String[] usuarioNuevo) {
         try {
+            usuario.conexion("usuarios");
             usuario.tabla.moveToInsertRow();
             usuario.tabla.updateString("Cedula", usuarioNuevo[0]);
             usuario.tabla.updateString("Nombre", usuarioNuevo[1]);
@@ -32,6 +33,7 @@ public class UsuariosBD {
             usuario.tabla.updateString("Contrasena", usuarioNuevo[5]);
             usuario.tabla.updateString("Rol", usuarioNuevo[6]);
             usuario.tabla.insertRow();
+            usuario.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo almacenar producto");
         }
@@ -40,6 +42,7 @@ public class UsuariosBD {
     public String[] consultar(String cedula) {
         String[] fila = null;
         try {
+            usuario.conexion("usuarios");
             while (usuario.tabla.next()) {
                 if (usuario.tabla.getString("Cedula").equalsIgnoreCase(cedula)) {
                     fila = new String[]{usuario.tabla.getString("Cedula"),
@@ -52,6 +55,7 @@ public class UsuariosBD {
                     };
                 }
             }
+            usuario.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
         }
@@ -61,6 +65,7 @@ public class UsuariosBD {
     public String[] consultarSeccion(String user) {
         String[] fila = null;
         try {
+            usuario.conexion("usuarios");
             while (usuario.tabla.next()) {
                 if (usuario.tabla.getString("Usuario").equalsIgnoreCase(user)) {
                     fila = new String[]{
@@ -74,6 +79,7 @@ public class UsuariosBD {
                     };
                 }
             }
+            usuario.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
         }
@@ -82,6 +88,7 @@ public class UsuariosBD {
 
     public void editar(String[] usuarioEditar) {
         try {
+            usuario.conexion("usuarios");
             while (usuario.tabla.next()) {
                 if (usuario.tabla.getString("Cedula").equalsIgnoreCase(usuarioEditar[0])) {
                     usuario.tabla.moveToInsertRow();
@@ -95,6 +102,7 @@ public class UsuariosBD {
                     usuario.tabla.updateRow();
                 }
             }
+            usuario.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
         }
@@ -102,11 +110,13 @@ public class UsuariosBD {
 
     public void eliminar(String cedula) {
         try {
+            usuario.conexion("usuarios");
             while (usuario.tabla.next()) {
                 if (usuario.tabla.getString("Cedula").equalsIgnoreCase(cedula)) {
                     usuario.tabla.deleteRow();
                 }
             }
+            usuario.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
         }
@@ -115,9 +125,11 @@ public class UsuariosBD {
     public ArrayList todos() {
         ArrayList<String[]> usuarios = null;
         try {
+            usuario.conexion("usuarios");
             while (usuario.tabla.next()) {
                 usuarios.add(consultar(usuario.tabla.getString("Cedula")));
             }
+            usuario.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
         }

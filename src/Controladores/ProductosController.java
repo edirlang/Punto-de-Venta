@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Caja1
  */
-public class ProductosController extends ProductosBD{
+public class ProductosController extends ProductosBD implements Runnable{
     
     
     public ProductosController(){
@@ -21,6 +21,7 @@ public class ProductosController extends ProductosBD{
     }
     
     public void nuevoPro(String[] producto){
+        
         this.nuevo(producto);
     }
     public DefaultTableModel Productos(){

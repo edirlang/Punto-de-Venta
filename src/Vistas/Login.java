@@ -22,6 +22,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         usuario = new Usuarios();
+        
     }
 
     /**
@@ -160,6 +161,8 @@ public class Login extends javax.swing.JFrame {
             menuuser.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null, "Usuario o Contraseña Incorecta");
+            this.txtContrasena.setText(null);
+            this.txtUsuario.requestFocus();
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 

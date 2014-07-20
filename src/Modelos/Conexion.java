@@ -6,10 +6,6 @@
 
 package Modelos;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,7 +23,7 @@ public class Conexion {
     private Connection conexion;
     private Statement s;
     
-    public Conexion(String tabla) {
+    public Conexion() {
         /*
         File f;
         String server="jdbc:mysql://localhost:3306/surtialiss2,root,pogramacion2";
@@ -46,15 +42,17 @@ public class Conexion {
             server="jdbc:mysql://localhost:3306/surtialiss2,root,pogramacion2";
         }
         */
+    }
+    
+    public void conexion(String tabla){
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/surtialiss2","root","programacion2");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa","root","programacion2");
             s = conexion.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             this.tabla = s.executeQuery("SELECT * FROM " + tabla);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se logro conectar a la BD debido: \n" + ex);
         }
-
     }
 
     public void close() {
@@ -64,7 +62,7 @@ public class Conexion {
             s.close();
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "NO se ha podido almacenar" + ex);
+            JOptionPane.showMessageDialog(null, "No se pudo terminar la Conexion a la BD" + ex);
         }
     }
 }

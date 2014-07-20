@@ -18,24 +18,22 @@ public class ProductosBD extends Thread {
     private Conexion producto;
 
     public ProductosBD() {
-        producto = new Conexion("productos");
+        producto = new Conexion();
     }
 
     public void nuevo(String[] pro) {
         try {
+            producto.conexion("productos");
             producto.tabla.moveToInsertRow();
             producto.tabla.updateString("Codigo", pro[0]);
-            producto.tabla.updateString("Descripcion", pro[1]);
+            producto.tabla.updateString("Nombre", pro[1]);
             producto.tabla.updateString("Precio", "" + pro[2]);
             producto.tabla.updateString("PrecioCompra", "" + pro[3]);
             producto.tabla.updateString("Cantidad", "" + pro[4]);
-            if ((pro[5].equalsIgnoreCase("si")) || (pro[5].equalsIgnoreCase("SI")) || (pro[5].equalsIgnoreCase("Si"))) {
-                producto.tabla.updateBoolean("Jueves", true);
-            } else {
-                producto.tabla.updateBoolean("Jueves", false);
-            }
+            producto.tabla.updateString("PrecioPromocion", pro[5]);
             producto.tabla.insertRow();
             JOptionPane.showMessageDialog(null, "Producto Creado");
+            producto.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo almacenar producto");
         }
@@ -44,19 +42,21 @@ public class ProductosBD extends Thread {
     public String[] consultar(String codigo) {
         String[] fila = null;
         try {
+            producto.conexion("productos");
             while (producto.tabla.next()) {
                 if (producto.tabla.getString("Codigo").equalsIgnoreCase(codigo)) {
                     fila = new String[]{
                         producto.tabla.getString("Codigo"),
-                        producto.tabla.getString("Descripcion"),
+                        producto.tabla.getString("Nombre"),
                         producto.tabla.getString("Precio"),
                         producto.tabla.getString("PrecioCompra"),
                         producto.tabla.getString("Cantidad"),
-                        producto.tabla.getString("Jueves")
+                        producto.tabla.getString("PrecioPromocion")
                     };
                     return fila;
                 }
             }
+            producto.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
         }
@@ -67,45 +67,73 @@ public class ProductosBD extends Thread {
     }
 
     public void editar(String[] pro) {
+        Boolean confirmar=false;
         try {
+            producto.conexion("productos");
             while (producto.tabla.next()) {
                 if (producto.tabla.getString("codigo").equalsIgnoreCase(pro[0])) {
                     producto.tabla.updateString("Codigo", pro[0]);
-                    producto.tabla.updateString("Descripcion", pro[1]);
+                    producto.tabla.updateString("Nombre", pro[1]);
                     producto.tabla.updateString("Precio",pro[2]);
                     producto.tabla.updateString("PrecioCompra",pro[3]);
                     producto.tabla.updateString("Cantidad",pro[4]);
-                    if ((pro[5].equalsIgnoreCase("si")) || (pro[5].equalsIgnoreCase("SI")) || (pro[5].equalsIgnoreCase("Si"))) {
-                        producto.tabla.updateBoolean("Jueves", true);
-                    } else {
-                        producto.tabla.updateBoolean("Jueves", false);
-                    }
+                    producto.tabla.updateString("PrecioPromocion",pro[5]);
                     producto.tabla.updateRow();
+                    confirmar=true;
                 }
             }
+            producto.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar producto"+ ex);
+        }
+        if(confirmar){
+            JOptionPane.showMessageDialog(null,"Producto Actualizado");
+        }else{
+            JOptionPane.showMessageDialog(null,"No se logro actualizar");
         }
     }
 
     public void eliminar(String codigo) {
         try {
+            producto.conexion("productos");
             while (producto.tabla.next()) {
                 if (producto.tabla.getString("codigo").equalsIgnoreCase(codigo)) {
                     producto.tabla.deleteRow();
                 }
             }
+            producto.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
         }
     }
 
     public DefaultTableModel todos() {
-        DefaultTableModel productos = null;
+        DefaultTableModel productos = new DefaultTableModel();
+        String[] columnas = {"Codigo", "Descripción", "Precio", "Precio de Compra", "Cantidad", "Precio de Promocion"};
+        productos.addColumn(columnas[0]);
+        productos.addColumn(columnas[1]);
+        productos.addColumn(columnas[2]);
+        productos.addColumn(columnas[3]);
+        productos.addColumn(columnas[4]);
+        productos.addColumn(columnas[5]);
+        
         try {
+            producto.conexion("productos");
             while (producto.tabla.next()) {
-                productos.addRow(consultar(producto.tabla.getString("Codigo")));
+                String[] fila ={
+                        producto.tabla.getString("Codigo"),
+                        producto.tabla.getString("Nombre"),
+                        producto.tabla.getString("Precio"),
+                        producto.tabla.getString("PrecioCompra"),
+                        producto.tabla.getString("Cantidad"),
+                        producto.tabla.getString("PrecioPromocion")
+                    };
+                productos.addRow(fila);
+                for(int i = 0; i< fila.length;i++){
+                    System.out.println(fila[0]+" , ");
+                }
             }
+            producto.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
         }

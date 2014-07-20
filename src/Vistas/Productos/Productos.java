@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Vistas.Productos;
 
 import Controladores.ProductosController;
@@ -18,10 +17,11 @@ public class Productos extends javax.swing.JInternalFrame {
      * Creates new form Productos
      */
     ProductosController Producto;
-    
+
     public Productos() {
         initComponents();
         Producto = new ProductosController();
+        this.Lista.setModel(Producto.Productos());
     }
 
     /**
@@ -58,6 +58,11 @@ public class Productos extends javax.swing.JInternalFrame {
         jLabel1.setText("Ingrese Codigo:");
 
         txtCodigo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jButton4.setText("Buscar");
@@ -169,13 +174,16 @@ public class Productos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       String[] fila = Producto.Buscar(this.txtCodigo.getText());
-       
-       Producto modificar = new Producto(fila);
-       
+        String[] fila = Producto.Buscar(this.txtCodigo.getText());
+        Producto modificar = new Producto(fila);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void ListaProductos(){
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        String[] fila = Producto.Buscar(this.txtCodigo.getText());
+        Producto modificar = new Producto(fila);
+    }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void ListaProductos() {
         this.Lista.setModel(Producto.Productos());
         this.Lista.updateUI();
     }
