@@ -6,9 +6,7 @@
 
 package Vistas.Clientes;
 
-import Controladores.ClientesController;
-import Controladores.ProductosController;
-import Vistas.Productos.*;
+import Controladores.ClientesController;;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,7 +22,6 @@ public class Cliente extends javax.swing.JFrame {
     String[] cliente;
     
     public Cliente(String[] cliente) {
-        initComponents();
         initComponents();
         this.CargarCampos(cliente);
         this.setVisible(true);
@@ -59,7 +56,7 @@ public class Cliente extends javax.swing.JFrame {
         txtApellido = new org.edisoncor.gui.textField.TextField();
         labelCustom6 = new org.edisoncor.gui.label.LabelCustom();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("SURTIALISS - ");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -80,6 +77,11 @@ public class Cliente extends javax.swing.JFrame {
 
         txtBuscarCedula.setDescripcion("INGRESE CODIGO");
         txtBuscarCedula.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
+        txtBuscarCedula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarCedulaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
@@ -255,6 +257,11 @@ public class Cliente extends javax.swing.JFrame {
         } else {
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void txtBuscarCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarCedulaActionPerformed
+        this.CargarCampos(clientes.Buscar(this.txtBuscarCedula.getText()));
+        
+    }//GEN-LAST:event_txtBuscarCedulaActionPerformed
 
     private void CargarCampos(String[] producto) {
         clientes = new ClientesController();

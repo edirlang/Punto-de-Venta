@@ -6,6 +6,8 @@
 
 package Vistas.Facturacion;
 
+import Controladores.FacturaController;
+
 /**
  *
  * @author Caja1
@@ -15,8 +17,13 @@ public class Factura extends javax.swing.JFrame {
     /**
      * Creates new form Factura
      */
+    FacturaController OperacionesFactura;
+    String[][] Clientes;
     public Factura() {
         initComponents();
+        OperacionesFactura = new FacturaController();
+        this.clientes = OperacionesFactura.CargarClientes();
+        Clientes= OperacionesFactura.Cliente_CedulaNombre();
     }
 
     /**
@@ -34,7 +41,7 @@ public class Factura extends javax.swing.JFrame {
         labelRect3 = new org.edisoncor.gui.label.LabelRect();
         txtHora = new org.edisoncor.gui.textField.TextField();
         labelRect4 = new org.edisoncor.gui.label.LabelRect();
-        cliente = new javax.swing.JComboBox();
+        clientes = new javax.swing.JComboBox();
         labelHeader1 = new org.edisoncor.gui.label.LabelHeader();
         panelTranslucido2 = new org.edisoncor.gui.panel.PanelTranslucido();
         txtNombre = new org.edisoncor.gui.textField.TextField();
@@ -77,8 +84,13 @@ public class Factura extends javax.swing.JFrame {
         labelRect4.setText("Cliente:");
         labelRect4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        cliente.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        cliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        clientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        clientes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        clientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clientesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelTranslucido1Layout = new javax.swing.GroupLayout(panelTranslucido1);
         panelTranslucido1.setLayout(panelTranslucido1Layout);
@@ -88,7 +100,7 @@ public class Factura extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(labelRect4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(clientes, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(labelRect2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -106,7 +118,7 @@ public class Factura extends javax.swing.JFrame {
                 .addGroup(panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(labelRect4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(clientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(labelRect2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -331,13 +343,17 @@ public class Factura extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_buttonAero1ActionPerformed
 
+    private void clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientesActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonAero buttonAero1;
     private org.edisoncor.gui.button.ButtonAero buttonAero2;
     private org.edisoncor.gui.button.ButtonIcon buttonIcon1;
     private org.edisoncor.gui.button.ButtonIcon buttonIcon2;
-    private javax.swing.JComboBox cliente;
+    private javax.swing.JComboBox clientes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private org.edisoncor.gui.label.LabelHeader labelHeader1;

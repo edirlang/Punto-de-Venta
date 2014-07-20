@@ -6,6 +6,7 @@
 package Modelos;
 
 import java.sql.SQLException;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -102,7 +103,7 @@ public class ClientesBD extends Conexion {
             }
             close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al eleminar el cliente "+ex);
+            JOptionPane.showMessageDialog(null, "Error al eleminar el cliente " + ex);
         }
     }
 
@@ -119,14 +120,54 @@ public class ClientesBD extends Conexion {
             while (tabla.next()) {
                 String[] fila = {
                     tabla.getString("Cedula"),
-                        tabla.getString("Nombre"),
-                        tabla.getString("Apellido"),
-                        tabla.getString("Telefono")
+                    tabla.getString("Nombre"),
+                    tabla.getString("Apellido"),
+                    tabla.getString("Telefono")
                 };
                 clientes.addRow(fila);
                 for (int i = 0; i < fila.length; i++) {
-                    System.out.println(fila[0] + " , ");
+                    System.out.println(fila[i] + " , ");
                 }
+            }
+            close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error no se logro conectarse a  la tabla");
+        }
+        return clientes;
+    }
+
+    public JComboBox NombreCliente() {
+        JComboBox nombre = new JComboBox();
+        String[][] Clientes = this.CedulaNombre();
+        for(int i = 0; i < Clientes.length; i++){
+            nombre.addItem(Clientes[i][1]);
+        }
+        return nombre;
+    }
+
+    public String[][] CedulaNombre() {
+        String[][] clientes = new String[TamañoTabla()][2];
+        try {
+            conexion("clientes");
+            int fila=0;
+            while (tabla.next()) {
+                clientes[fila][0]=tabla.getString("Cedula");
+                clientes[fila][1] = tabla.getString("Nombre")+" "+ tabla.getString("Apellido");
+                fila++;
+            }
+            close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error no se logro conectarse a  la tabla");
+        }
+        return clientes;
+    }
+    
+    private int TamañoTabla(){
+        int clientes = 0;
+        try {
+            conexion("clientes");
+            while (tabla.next()) {
+                clientes++;
             }
             close();
         } catch (SQLException ex) {
