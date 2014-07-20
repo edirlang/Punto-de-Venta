@@ -6,6 +6,9 @@
 
 package Vistas.Clientes;
 
+import Controladores.ClientesController;
+import Vistas.Productos.ProductoNuevo;
+
 
 /**
  *
@@ -16,9 +19,11 @@ public class Clientes extends javax.swing.JInternalFrame {
     /**
      * Creates new form Productos
      */
+    ClientesController clientes;
     public Clientes() {
         initComponents();
-       
+       clientes = new ClientesController();
+       this.Lista.setModel(clientes.todos());
     }
 
     /**
@@ -34,7 +39,7 @@ public class Clientes extends javax.swing.JInternalFrame {
         labelHeader1 = new org.edisoncor.gui.label.LabelHeader();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCedula = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         PanelListado = new javax.swing.JPanel();
@@ -56,13 +61,28 @@ public class Clientes extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setText("INGRESE CEDULA");
 
-        jTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtCedula.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtCedula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCedulaActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jButton4.setText("Buscar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jButton3.setText("Nuevo");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -72,7 +92,7 @@ public class Clientes extends javax.swing.JInternalFrame {
                 .addGap(123, 123, 123)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
@@ -85,7 +105,7 @@ public class Clientes extends javax.swing.JInternalFrame {
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4)
                     .addComponent(jButton3))
                 .addContainerGap(40, Short.MAX_VALUE))
@@ -167,6 +187,21 @@ public class Clientes extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
+        String[] fila = clientes.Buscar(this.txtCedula.getText());
+        Cliente modificar = new Cliente(fila);
+    }//GEN-LAST:event_txtCedulaActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String[] fila = clientes.Buscar(this.txtCedula.getText());
+        Cliente modificar = new Cliente(fila);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        ClienteNuevo nuevo = new ClienteNuevo();
+        nuevo.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Lista;
@@ -177,7 +212,7 @@ public class Clientes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private org.edisoncor.gui.label.LabelHeader labelHeader1;
+    private javax.swing.JTextField txtCedula;
     // End of variables declaration//GEN-END:variables
 }

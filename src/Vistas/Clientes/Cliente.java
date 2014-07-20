@@ -6,7 +6,10 @@
 
 package Vistas.Clientes;
 
+import Controladores.ClientesController;
+import Controladores.ProductosController;
 import Vistas.Productos.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,8 +20,14 @@ public class Cliente extends javax.swing.JFrame {
     /**
      * Creates new form Producto
      */
-    public Cliente() {
+    ClientesController clientes;
+    String[] cliente;
+    
+    public Cliente(String[] cliente) {
         initComponents();
+        initComponents();
+        this.CargarCampos(cliente);
+        this.setVisible(true);
     }
 
     /**
@@ -47,10 +56,17 @@ public class Cliente extends javax.swing.JFrame {
         labelCustom7 = new org.edisoncor.gui.label.LabelCustom();
         txtFiando = new org.edisoncor.gui.textField.TextField();
         btnActualizar = new org.edisoncor.gui.button.ButtonPopup();
+        txtApellido = new org.edisoncor.gui.textField.TextField();
+        labelCustom6 = new org.edisoncor.gui.label.LabelCustom();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SURTIALISS - ");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         panel1.setPreferredSize(new java.awt.Dimension(550, 420));
@@ -95,55 +111,77 @@ public class Cliente extends javax.swing.JFrame {
         labelCustom2.setText("CEDULA");
         labelCustom2.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
+        txtCedula.setEnabled(false);
         txtCedula.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         labelCustom3.setText("NOMBRE");
         labelCustom3.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
+        txtNombre.setEnabled(false);
         txtNombre.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         labelCustom4.setText("TELEFONO");
         labelCustom4.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
+        txtTelefono.setEnabled(false);
         txtTelefono.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         labelCustom5.setText("DIRECCION");
         labelCustom5.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
+        txtDirrecion.setEnabled(false);
         txtDirrecion.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         labelCustom7.setText("FIADO");
         labelCustom7.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
+        txtFiando.setEnabled(false);
         txtFiando.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         btnActualizar.setText("ACTUALIZAR");
         btnActualizar.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
+
+        txtApellido.setEnabled(false);
+        txtApellido.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
+
+        labelCustom6.setText("APELLIDO");
+        labelCustom6.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout panelLlamada1Layout = new javax.swing.GroupLayout(panelLlamada1);
         panelLlamada1.setLayout(panelLlamada1Layout);
         panelLlamada1Layout.setHorizontalGroup(
             panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLlamada1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
                 .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelCustom5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCustom7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCustom4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCustom3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCustom2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(panelLlamada1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelLlamada1Layout.createSequentialGroup()
+                                .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelCustom5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelCustom7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelCustom3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelCustom2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE))
+                            .addGroup(panelLlamada1Layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addComponent(labelCustom6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLlamada1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelCustom4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addGroup(panelLlamada1Layout.createSequentialGroup()
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtDirrecion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtFiando, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtFiando, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(panelLlamada1Layout.createSequentialGroup()
-                .addGap(104, 104, 104)
-                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLlamada1Layout.setVerticalGroup(
             panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,6 +194,10 @@ public class Cliente extends javax.swing.JFrame {
                 .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCustom3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelCustom6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCustom4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,9 +210,9 @@ public class Cliente extends javax.swing.JFrame {
                 .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCustom7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFiando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                .addGap(45, 45, 45)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
@@ -194,7 +236,7 @@ public class Cliente extends javax.swing.JFrame {
                     .addGroup(panel1Layout.createSequentialGroup()
                         .addGap(139, 139, 139)
                         .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(panel1);
@@ -202,6 +244,43 @@ public class Cliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(rootPane, "Estas Seguro?", "Mensaje de Confirmacion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
+        if (eleccion == JOptionPane.YES_OPTION) {
+            this.setVisible(false);
+            this.dispose();
+        } else {
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void CargarCampos(String[] producto) {
+        clientes = new ClientesController();
+        cliente = producto;
+        if (producto != null) {
+            this.txtCedula.setText(producto[0]);
+            this.txtNombre.setText(producto[1]);
+            this.txtApellido.setText(producto[2]);
+            this.txtTelefono.setText(producto[3]);
+            this.txtDirrecion.setText(producto[4]);
+            this.txtFiando.setText(producto[5]);
+            this.txtBuscarCedula.requestFocus();
+        }
+    }
+
+    public void cerrar() {
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(rootPane, "No vas ingresar mas cambios?", "Mensaje de Confirmacion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
+        if (eleccion == JOptionPane.YES_OPTION) {
+            this.setVisible(false);
+            this.dispose();
+        } else {
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonPopup btnActualizar;
@@ -211,10 +290,12 @@ public class Cliente extends javax.swing.JFrame {
     private org.edisoncor.gui.label.LabelCustom labelCustom3;
     private org.edisoncor.gui.label.LabelCustom labelCustom4;
     private org.edisoncor.gui.label.LabelCustom labelCustom5;
+    private org.edisoncor.gui.label.LabelCustom labelCustom6;
     private org.edisoncor.gui.label.LabelCustom labelCustom7;
     private org.edisoncor.gui.panel.Panel panel1;
     private org.edisoncor.gui.panel.Panel panel2;
     private org.edisoncor.gui.panel.PanelLlamada panelLlamada1;
+    private org.edisoncor.gui.textField.TextField txtApellido;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtBuscarCedula;
     private org.edisoncor.gui.textField.TextField txtCedula;
     private org.edisoncor.gui.textField.TextField txtDirrecion;

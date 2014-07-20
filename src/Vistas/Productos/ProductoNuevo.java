@@ -6,6 +6,7 @@
 package Vistas.Productos;
 
 import Controladores.ProductosController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -45,8 +46,13 @@ public class ProductoNuevo extends javax.swing.JFrame {
         labelCustom8 = new org.edisoncor.gui.label.LabelCustom();
         txtComprado = new org.edisoncor.gui.textField.TextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("SURTIALISS - NUEVO PRODUCTO");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         labelCustom2.setText("CODIGO");
@@ -73,6 +79,11 @@ public class ProductoNuevo extends javax.swing.JFrame {
         labelCustom7.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         txtJueves.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
+        txtJueves.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtJuevesActionPerformed(evt);
+            }
+        });
 
         btnCrear.setText("CREAR");
         btnCrear.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
@@ -164,6 +175,31 @@ public class ProductoNuevo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        EnviarBD();
+    }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(rootPane, "Esta seguro?", "Mensaje de Confirmacion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
+        if (eleccion == JOptionPane.YES_OPTION) {
+            this.setVisible(false);
+            this.dispose();
+        } else {
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void txtJuevesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJuevesActionPerformed
+        EnviarBD();
+    }//GEN-LAST:event_txtJuevesActionPerformed
+
+    private void EnviarBD(){
         ProductosController nuevo = new ProductosController();
         String[] producto = {this.txtCodigo.getText(),
             this.txtNombre.getText(),
@@ -175,14 +211,7 @@ public class ProductoNuevo extends javax.swing.JFrame {
         nuevo.nuevoPro(producto);
         this.dispose();
         this.setVisible(false);
-    }//GEN-LAST:event_btnCrearActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
-        this.setVisible(false);
-    }//GEN-LAST:event_btnCancelarActionPerformed
-
-
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonPopup btnCancelar;
     private org.edisoncor.gui.button.ButtonPopup btnCrear;

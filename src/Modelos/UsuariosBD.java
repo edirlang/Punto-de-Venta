@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author Caja1
  */
-public class UsuariosBD extends Thread{
+public class UsuariosBD {
 
     public Conexion usuario;
     public UsuariosBD() {

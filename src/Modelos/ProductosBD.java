@@ -129,9 +129,6 @@ public class ProductosBD extends Thread {
                         producto.tabla.getString("PrecioPromocion")
                     };
                 productos.addRow(fila);
-                for(int i = 0; i< fila.length;i++){
-                    System.out.println(fila[0]+" , ");
-                }
             }
             producto.close();
         } catch (SQLException ex) {
