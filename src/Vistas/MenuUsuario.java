@@ -44,11 +44,16 @@ public class MenuUsuario extends javax.swing.JFrame {
         PanelPrincipal = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SURTIALISS");
-        setPreferredSize(new java.awt.Dimension(1020, 750));
+        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         panelRound1.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -113,6 +118,27 @@ public class MenuUsuario extends javax.swing.JFrame {
         );
 
         jMenu1.setText("Facturacion");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        jMenuItem1.setText("NuevaFactura");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        jMenuItem2.setText("Clientes");
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        jMenuItem3.setText("Productos");
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem4.setText("Pagar Pedido");
+        jMenu1.add(jMenuItem4);
+
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        jMenuItem5.setText("Cerar Sesion");
+        jMenu1.add(jMenuItem5);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Ayuda");
@@ -175,6 +201,11 @@ public class MenuUsuario extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private org.edisoncor.gui.panel.PanelRound panelRound1;
     // End of variables declaration//GEN-END:variables
 }

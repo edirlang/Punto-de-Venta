@@ -6,6 +6,7 @@
 package Controladores;
 
 import Modelos.UsuariosBD;
+import Vistas.Login;
 
 /**
  *
@@ -23,6 +24,7 @@ public class Usuarios {
         String[] cajero = Usuario.consultarSeccion(usuario[0]);
         try {
             if (cajero[5].equalsIgnoreCase(usuario[1])) {
+                Login.ccUsuario=cajero[0];
                 return true;
             } else {
                 return false;

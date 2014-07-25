@@ -43,4 +43,5 @@ public class ProductosController extends ProductosBD implements Runnable{
     public void EditarProducto(String[] pro){
         this.editar(pro);
     }
+    
 }

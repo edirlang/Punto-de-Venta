@@ -35,7 +35,7 @@ public class UsuariosBD {
             usuario.tabla.insertRow();
             usuario.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo almacenar producto");
+            JOptionPane.showMessageDialog(null, "El usuario a sido creado");
         }
     }
 

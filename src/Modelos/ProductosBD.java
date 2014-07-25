@@ -21,7 +21,7 @@ public class ProductosBD extends Thread {
         producto = new Conexion();
     }
 
-    public void nuevo(String[] pro) {
+    protected void nuevo(String[] pro) {
         try {
             producto.conexion("productos");
             producto.tabla.moveToInsertRow();
@@ -66,7 +66,7 @@ public class ProductosBD extends Thread {
         return fila;
     }
 
-    public void editar(String[] pro) {
+    protected void editar(String[] pro) {
         Boolean confirmar=false;
         try {
             producto.conexion("productos");
@@ -93,7 +93,7 @@ public class ProductosBD extends Thread {
         }
     }
 
-    public void eliminar(String codigo) {
+    protected void eliminar(String codigo) {
         try {
             producto.conexion("productos");
             while (producto.tabla.next()) {
@@ -107,7 +107,7 @@ public class ProductosBD extends Thread {
         }
     }
 
-    public DefaultTableModel todos() {
+    protected DefaultTableModel todos() {
         DefaultTableModel productos = new DefaultTableModel();
         String[] columnas = {"Codigo", "Descripción", "Precio", "Precio de Compra", "Cantidad", "Precio de Promocion"};
         productos.addColumn(columnas[0]);
@@ -136,4 +136,5 @@ public class ProductosBD extends Thread {
         }
         return productos;
     }
+    
 }

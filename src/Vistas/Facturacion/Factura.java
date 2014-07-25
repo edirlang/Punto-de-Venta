@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Vistas.Facturacion;
 
 import Controladores.FacturaController;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,12 +18,29 @@ public class Factura extends javax.swing.JFrame {
      * Creates new form Factura
      */
     FacturaController OperacionesFactura;
+    DefaultTableModel ListaProducto;
     String[][] Clientes;
+    String[] ClienteSelecionado;
+    int dia;
+    static int NumeroFacturaCreada = 0;
+    private int NumeroFactura;
+
     public Factura() {
-        initComponents();
         OperacionesFactura = new FacturaController();
-        this.clientes = OperacionesFactura.CargarClientes();
-        Clientes= OperacionesFactura.Cliente_CedulaNombre();
+        Clientes = OperacionesFactura.Cliente_CedulaNombre();
+        ClienteSelecionado = new String[2];
+
+        initComponents();
+
+        NumeroFacturaCreada++;
+        NumeroFactura = OperacionesFactura.NumeroFactura() + NumeroFacturaCreada;
+        this.setTitle("Factura de Venta N° " + NumeroFactura);
+
+        OperacionesFactura.CargarClientes(this.clientes);
+        OperacionesFactura.Hora(txtHora, dia);
+        OperacionesFactura.Fecha(txtFecha);
+        this.txtTotal.setText("0");
+        PrepararTabla();
     }
 
     /**
@@ -55,17 +72,28 @@ public class Factura extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         panelTranslucido3 = new org.edisoncor.gui.panel.PanelTranslucido();
-        txtNombre1 = new org.edisoncor.gui.textField.TextField();
+        txtCambio = new org.edisoncor.gui.textField.TextField();
         labelRect9 = new org.edisoncor.gui.label.LabelRect();
         labelRect10 = new org.edisoncor.gui.label.LabelRect();
-        txtCantidad1 = new org.edisoncor.gui.textField.TextField();
+        txtEfectivo = new org.edisoncor.gui.textField.TextField();
         labelRect11 = new org.edisoncor.gui.label.LabelRect();
-        txtCodigo1 = new org.edisoncor.gui.textField.TextField();
-        buttonIcon2 = new org.edisoncor.gui.button.ButtonIcon();
+        txtTotal = new org.edisoncor.gui.textField.TextField();
+        btnSumar = new org.edisoncor.gui.button.ButtonIcon();
         buttonIcon1 = new org.edisoncor.gui.button.ButtonIcon();
         panelTranslucido4 = new org.edisoncor.gui.panel.PanelTranslucido();
         buttonAero1 = new org.edisoncor.gui.button.ButtonAero();
         buttonAero2 = new org.edisoncor.gui.button.ButtonAero();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -85,7 +113,11 @@ public class Factura extends javax.swing.JFrame {
         labelRect4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         clientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        clientes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        clientes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                clientesItemStateChanged(evt);
+            }
+        });
         clientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientesActionPerformed(evt);
@@ -146,6 +178,11 @@ public class Factura extends javax.swing.JFrame {
         labelRect7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         txtCodigo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
 
         txtPrecio.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
@@ -204,7 +241,7 @@ public class Factura extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        txtNombre1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        txtCambio.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
 
         labelRect9.setText("Cambio");
         labelRect9.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -212,12 +249,18 @@ public class Factura extends javax.swing.JFrame {
         labelRect10.setText("Efectivo");
         labelRect10.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
 
-        txtCantidad1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        txtEfectivo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        txtEfectivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEfectivoActionPerformed(evt);
+            }
+        });
 
         labelRect11.setText("Total");
         labelRect11.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
 
-        txtCodigo1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        txtTotal.setEnabled(false);
+        txtTotal.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
 
         javax.swing.GroupLayout panelTranslucido3Layout = new javax.swing.GroupLayout(panelTranslucido3);
         panelTranslucido3.setLayout(panelTranslucido3Layout);
@@ -227,15 +270,15 @@ public class Factura extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addComponent(labelRect11, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(labelRect10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtCantidad1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEfectivo, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(labelRect9, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelTranslucido3Layout.setVerticalGroup(
@@ -244,19 +287,29 @@ public class Factura extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(panelTranslucido3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelRect11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelRect10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCantidad1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEfectivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelRect9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCambio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        buttonIcon2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/suma.png"))); // NOI18N
-        buttonIcon2.setText("buttonIcon1");
+        btnSumar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/suma.png"))); // NOI18N
+        btnSumar.setText("buttonIcon1");
+        btnSumar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSumarActionPerformed(evt);
+            }
+        });
 
         buttonIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Vistas/menos.png"))); // NOI18N
         buttonIcon1.setText("buttonIcon1");
+        buttonIcon1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonIcon1ActionPerformed(evt);
+            }
+        });
 
         buttonAero1.setText("Cancelar");
         buttonAero1.addActionListener(new java.awt.event.ActionListener() {
@@ -266,6 +319,11 @@ public class Factura extends javax.swing.JFrame {
         });
 
         buttonAero2.setText("Imprimir");
+        buttonAero2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAero2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelTranslucido4Layout = new javax.swing.GroupLayout(panelTranslucido4);
         panelTranslucido4.setLayout(panelTranslucido4Layout);
@@ -288,6 +346,87 @@ public class Factura extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jMenu1.setText("Archivo");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ADD, 0));
+        jMenuItem1.setText("Sumar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PLUS, 0));
+        jMenuItem2.setText("Sumar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_SUBTRACT, 0));
+        jMenuItem3.setText("Restar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_MINUS, 0));
+        jMenuItem4.setText("Restar2");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
+
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_HOME, 0));
+        jMenuItem5.setText("NuevoCodigo");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
+
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_END, 0));
+        jMenuItem6.setText("IngresarEfectivo");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem6);
+
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_DOWN, 0));
+        jMenuItem7.setText("Registrar");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem7);
+
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ENTER, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem8.setText("Imprimir");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem8);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Salir");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -304,7 +443,7 @@ public class Factura extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(buttonIcon2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSumar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(buttonIcon1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(panelTranslucido3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelTranslucido4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -323,7 +462,7 @@ public class Factura extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(62, 62, 62)
-                        .addComponent(buttonIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSumar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(61, 61, 61)
                         .addComponent(buttonIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -339,21 +478,236 @@ public class Factura extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAero1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAero1ActionPerformed
+        NumeroFacturaCreada--;
         this.setVisible(false);
         this.dispose();
+
     }//GEN-LAST:event_buttonAero1ActionPerformed
 
     private void clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesActionPerformed
-        // TODO add your handling code here:
+        this.txtCodigo.requestFocus();
     }//GEN-LAST:event_clientesActionPerformed
 
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        CargarCampos();
+    }//GEN-LAST:event_txtCodigoActionPerformed
 
+    private void clientesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_clientesItemStateChanged
+        for (int i = 0; i < Clientes.length; i++) {
+            if (Clientes[i][1].equalsIgnoreCase(evt.getItem().toString())) {
+                ClienteSelecionado[0] = this.Clientes[i][0];
+                ClienteSelecionado[1] = this.Clientes[i][1];
+                this.txtCodigo.requestFocus();
+                System.out.println(ClienteSelecionado[1]);
+            }
+        }
+    }//GEN-LAST:event_clientesItemStateChanged
+
+    private void btnSumarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSumarActionPerformed
+        this.ComprobarExistencia();
+    }//GEN-LAST:event_btnSumarActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.ComprobarExistencia();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        this.ComprobarExistencia();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void buttonIcon1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonIcon1ActionPerformed
+        this.quitar();
+    }//GEN-LAST:event_buttonIcon1ActionPerformed
+
+    private void txtEfectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEfectivoActionPerformed
+        long total = Long.parseLong(this.txtTotal.getText());
+        long efectivo;
+        try{
+            efectivo = Long.parseLong(this.txtEfectivo.getText());
+        }catch(NumberFormatException ex){
+            efectivo = total;
+        }
+        this.txtCambio.setText(""+(efectivo-total));
+    }//GEN-LAST:event_txtEfectivoActionPerformed
+
+    private void buttonAero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAero2ActionPerformed
+        
+    }//GEN-LAST:event_buttonAero2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        this.quitar();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        this.quitar();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        this.txtCodigo.requestFocus();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        this.txtEfectivo.requestFocus();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void PrepararTabla() {
+        ListaProducto = new DefaultTableModel();
+        String[] columnas = {"ID", "Producto", "Cantidad", "Valor unidad", "Valor total"};
+        ListaProducto.addColumn(columnas[0]);
+        ListaProducto.addColumn(columnas[1]);
+        ListaProducto.addColumn(columnas[2]);
+        ListaProducto.addColumn(columnas[3]);
+        ListaProducto.addColumn(columnas[4]);
+        this.jTable1.setModel(ListaProducto);
+    }
+
+    private void CargarCampos() {
+        try {
+            String[] producto = OperacionesFactura.BuscarProducto(this.txtCodigo.getText());
+            this.txtNombre.setText(producto[1]);
+            this.txtPrecio.setText(producto[2]);
+            this.txtCantidad.setText("1");
+            long codigo = Long.parseLong(this.txtCodigo.getText());
+            if (codigo < 1000) {
+                this.txtPrecio.requestFocus();
+            } else {
+                this.ComprobarExistencia();
+            }
+        } catch (NumberFormatException ex) {
+            this.ComprobarExistencia();
+        } catch (NullPointerException ex) {
+            this.txtCodigo.setText(null);
+        }
+    }
+
+    private void Sumar() {
+        int cantidad = 0;
+        int precio = 0;
+        try {
+            cantidad = Integer.parseInt(this.txtCantidad.getText());
+            precio = Integer.parseInt(this.txtPrecio.getText());
+        } catch (NullPointerException ex) {
+            cantidad = 1;
+        }
+
+        int total = cantidad * precio;
+        String[] filaFactura = new String[]{
+            this.txtCodigo.getText(),
+            this.txtNombre.getText(),
+            cantidad + "",
+            precio + "",
+            total + ""
+        };
+        long totalcuenta = Long.parseLong(this.txtTotal.getText());
+        totalcuenta += total;
+        this.txtTotal.setText("" + totalcuenta);
+        this.ListaProducto.addRow(filaFactura);
+        this.txtCantidad.setText("1");
+        this.txtCodigo.setText(null);
+        this.txtNombre.setText(null);
+        this.txtPrecio.setText(null);
+        this.txtCodigo.requestFocus();
+    }
+
+    private void ComprobarExistencia() {
+        int a;
+        Boolean Nosumado = true;
+        try {
+            a = Integer.parseInt(this.txtCodigo.getText());
+        } catch (Exception e) {
+            a = 2000;
+        }
+        if (a <= 1000) {
+            Sumar();
+        } else {
+            for (int i = 0; i < this.ListaProducto.getRowCount(); i++) {
+                if (this.txtCodigo.getText().equals(this.ListaProducto.getValueAt(i, 0).toString())) {
+                    Nosumado = false;
+                    Long total = Long.parseLong(this.txtTotal.getText()) - Long.parseLong(this.ListaProducto.getValueAt(i, 4).toString());
+                    int cantidad = Integer.parseInt(this.ListaProducto.getValueAt(i, 2).toString()) + Integer.parseInt(this.txtCantidad.getText());
+                    int precio = cantidad * Integer.parseInt(this.txtPrecio.getText());
+                    this.ListaProducto.setValueAt(cantidad, i, 2);
+                    this.ListaProducto.setValueAt(precio, i, 4);
+                    total += precio;
+                    this.txtTotal.setText(total + "");
+                    this.txtCodigo.setText(null);
+                    this.txtNombre.setText(null);
+                    this.txtPrecio.setText(null);
+                    this.txtCodigo.requestFocus();
+                }
+            }
+        }
+        if(Nosumado){
+            Sumar();
+        }
+    }
+    
+    private void QuitarFila() {
+        long total = Long.parseLong(this.txtTotal.getText());
+        int FilaSelecionada = this.jTable1.getSelectedRow();
+        int ValorRestar = Integer.parseInt(ListaProducto.getValueAt(FilaSelecionada, 4).toString());
+        int CantidadActual = Integer.parseInt(ListaProducto.getValueAt(FilaSelecionada, 2).toString());
+        int ValorUnidad = Integer.parseInt(ListaProducto.getValueAt(FilaSelecionada, 3).toString());
+        if (CantidadActual != 1) {
+            ListaProducto.setValueAt(CantidadActual - 1, FilaSelecionada, 2);
+            int TotalNuevo = (CantidadActual - 1) * ValorUnidad;
+            ListaProducto.setValueAt(TotalNuevo, FilaSelecionada, 4);
+        } else {
+            ListaProducto.removeRow(FilaSelecionada);
+        }
+        total -= ValorUnidad;
+        this.txtTotal.setText("" + total);
+    }
+
+    private void quitar() {
+        QuitarFila();
+        long total = Long.parseLong(this.txtTotal.getText());
+        for (int i = 0; i < ListaProducto.getRowCount(); i++) {
+            int cant = 0;
+            if ((this.txtCodigo.getText().equalsIgnoreCase(ListaProducto.getValueAt(i, 0).toString()))
+                    && (this.txtPrecio.getText().equals(ListaProducto.getValueAt(i, 3).toString()))) {
+                total -= Integer.parseInt(ListaProducto.getValueAt(i, 4).toString());
+                if (this.txtCantidad.getText().equalsIgnoreCase(ListaProducto.getValueAt(i, 2).toString())) {
+                    ListaProducto.removeRow(i);
+                } else {
+
+                    cant = (Integer.parseInt(ListaProducto.getValueAt(i, 2).toString())) - Integer.parseInt(this.txtCantidad.getText());
+                    ListaProducto.setValueAt(cant, i, 2);
+                    long subtotal = cant * (Integer.parseInt(ListaProducto.getValueAt(i, 4).toString()));
+                    ListaProducto.setValueAt(subtotal, i, 4);
+                    total += (Integer.parseInt(ListaProducto.getValueAt(i, 4).toString()));
+                }
+                this.txtTotal.setText("" + total);
+                break;
+            }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.edisoncor.gui.button.ButtonIcon btnSumar;
     private org.edisoncor.gui.button.ButtonAero buttonAero1;
     private org.edisoncor.gui.button.ButtonAero buttonAero2;
     private org.edisoncor.gui.button.ButtonIcon buttonIcon1;
-    private org.edisoncor.gui.button.ButtonIcon buttonIcon2;
     private javax.swing.JComboBox clientes;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private org.edisoncor.gui.label.LabelHeader labelHeader1;
@@ -371,14 +725,14 @@ public class Factura extends javax.swing.JFrame {
     private org.edisoncor.gui.panel.PanelTranslucido panelTranslucido2;
     private org.edisoncor.gui.panel.PanelTranslucido panelTranslucido3;
     private org.edisoncor.gui.panel.PanelTranslucido panelTranslucido4;
+    private org.edisoncor.gui.textField.TextField txtCambio;
     private org.edisoncor.gui.textField.TextField txtCantidad;
-    private org.edisoncor.gui.textField.TextField txtCantidad1;
     private org.edisoncor.gui.textField.TextField txtCodigo;
-    private org.edisoncor.gui.textField.TextField txtCodigo1;
+    private org.edisoncor.gui.textField.TextField txtEfectivo;
     private org.edisoncor.gui.textField.TextField txtFecha;
     private org.edisoncor.gui.textField.TextField txtHora;
     private org.edisoncor.gui.textField.TextField txtNombre;
-    private org.edisoncor.gui.textField.TextField txtNombre1;
     private org.edisoncor.gui.textField.TextField txtPrecio;
+    private org.edisoncor.gui.textField.TextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }

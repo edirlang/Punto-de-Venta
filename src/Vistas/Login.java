@@ -18,7 +18,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     Usuarios usuario;
-
+    static public String ccUsuario;
     public Login() {
         initComponents();
         usuario = new Usuarios();
@@ -50,6 +50,11 @@ public class Login extends javax.swing.JFrame {
         txtUsuario.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
         txtContrasena.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtContrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContrasenaActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel1.setText("USUARIO:");
@@ -169,6 +174,23 @@ public class Login extends javax.swing.JFrame {
     private void buttonAeroRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAeroRound2ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_buttonAeroRound2ActionPerformed
+
+    private void txtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContrasenaActionPerformed
+        String[] user = new String[]{
+            this.txtUsuario.getText(),
+            this.txtContrasena.getText()
+                    };
+        if (usuario.IniciarSession(user)) {
+            this.setVisible(false);
+            this.dispose();
+            MenuUsuario menuuser = new MenuUsuario();
+            menuuser.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Usuario o Contraseña Incorecta");
+            this.txtContrasena.setText(null);
+            this.txtUsuario.requestFocus();
+        }
+    }//GEN-LAST:event_txtContrasenaActionPerformed
 
     /**
      * @param args the command line arguments

@@ -74,6 +74,11 @@ public class Cliente extends javax.swing.JFrame {
         labelCustom1.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
         btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         txtBuscarCedula.setDescripcion("INGRESE CODIGO");
         txtBuscarCedula.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
@@ -262,6 +267,10 @@ public class Cliente extends javax.swing.JFrame {
         this.CargarCampos(clientes.Buscar(this.txtBuscarCedula.getText()));
         
     }//GEN-LAST:event_txtBuscarCedulaActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        this.CargarCampos(clientes.Buscar(this.txtBuscarCedula.getText()));
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void CargarCampos(String[] producto) {
         clientes = new ClientesController();

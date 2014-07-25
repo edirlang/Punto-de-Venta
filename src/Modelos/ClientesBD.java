@@ -49,8 +49,8 @@ public class ClientesBD extends Conexion {
                         tabla.getString("Nombre"),
                         tabla.getString("Apellido"),
                         tabla.getString("Telefono"),
-                        tabla.getString("Dirrecion"),
-                        Credito(tabla.getBoolean("PrecioPromocion"))
+                        tabla.getString("Direccion"),
+                        Credito(tabla.getBoolean("CreditoCliente"))
                     };
                     return fila;
                 }
@@ -125,10 +125,7 @@ public class ClientesBD extends Conexion {
                     tabla.getString("Telefono")
                 };
                 clientes.addRow(fila);
-                for (int i = 0; i < fila.length; i++) {
-                    System.out.println(fila[i] + " , ");
-                }
-            }
+             }
             close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error no se logro conectarse a  la tabla");
@@ -136,13 +133,12 @@ public class ClientesBD extends Conexion {
         return clientes;
     }
 
-    public JComboBox NombreCliente() {
-        JComboBox nombre = new JComboBox();
+    public void NombreCliente(JComboBox nombre) {
         String[][] Clientes = this.CedulaNombre();
         for(int i = 0; i < Clientes.length; i++){
             nombre.addItem(Clientes[i][1]);
+           
         }
-        return nombre;
     }
 
     public String[][] CedulaNombre() {
