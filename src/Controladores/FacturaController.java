@@ -5,7 +5,7 @@
  */
 package Controladores;
 
-import Modelos.Facturas;
+import Modelos.FacturasBD;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,7 +16,7 @@ import javax.swing.JTextField;
  *
  * @author Caja1
  */
-public class FacturaController extends Facturas{
+public class FacturaController extends FacturasBD{
 
     ProductosController productos;
     ClientesController clientes;
@@ -42,19 +42,32 @@ public class FacturaController extends Facturas{
     public void Fecha(JTextField fecha) {
         Date fechaActual = new Date();
 
-        SimpleDateFormat formato1 = new SimpleDateFormat("dd/MM/yyy");
+        SimpleDateFormat formato1 = new SimpleDateFormat("yyy-MM-dd");
 
         Calendar cal1 = Calendar.getInstance();
 
         fecha.setText(formato1.format(fechaActual));
         fecha.setEditable(false);
     }
-
+    
+    public String Fecha() {
+        Date fechaActual = new Date();
+        SimpleDateFormat formato1 = new SimpleDateFormat("yyy-MM-dd");
+        Calendar cal1 = Calendar.getInstance();
+        System.out.println(formato1.format(fechaActual));
+       return formato1.format(fechaActual);
+    }
+    
     public String[] BuscarProducto(String codigo) {
         return productos.consultar(codigo);
     }
     
     public int NumeroFactura(){
         return NumeroUltimaFactura();
+    }
+    
+    public String CreditoCliente(String cedula){
+        String[] cliente= clientes.consultar(cedula);
+        return cliente[5];
     }
 }

@@ -5,9 +5,14 @@
  */
 package Vistas;
 
+import Controladores.FacturaController;
+import Controladores.ImprimirFactura;
 import Vistas.Clientes.Clientes;
 import Vistas.Facturacion.Factura;
+import Vistas.Facturacion.Facturas;
+import Vistas.Facturacion.ReporteDias;
 import Vistas.Productos.Productos;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,11 +39,13 @@ public class MenuUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem7 = new javax.swing.JMenuItem();
         panelRound1 = new org.edisoncor.gui.panel.PanelRound();
         btnFactura = new org.edisoncor.gui.button.ButtonAero();
         bntClientes = new org.edisoncor.gui.button.ButtonAero();
         btnProductos = new org.edisoncor.gui.button.ButtonAero();
         buttonAero1 = new org.edisoncor.gui.button.ButtonAero();
+        btnFacturas = new org.edisoncor.gui.button.ButtonAero();
         btnCerrarSesion = new org.edisoncor.gui.button.ButtonAero();
         btnSalir = new org.edisoncor.gui.button.ButtonAero();
         PanelPrincipal = new javax.swing.JDesktopPane();
@@ -49,11 +56,26 @@ public class MenuUsuario extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+
+        jMenuItem7.setText("jMenuItem7");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SURTIALISS");
         setPreferredSize(new java.awt.Dimension(1024, 768));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         panelRound1.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -89,11 +111,26 @@ public class MenuUsuario extends javax.swing.JFrame {
 
         buttonAero1.setForeground(new java.awt.Color(0, 0, 0));
         buttonAero1.setText("Pedidos (F5)");
+        buttonAero1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAero1ActionPerformed(evt);
+            }
+        });
         panelRound1.add(buttonAero1);
+
+        btnFacturas.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
+        btnFacturas.setForeground(new java.awt.Color(0, 0, 0));
+        btnFacturas.setText("Facturas (F6)");
+        btnFacturas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFacturasActionPerformed(evt);
+            }
+        });
+        panelRound1.add(btnFacturas);
 
         btnCerrarSesion.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         btnCerrarSesion.setForeground(new java.awt.Color(0, 0, 0));
-        btnCerrarSesion.setText("Cerar Sesion (F6)");
+        btnCerrarSesion.setText("Cerar Sesion");
         panelRound1.add(btnCerrarSesion);
 
         btnSalir.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
@@ -121,25 +158,70 @@ public class MenuUsuario extends javax.swing.JFrame {
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
         jMenuItem1.setText("NuevaFactura");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         jMenuItem2.setText("Clientes");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
         jMenuItem3.setText("Productos");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         jMenuItem4.setText("Pagar Pedido");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
-        jMenuItem5.setText("Cerar Sesion");
+        jMenuItem5.setText("Facturas");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem5);
 
         jMenuBar1.add(jMenu1);
+
+        jMenuItem6.setText("Ventas Diarias");
+        jMenu3.add(jMenuItem6);
+
+        jMenuItem8.setText("Ventas Producto");
+        jMenu3.add(jMenuItem8);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Reporte");
+
+        jMenuItem9.setText("Reporte por dias");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem9);
+
+        jMenuBar1.add(jMenu4);
 
         jMenu2.setText("Ayuda");
         jMenuBar1.add(jMenu2);
@@ -166,16 +248,16 @@ public class MenuUsuario extends javax.swing.JFrame {
 
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.Cerrar();
         System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void bntClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntClientesActionPerformed
         this.PanelPrincipal.removeAll();
-        if (clientes == null) {
-            clientes = new Clientes();
-            clientes.setVisible(true);
-            this.PanelPrincipal.add(clientes);
-        }
+        clientes = new Clientes();
+        clientes.setVisible(true);
+        this.PanelPrincipal.add(clientes);
+
     }//GEN-LAST:event_bntClientesActionPerformed
 
     private void btnFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturaActionPerformed
@@ -190,22 +272,103 @@ public class MenuUsuario extends javax.swing.JFrame {
         this.PanelPrincipal.add(pro);
     }//GEN-LAST:event_btnProductosActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        Factura fac = new Factura();
+        fac.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        this.PanelPrincipal.removeAll();
+        if (clientes == null) {
+            clientes = new Clientes();
+            clientes.setVisible(true);
+            this.PanelPrincipal.add(clientes);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        Productos pro = new Productos();
+        pro.setVisible(true);
+        this.PanelPrincipal.removeAll();
+        this.PanelPrincipal.add(pro);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void buttonAero1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAero1ActionPerformed
+        PagoPedidos pedido = new PagoPedidos(this, true);
+        pedido.setVisible(true);
+    }//GEN-LAST:event_buttonAero1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        PagoPedidos pedido = new PagoPedidos(this, true);
+        pedido.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void btnFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturasActionPerformed
+        Facturas pro = new Facturas();
+        pro.setVisible(true);
+        this.PanelPrincipal.removeAll();
+        this.PanelPrincipal.add(pro);
+    }//GEN-LAST:event_btnFacturasActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        Facturas pro = new Facturas();
+        pro.setVisible(true);
+        this.PanelPrincipal.removeAll();
+        this.PanelPrincipal.add(pro);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        ReporteDias reporte = new ReporteDias(this,true);      
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.Cerrar();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.Cerrar();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void Cerrar(){
+        Object[] opciones = {"Aceptar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(rootPane, "Estas Seguro?", "Mensaje de Confirmacion",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
+        if (eleccion == JOptionPane.YES_OPTION) {
+            FacturaController cierre = new FacturaController();
+            
+            String[] datos = cierre.ReporteDia(cierre.Fecha());
+            ImprimirFactura imp =  new ImprimirFactura();
+            imp.ImprimirReporte(datos, cierre.Fecha());
+            this.setVisible(false);
+            this.dispose();
+        } else {
+            this.setVisible(true);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane PanelPrincipal;
     private org.edisoncor.gui.button.ButtonAero bntClientes;
     private org.edisoncor.gui.button.ButtonAero btnCerrarSesion;
     private org.edisoncor.gui.button.ButtonAero btnFactura;
+    private org.edisoncor.gui.button.ButtonAero btnFacturas;
     private org.edisoncor.gui.button.ButtonAero btnProductos;
     private org.edisoncor.gui.button.ButtonAero btnSalir;
     private org.edisoncor.gui.button.ButtonAero buttonAero1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private org.edisoncor.gui.panel.PanelRound panelRound1;
     // End of variables declaration//GEN-END:variables
 }

@@ -21,6 +21,7 @@ public class ClienteNuevo extends javax.swing.JFrame {
      */
     public ClienteNuevo() {
         initComponents();
+        this.txtFiando.setText("Si");
     }
 
     /**

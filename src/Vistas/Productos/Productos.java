@@ -175,11 +175,13 @@ public class Productos extends javax.swing.JInternalFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         String[] fila = Producto.Buscar(this.txtCodigo.getText());
+        this.txtCodigo.setText("");
         Producto modificar = new Producto(fila);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
         String[] fila = Producto.Buscar(this.txtCodigo.getText());
+        this.txtCodigo.setText("");
         Producto modificar = new Producto(fila);
     }//GEN-LAST:event_txtCodigoActionPerformed
 

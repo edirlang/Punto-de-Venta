@@ -60,7 +60,7 @@ public class ClientesBD extends Conexion {
             JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
         }
         if (fila == null) {
-            JOptionPane.showMessageDialog(null, "El cliente no ha sido Registrado");
+            fila = new String[]{"0","0"};
         }
         return fila;
     }
@@ -116,7 +116,7 @@ public class ClientesBD extends Conexion {
         clientes.addColumn(columnas[3]);
 
         try {
-            conexion("clientes");
+            conexion("clientes ORDER BY Nombre");
             while (tabla.next()) {
                 String[] fila = {
                     tabla.getString("Cedula"),

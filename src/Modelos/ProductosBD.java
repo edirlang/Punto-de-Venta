@@ -6,6 +6,8 @@
 package Modelos;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -118,7 +120,7 @@ public class ProductosBD extends Thread {
         productos.addColumn(columnas[5]);
         
         try {
-            producto.conexion("productos");
+            producto.conexion("productos ORDER BY Nombre ASC");
             while (producto.tabla.next()) {
                 String[] fila ={
                         producto.tabla.getString("Codigo"),
@@ -137,4 +139,19 @@ public class ProductosBD extends Thread {
         return productos;
     }
     
+    public void RestarProducto(String Codigo, int vendidos){
+        producto.conexion("productos");
+        try {
+            while(producto.tabla.next()){
+               if(producto.tabla.getString("Codigo").equalsIgnoreCase(Codigo)){
+                   int cantidad=Integer.parseInt(producto.tabla.getString("Cantidad"));
+                   cantidad-=vendidos;
+                   producto.tabla.updateString("Cantidad", cantidad+"");
+                   producto.tabla.updateRow();
+               } 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductosBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

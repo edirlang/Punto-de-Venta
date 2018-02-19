@@ -18,44 +18,25 @@ import javax.swing.JOptionPane;
  */
 public class Conexion extends Thread {
 
-    protected ResultSet tabla;
+    public ResultSet tabla;
     private Connection conexion;
     private Statement s;
 
     public Conexion() {
-        this.start();
-        /*
-         File f;
-         String server="jdbc:mysql://localhost:3306/surtialiss2,root,pogramacion2";
         
-         BufferedReader entrada;
-         try {
-         f = new File("base.txt");
-         entrada = new BufferedReader(new FileReader(f));
-         while (entrada.ready()) {
-         server = entrada.readLine();
-         }
-         entrada.close();
-         entrada.close();
-         } catch (IOException e) {
-         e.printStackTrace();
-         server="jdbc:mysql://localhost:3306/surtialiss2,root,pogramacion2";
-         }
-         */
     }
-
-    protected void conexion(String tabla) {
+    public void conexion(String tabla) {
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "programacion2");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "");
             s = conexion.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             this.tabla = s.executeQuery("SELECT * FROM " + tabla);
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se logro conectar a la BD debido: \n" + ex);
         }
     }
-
-    protected void close() {
+    public void close() {
         try {
             tabla.close();
             conexion.close();
@@ -64,13 +45,11 @@ public class Conexion extends Thread {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo terminar la Conexion a la BD" + ex);
         }
-        this.stop();
     }
-    
     protected Boolean Credito(String credito) {
-        if (credito == "Si" || credito == "si" || credito == "SI") {
+        System.out.println(credito);
+        if ("Si".equals(credito) || "si".equals(credito) || "SI".equals(credito)) {
             return true;
-
         } else {
             return false;
         }

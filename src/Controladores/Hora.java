@@ -9,8 +9,6 @@ package Controladores;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTextField;
 
 /**
@@ -41,7 +39,7 @@ public class Hora extends Thread{
     private void HoraActual(){
         Date fechaActual = new Date();
 
-        SimpleDateFormat formato2 = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat formato2 = new SimpleDateFormat("HH:mm");
 
         Calendar cal1 = Calendar.getInstance();
 

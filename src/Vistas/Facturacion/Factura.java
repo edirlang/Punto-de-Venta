@@ -6,6 +6,10 @@
 package Vistas.Facturacion;
 
 import Controladores.FacturaController;
+import Controladores.ImprimirFactura;
+import Controladores.ImprimirPDf;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,17 +33,17 @@ public class Factura extends javax.swing.JFrame {
         OperacionesFactura = new FacturaController();
         Clientes = OperacionesFactura.Cliente_CedulaNombre();
         ClienteSelecionado = new String[2];
-
         initComponents();
-
         NumeroFacturaCreada++;
         NumeroFactura = OperacionesFactura.NumeroFactura() + NumeroFacturaCreada;
         this.setTitle("Factura de Venta N° " + NumeroFactura);
-
+        this.txtNumeroFactura.setText(NumeroFactura + "");
         OperacionesFactura.CargarClientes(this.clientes);
         OperacionesFactura.Hora(txtHora, dia);
         OperacionesFactura.Fecha(txtFecha);
         this.txtTotal.setText("0");
+        Calendar cal1 = Calendar.getInstance();
+        dia = cal1.get(Calendar.DAY_OF_WEEK);
         PrepararTabla();
     }
 
@@ -59,6 +63,8 @@ public class Factura extends javax.swing.JFrame {
         txtHora = new org.edisoncor.gui.textField.TextField();
         labelRect4 = new org.edisoncor.gui.label.LabelRect();
         clientes = new javax.swing.JComboBox();
+        labelRect12 = new org.edisoncor.gui.label.LabelRect();
+        txtNumeroFactura = new org.edisoncor.gui.textField.TextField();
         labelHeader1 = new org.edisoncor.gui.label.LabelHeader();
         panelTranslucido2 = new org.edisoncor.gui.panel.PanelTranslucido();
         txtNombre = new org.edisoncor.gui.textField.TextField();
@@ -93,6 +99,7 @@ public class Factura extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -124,20 +131,29 @@ public class Factura extends javax.swing.JFrame {
             }
         });
 
+        labelRect12.setText("N°");
+        labelRect12.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        txtNumeroFactura.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
         javax.swing.GroupLayout panelTranslucido1Layout = new javax.swing.GroupLayout(panelTranslucido1);
         panelTranslucido1.setLayout(panelTranslucido1Layout);
         panelTranslucido1Layout.setHorizontalGroup(
             panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTranslucido1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTranslucido1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelRect12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtNumeroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(labelRect4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(clientes, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(51, 51, 51)
                 .addComponent(labelRect2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addComponent(labelRect3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,23 +163,27 @@ public class Factura extends javax.swing.JFrame {
             panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTranslucido1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(labelRect4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(clientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelRect2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(labelRect3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(panelTranslucido1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelRect4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelRect2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelRect12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNumeroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelRect3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         labelHeader1.setText("Factura N° 1");
         labelHeader1.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
 
-        txtNombre.setText("12345678901234567890");
         txtNombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
 
         labelRect5.setText("Descripcion:");
         labelRect5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -171,7 +191,6 @@ public class Factura extends javax.swing.JFrame {
         labelRect6.setText("Cantidad:");
         labelRect6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        txtCantidad.setText("1000");
         txtCantidad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         labelRect7.setText("Codigo:");
@@ -198,7 +217,7 @@ public class Factura extends javax.swing.JFrame {
                 .addComponent(labelRect7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
                 .addComponent(labelRect5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -384,7 +403,7 @@ public class Factura extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem4);
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_HOME, 0));
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_INSERT, 0));
         jMenuItem5.setText("NuevoCodigo");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -393,7 +412,7 @@ public class Factura extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem5);
 
-        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_END, 0));
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_UP, 0));
         jMenuItem6.setText("IngresarEfectivo");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -419,6 +438,15 @@ public class Factura extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem8);
+
+        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_BACK_SPACE, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem9.setText("Cancelar");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem9);
 
         jMenuBar1.add(jMenu1);
 
@@ -453,7 +481,7 @@ public class Factura extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
                 .addComponent(labelHeader1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelTranslucido1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -498,7 +526,6 @@ public class Factura extends javax.swing.JFrame {
                 ClienteSelecionado[0] = this.Clientes[i][0];
                 ClienteSelecionado[1] = this.Clientes[i][1];
                 this.txtCodigo.requestFocus();
-                System.out.println(ClienteSelecionado[1]);
             }
         }
     }//GEN-LAST:event_clientesItemStateChanged
@@ -520,18 +547,14 @@ public class Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonIcon1ActionPerformed
 
     private void txtEfectivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEfectivoActionPerformed
-        long total = Long.parseLong(this.txtTotal.getText());
-        long efectivo;
-        try{
-            efectivo = Long.parseLong(this.txtEfectivo.getText());
-        }catch(NumberFormatException ex){
-            efectivo = total;
-        }
-        this.txtCambio.setText(""+(efectivo-total));
+        CalcularCambio();
     }//GEN-LAST:event_txtEfectivoActionPerformed
 
     private void buttonAero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAero2ActionPerformed
-        
+        NumeroFactura = OperacionesFactura.NumeroFactura() + 1;
+        this.txtNumeroFactura.setText(NumeroFactura+"");
+        Imprimir();
+        GuardarBD();
     }//GEN-LAST:event_buttonAero2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -543,20 +566,34 @@ public class Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        this.txtCodigo.requestFocus();
+        this.txtCodigo.requestFocusInWindow();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        this.txtEfectivo.requestFocus();
+        this.txtEfectivo.requestFocusInWindow();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        // TODO add your handling code here:
+        this.txtNumeroFactura.setText(NumeroFactura+"");
+        GuardarBD();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        // TODO add your handling code here:
+        NumeroFactura = OperacionesFactura.NumeroFactura() + 1;
+        this.txtNumeroFactura.setText(NumeroFactura+"");
+        Imprimir();
+        GuardarBD();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        NumeroFacturaCreada--;
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void PrepararTabla() {
         ListaProducto = new DefaultTableModel();
@@ -573,7 +610,10 @@ public class Factura extends javax.swing.JFrame {
         try {
             String[] producto = OperacionesFactura.BuscarProducto(this.txtCodigo.getText());
             this.txtNombre.setText(producto[1]);
-            this.txtPrecio.setText(producto[2]);
+            if(dia==5){
+                this.txtPrecio.setText(producto[5]);
+            }else
+                this.txtPrecio.setText(producto[2]);
             this.txtCantidad.setText("1");
             long codigo = Long.parseLong(this.txtCodigo.getText());
             if (codigo < 1000) {
@@ -613,7 +653,7 @@ public class Factura extends javax.swing.JFrame {
         this.txtCantidad.setText("1");
         this.txtCodigo.setText(null);
         this.txtNombre.setText(null);
-        this.txtPrecio.setText(null);
+        this.txtPrecio.setText("");
         this.txtCodigo.requestFocus();
     }
 
@@ -640,16 +680,17 @@ public class Factura extends javax.swing.JFrame {
                     this.txtTotal.setText(total + "");
                     this.txtCodigo.setText(null);
                     this.txtNombre.setText(null);
-                    this.txtPrecio.setText(null);
+                    this.txtPrecio.setText("");
                     this.txtCodigo.requestFocus();
                 }
             }
+            if (Nosumado) {
+                Sumar();
+            }
         }
-        if(Nosumado){
-            Sumar();
-        }
+        this.jScrollPane1.getVerticalScrollBar().setValue(this.jScrollPane1.getVerticalScrollBar().getMaximum());
     }
-    
+
     private void QuitarFila() {
         long total = Long.parseLong(this.txtTotal.getText());
         int FilaSelecionada = this.jTable1.getSelectedRow();
@@ -690,7 +731,44 @@ public class Factura extends javax.swing.JFrame {
             }
         }
     }
-    
+
+    private void Imprimir() {
+        String[] datos = new String[]{
+            NumeroFactura + "",
+            this.txtFecha.getText(),
+            this.txtHora.getText(),
+            this.ClienteSelecionado[0],
+            this.ClienteSelecionado[1],
+            this.txtTotal.getText(),
+            this.txtEfectivo.getText(),
+            this.txtCambio.getText()
+        };
+        ImprimirPDf pdf = new ImprimirPDf(ListaProducto, datos);
+        ImprimirFactura imprimir = new ImprimirFactura(ListaProducto, datos);
+        pdf.start();
+        imprimir.start();
+    }
+
+    private void GuardarBD() {
+        CalcularCambio();
+        NumeroFacturaCreada--;
+        NumeroFactura = OperacionesFactura.NumeroFactura() + 1;
+        String[] DatosFactura = new String[]{
+            this.txtNumeroFactura.getText(),
+            this.ClienteSelecionado[0],
+            this.txtFecha.getText(),
+            this.txtHora.getText(),
+            this.txtTotal.getText(),
+            this.OperacionesFactura.CreditoCliente(this.ClienteSelecionado[0])
+        };
+        this.OperacionesFactura.nuevoFactura(DatosFactura);
+        this.OperacionesFactura.NuevoDetalle(ListaProducto, this.txtNumeroFactura.getText());
+        this.setVisible(false);
+        this.dispose();
+        JOptionPane.showMessageDialog(null, "Total: " + this.txtTotal.getText() + "\n" + "Efectivo " + this.txtEfectivo.getText() + "\n"
+                + "Cambio " + this.txtCambio.getText());
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonIcon btnSumar;
     private org.edisoncor.gui.button.ButtonAero buttonAero1;
@@ -708,11 +786,13 @@ public class Factura extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private org.edisoncor.gui.label.LabelHeader labelHeader1;
     private org.edisoncor.gui.label.LabelRect labelRect10;
     private org.edisoncor.gui.label.LabelRect labelRect11;
+    private org.edisoncor.gui.label.LabelRect labelRect12;
     private org.edisoncor.gui.label.LabelRect labelRect2;
     private org.edisoncor.gui.label.LabelRect labelRect3;
     private org.edisoncor.gui.label.LabelRect labelRect4;
@@ -732,7 +812,20 @@ public class Factura extends javax.swing.JFrame {
     private org.edisoncor.gui.textField.TextField txtFecha;
     private org.edisoncor.gui.textField.TextField txtHora;
     private org.edisoncor.gui.textField.TextField txtNombre;
+    private org.edisoncor.gui.textField.TextField txtNumeroFactura;
     private org.edisoncor.gui.textField.TextField txtPrecio;
     private org.edisoncor.gui.textField.TextField txtTotal;
     // End of variables declaration//GEN-END:variables
+
+    private void CalcularCambio() {
+        long total = Long.parseLong(this.txtTotal.getText());
+        long efectivo;
+        try {
+            efectivo = Long.parseLong(this.txtEfectivo.getText());
+        } catch (NumberFormatException ex) {
+            efectivo = total;
+            this.txtEfectivo.setText(total+"");
+        }
+        this.txtCambio.setText("" + (efectivo - total));
+    }
 }

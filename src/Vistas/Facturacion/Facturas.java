@@ -4,26 +4,24 @@
  * and open the template in the editor.
  */
 
-package Vistas.Clientes;
+package Vistas.Facturacion;
 
-import Controladores.ClientesController;
-import Vistas.Productos.ProductoNuevo;
-
+import Modelos.FacturasBD;
 
 /**
  *
- * @author Mis-Dark
+ * @author Caja1
  */
-public class Clientes extends javax.swing.JInternalFrame {
+public class Facturas extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form Productos
+     * Creates new form Facturas
      */
-    ClientesController clientes;
-    public Clientes() {
+    FacturasBD factura;
+    public Facturas() {
+        factura = new FacturasBD();
         initComponents();
-       clientes = new ClientesController();
-       this.Lista.setModel(clientes.todos());
+        this.Lista.setModel(factura.todos());
     }
 
     /**
@@ -39,20 +37,15 @@ public class Clientes extends javax.swing.JInternalFrame {
         labelHeader1 = new org.edisoncor.gui.label.LabelHeader();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtCedula = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        txtNumeroFactura = new javax.swing.JTextField();
+        btnBuscarFactura = new javax.swing.JButton();
         PanelListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Lista = new javax.swing.JTable();
-        btnDeuda = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        btnVerFactura = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
-        setTitle("SURTIALISS - CLIENTES");
-        setPreferredSize(new java.awt.Dimension(1000, 500));
-        setVisible(true);
-
-        labelHeader1.setText("CLIENTES");
+        labelHeader1.setText("FACTURAS");
         labelHeader1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
@@ -60,28 +53,20 @@ public class Clientes extends javax.swing.JInternalFrame {
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel1.setText("INGRESE CEDULA");
+        jLabel1.setText("NUMERO DE FACTURA");
 
-        txtCedula.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtCedula.addActionListener(new java.awt.event.ActionListener() {
+        txtNumeroFactura.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtNumeroFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCedulaActionPerformed(evt);
+                txtNumeroFacturaActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton4.setText("Buscar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscarFactura.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnBuscarFactura.setText("Buscar");
+        btnBuscarFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButton5.setText("Nuevo");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnBuscarFacturaActionPerformed(evt);
             }
         });
 
@@ -90,26 +75,23 @@ public class Clientes extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(123, 123, 123)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addGap(137, 137, 137)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtNumeroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscarFactura)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addContainerGap(40, Short.MAX_VALUE))
+                    .addComponent(txtNumeroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarFactura))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         PanelListado.setBackground(new java.awt.Color(51, 51, 51));
@@ -125,7 +107,7 @@ public class Clientes extends javax.swing.JInternalFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "CEDULA", "NOMBRE", "TELEFONO", "DIRECCION", "CREDITO"
+                "Numero", "NOMBRE", "Fecha", "Hora", "CREDITO"
             }
         ) {
             Class[] types = new Class [] {
@@ -145,35 +127,36 @@ public class Clientes extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(Lista);
 
-        btnDeuda.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btnDeuda.setText("Deuda");
-        btnDeuda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeudaActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout PanelListadoLayout = new javax.swing.GroupLayout(PanelListado);
         PanelListado.setLayout(PanelListadoLayout);
         PanelListadoLayout.setHorizontalGroup(
             PanelListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelListadoLayout.createSequentialGroup()
-                .addComponent(jScrollPane1)
-                .addGap(18, 18, 18)
-                .addComponent(btnDeuda, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         PanelListadoLayout.setVerticalGroup(
             PanelListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelListadoLayout.createSequentialGroup()
-                .addGap(176, 176, 176)
-                .addComponent(btnDeuda)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(PanelListadoLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 27, Short.MAX_VALUE))
         );
+
+        jButton5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton5.setText("Buscar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        btnVerFactura.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnVerFactura.setText("VER");
+        btnVerFactura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerFacturaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -182,10 +165,19 @@ public class Clientes extends javax.swing.JInternalFrame {
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PanelListado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelHeader1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addComponent(PanelListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnVerFactura)
+                        .addGap(0, 1, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                    .addGap(365, 365, 365)
+                    .addComponent(jButton5)
+                    .addContainerGap(526, Short.MAX_VALUE)))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,13 +186,25 @@ public class Clientes extends javax.swing.JInternalFrame {
                 .addComponent(labelHeader1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(PanelListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(PanelListado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addGap(134, 134, 134)
+                        .addComponent(btnVerFactura)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                    .addGap(183, 183, 183)
+                    .addComponent(jButton5)
+                    .addContainerGap(183, Short.MAX_VALUE)))
         );
         jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jButton5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(btnVerFactura, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -216,39 +220,42 @@ public class Clientes extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
-        String[] fila = clientes.Buscar(this.txtCedula.getText());
-        Cliente modificar = new Cliente(fila);
-    }//GEN-LAST:event_txtCedulaActionPerformed
+    private void txtNumeroFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroFacturaActionPerformed
+        String[] DatosFactura = factura.Consultar(this.txtNumeroFactura.getText());
+        FacturaVer ver = new FacturaVer(null,true,DatosFactura,factura.ConsultarDetalleFactura(DatosFactura[0]));
+        ver.setVisible(true);
+    }//GEN-LAST:event_txtNumeroFacturaActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        String[] fila = clientes.Buscar(this.txtCedula.getText());
-        Cliente modificar = new Cliente(fila);
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void btnDeudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeudaActionPerformed
-        int fila = this.Lista.getSelectedRow();
-        FacturasCredito credito = new FacturasCredito(null, true, Lista.getValueAt(fila,0).toString());
-        credito.setVisible(true);
-    }//GEN-LAST:event_btnDeudaActionPerformed
+    private void btnVerFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerFacturaActionPerformed
+        int FilaSelecionada = this.Lista.getSelectedRow();
+        
+        String[] DatosFactura = factura.Consultar(Lista.getValueAt(FilaSelecionada,0).toString());
+        FacturaVer ver = new FacturaVer(null,true,DatosFactura,factura.ConsultarDetalleFactura(DatosFactura[0]));
+        ver.setVisible(true);
+    }//GEN-LAST:event_btnVerFacturaActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       ClienteNuevo nuevo = new ClienteNuevo();
-       nuevo.setVisible(true);
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void btnBuscarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarFacturaActionPerformed
+        String[] DatosFactura = factura.Consultar(this.txtNumeroFactura.getText());
+        FacturaVer ver = new FacturaVer(null,true,DatosFactura,factura.ConsultarDetalleFactura(DatosFactura[0]));
+        ver.setVisible(true);
+    }//GEN-LAST:event_btnBuscarFacturaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Lista;
     private javax.swing.JPanel PanelListado;
-    private javax.swing.JButton btnDeuda;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnBuscarFactura;
+    private javax.swing.JButton btnVerFactura;
     private javax.swing.JButton jButton5;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.edisoncor.gui.label.LabelHeader labelHeader1;
-    private javax.swing.JTextField txtCedula;
+    private javax.swing.JTextField txtNumeroFactura;
     // End of variables declaration//GEN-END:variables
 }

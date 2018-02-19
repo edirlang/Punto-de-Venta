@@ -23,7 +23,6 @@ public class Producto extends javax.swing.JFrame {
     public Producto(String[] producto) {
         initComponents();
         this.CargarCampos(producto);
-        this.setVisible(true);
     }
 
     /**
@@ -247,12 +246,14 @@ public class Producto extends javax.swing.JFrame {
         if(Integer.parseInt(this.txtUnidades.getText())==0){
             this.txtCantidad.setText("0");
         }
+        int cantidad = Integer.parseInt(this.txtCantidad.getText())
+                +Integer.parseInt(this.txtUnidades.getText());
         String[] producto = {
             this.txtCodigo.getText(),
             this.txtNombre.getText(),
             this.txtPrecio.getText(),
             pro[3],
-            this.txtCantidad.getText(),
+            cantidad+"",
             this.txtJueves.getText()
         };
         this.Producto.EditarProducto(producto);
@@ -285,6 +286,11 @@ public class Producto extends javax.swing.JFrame {
             this.txtCantidad.setText(producto[4]);
             this.txtJueves.setText(producto[5]);
             this.txtUnidades.requestFocus();
+            this.setVisible(true);
+        }else{
+           ProductoNuevo n = new ProductoNuevo();
+           n.setVisible(true);
+           this.dispose();
         }
     }
 

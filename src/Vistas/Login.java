@@ -18,7 +18,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     Usuarios usuario;
-    static public String ccUsuario;
+    static public String NombreUsuario;
     public Login() {
         initComponents();
         usuario = new Usuarios();
@@ -155,20 +155,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        String[] user = new String[]{
-            this.txtUsuario.getText(),
-            this.txtContrasena.getText()
-                    };
-        if (usuario.IniciarSession(user)) {
-            this.setVisible(false);
-            this.dispose();
-            MenuUsuario menuuser = new MenuUsuario();
-            menuuser.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null, "Usuario o Contraseña Incorecta");
-            this.txtContrasena.setText(null);
-            this.txtUsuario.requestFocus();
-        }
+        ComprobarUsuario();
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void buttonAeroRound2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAeroRound2ActionPerformed
@@ -176,6 +163,10 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAeroRound2ActionPerformed
 
     private void txtContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContrasenaActionPerformed
+        ComprobarUsuario();
+    }//GEN-LAST:event_txtContrasenaActionPerformed
+
+    private void ComprobarUsuario(){
         String[] user = new String[]{
             this.txtUsuario.getText(),
             this.txtContrasena.getText()
@@ -190,8 +181,7 @@ public class Login extends javax.swing.JFrame {
             this.txtContrasena.setText(null);
             this.txtUsuario.requestFocus();
         }
-    }//GEN-LAST:event_txtContrasenaActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */

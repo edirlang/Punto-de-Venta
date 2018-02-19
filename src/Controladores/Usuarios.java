@@ -24,7 +24,7 @@ public class Usuarios {
         String[] cajero = Usuario.consultarSeccion(usuario[0]);
         try {
             if (cajero[5].equalsIgnoreCase(usuario[1])) {
-                Login.ccUsuario=cajero[0];
+                Login.NombreUsuario=cajero[1];
                 return true;
             } else {
                 return false;

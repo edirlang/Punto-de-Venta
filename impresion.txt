@@ -1,0 +1,16 @@
+    Autoservicio Surtialiss     
+        Nit: 210650835-0        
+================================
+                                
+ Fact. #: 7     Vendedor: Edixon
+ Fecha:2014-07-26 Hora:19:39:00 
+ CLIENTE: 0          CI:Sin nomb
+================================
+ Descripcion|Cant|V.Unit.| Total
+--------------------------------
+ 1|Fruver| 1| 5000|5000         
+                                
+                                
+                                
+                                
+                                
