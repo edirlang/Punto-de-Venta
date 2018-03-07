@@ -56,6 +56,13 @@
       </Layout>
       <SubComponents>
         <Container class="org.edisoncor.gui.panel.PanelCurves" name="panelCurves1">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder/>
+              </Border>
+            </Property>
+          </Properties>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -110,7 +117,7 @@
                           <Component id="btnIngresar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="buttonAeroRound2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="63" max="32767" attributes="0"/>
+                      <EmptySpace pref="61" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

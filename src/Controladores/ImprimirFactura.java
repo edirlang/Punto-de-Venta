@@ -50,9 +50,7 @@ public class ImprimirFactura extends Thread{
     public void run() {
        
         
-        String cadena =   "    Autoservicio Surtialiss\n"
-                + "        Nit: 21061835-0\n"        
-                + "       Telefono: 3114834122\n";
+        String cadena = headTicket();
                         
 
         cadena += "Factura #: " + NumeroFactura + " " + "Cajero(a): " + cajero + "\n"
@@ -93,33 +91,24 @@ public class ImprimirFactura extends Thread{
         
         factura += "\n";
         factura += "\n";
-        //1b700019fa  - ESC p m t1 t2
-        char ESC = (char)27;
-        char CR = (char) 13; //Ascii character for Carriage Return
-        byte[] OPEN_DRAWER = {0x1B, 0x70, 0x00, 0x32, -0x06};
-        //factura += ESC+""+CR;
-        //factura += "27,112,0,25,250";
-        DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
-        PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-        PrintService service = PrintServiceLookup.lookupDefaultPrintService();
         
-        DocPrintJob pj = service.createPrintJob();
-
-        
-        byte[] bytes = factura.getBytes();
-       
-
-        Doc doc = new SimpleDoc(bytes, flavor, null);
-        
-        try {
-           pj.print(doc, null);
-           //pj.print(doc, null);
-        } catch (PrintException ex) {
-            JOptionPane.showMessageDialog(null, "eror" + ex);
-        }
+        sendDoc(factura);        
         
         this.stop();
         this.destroy();
+    }
+    
+    private String headTicket(){
+        String cadena =   "    Autoservicio Surtialiss\n"
+                + "        Nit: 21061835-0\n"        
+                + "       Telefono: 3114834122\n";
+                        
+
+        cadena += "Factura #: " + NumeroFactura + " " + "Cajero(a): " + cajero + "\n"
+                + "Fecha: " + fecha + " " + "Hora: " + hora + "\n"
+                + "Cliente: " + cliente + "  " + "C.C: " + ccCliente + "\n";
+        
+        return cadena;
     }
     
     public void cut(PrintWriter ps){
@@ -132,32 +121,31 @@ public class ImprimirFactura extends Thread{
     }
     
     public void ImprimirReporte(String[] Datos, String fecha) {
-        
-        String cadena =   "    Autoservicio Surtialiss\n"
-                + "        Nit: 21061835-0\n"        
-                + "       Telefono: 3114834122\n";
-
+        String cadena =  headTicket();
         cadena +="Fecha: " + fecha +"\n";
-
-        
         String imp2 = cadena;
-        
         imp2 += "\n";
         String pie = "Total Vendido: $" + Datos[0] + "\n";
         pie += "Pago de pedidos : $" + Datos[1] + "\n";
         pie += "Efectivo en Caja: $" + Datos[2] + "\n";
 
         imp2 += pie;
-
+        
+        imp2 += "\n";
+        imp2 += "\n";
+        
+        sendDoc(imp2);
+    }
+    
+    private void sendDoc(String text){
         PrintService service = PrintServiceLookup.lookupDefaultPrintService();
         DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.BYTE_ARRAY.AUTOSENSE;
         DocPrintJob pj = service.createPrintJob();
 
-        byte[] bytes = imp2.getBytes();
+        byte[] bytes = text.getBytes();
         Doc doc = new SimpleDoc(bytes, flavor, null);
         try {
             pj.print(doc, null);
-           
         } catch (PrintException e) {
             JOptionPane.showMessageDialog(null, "eror" + e);
         }

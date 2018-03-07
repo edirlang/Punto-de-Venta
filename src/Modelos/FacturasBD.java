@@ -259,37 +259,31 @@ public class FacturasBD extends Conexion {
                     facturas.addRow(fila);
                 }
             }
-            close();
         } catch (SQLException ex) {
-            close();
             JOptionPane.showMessageDialog(null, "Error no se logro conectarse a  la tabla");
         }
+        close();
         return facturas;
     }
 
     public String[] ReporteDia(String Fecha) {
         String[] datos = null;
-        conexion("facturas");
+        conexion("facturas where Fecha = '"+Fecha+"'");
         long total = 0;
         try {
             while (tabla.next()) {
-                if (tabla.getString("Fecha").equalsIgnoreCase(Fecha)) {
-                    total += Long.parseLong(tabla.getString("Total"));
-                }
+                total += Long.parseLong(tabla.getString("Total"));
             }
-            close();
         } catch (SQLException ex) {
-            close();
             JOptionPane.showMessageDialog(null, "No se Registraron ventas");
         }
-
-        conexion("egresos");
+        close();
+        
+        conexion("egresos where Fecha BETWEEN '"+Fecha+" 00:00:00:000000' AND '"+Fecha+" 23:59:59:999999'");
         long egresos = 0;
         try {
             while (tabla.next()) {
-                if (tabla.getString("Fecha").equalsIgnoreCase(Fecha)) {
-                    egresos += Long.parseLong(tabla.getString("Valor"));
-                }
+                egresos += Long.parseLong(tabla.getString("Valor"));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se Registraron pagos");
@@ -300,6 +294,7 @@ public class FacturasBD extends Conexion {
             egresos + "",
             (total - egresos) + ""
         };
+        
         return datos;
     }
 }

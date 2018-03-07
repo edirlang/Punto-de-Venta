@@ -7,6 +7,7 @@ package Modelos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,14 +21,14 @@ public class Conexion extends Thread {
 
     public ResultSet tabla;
     private Connection conexion;
-    private Statement s;
+    public Statement s;
 
     public Conexion() {
         
     }
     public void conexion(String tabla) {
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "1994");
             s = conexion.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             this.tabla = s.executeQuery("SELECT * FROM " + tabla);
@@ -36,6 +37,24 @@ public class Conexion extends Thread {
             JOptionPane.showMessageDialog(null, "No se logro conectar a la BD debido: \n" + ex);
         }
     }
+    
+    public int excecuteSQLAutoIncrement(String sql){
+        int id = 0;
+        
+        try {
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "");
+            PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);  
+            ps.execute();
+            tabla = ps.getGeneratedKeys();
+            if(tabla.next()){
+                 id = tabla.getInt(1);
+             }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se logro insertar el valor: \n" + ex);
+        }
+        return id;
+    }
+    
     public void close() {
         try {
             tabla.close();
@@ -46,6 +65,7 @@ public class Conexion extends Thread {
             JOptionPane.showMessageDialog(null, "No se pudo terminar la Conexion a la BD" + ex);
         }
     }
+    
     protected Boolean Credito(String credito) {
         System.out.println(credito);
         if ("Si".equals(credito) || "si".equals(credito) || "SI".equals(credito)) {

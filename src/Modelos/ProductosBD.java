@@ -18,50 +18,67 @@ import javax.swing.table.DefaultTableModel;
 public class ProductosBD extends Thread {
 
     private Conexion producto;
+    private PurchaseOrderBD order;
+    private InventoryBD inventory;
+    private String table_name;
 
     public ProductosBD() {
         producto = new Conexion();
+        order = new PurchaseOrderBD();
+        inventory = new InventoryBD();
+        table_name = "product";
     }
 
     protected void nuevo(String[] pro) {
+        
         try {
-            producto.conexion("productos");
+            producto.conexion("product");
             producto.tabla.moveToInsertRow();
-            producto.tabla.updateString("Codigo", pro[0]);
-            producto.tabla.updateString("Nombre", pro[1]);
-            producto.tabla.updateString("Precio", "" + pro[2]);
-            producto.tabla.updateString("PrecioCompra", "" + pro[3]);
-            producto.tabla.updateString("Cantidad", "" + pro[4]);
-            producto.tabla.updateString("PrecioPromocion", pro[5]);
+            producto.tabla.updateString("bar_code", pro[0]);
+            producto.tabla.updateString("name", pro[1]);
+            producto.tabla.updateString("sale_price", "" + pro[2]);
+            producto.tabla.updateString("quantity", "" + pro[4]);
             producto.tabla.insertRow();
+            
+            newInventory(pro);
             JOptionPane.showMessageDialog(null, "Producto Creado");
-            producto.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo almacenar producto");
         }
+        producto.close();
     }
-
+    
+    protected int newPurchaseOrder(String[] pro){
+        double total = (Double.parseDouble(pro[4]) * Double.parseDouble(pro[3]));
+        String[] data = {"1", ""+total};
+        return order.newOrder(data);
+    }
+    
+    protected void newInventory(String[] pro){
+        int order_id = newPurchaseOrder(pro);
+        String[] data = { pro[0], ""+order_id, pro[4], pro[3] };
+        inventory.newInventory(data);
+    }
+    
     public String[] consultar(String codigo) {
         String[] fila = null;
         try {
-            producto.conexion("productos");
+            producto.conexion(table_name);
             while (producto.tabla.next()) {
-                if (producto.tabla.getString("Codigo").equalsIgnoreCase(codigo)) {
+                if (producto.tabla.getString("bar_code").equalsIgnoreCase(codigo)) {
                     fila = new String[]{
-                        producto.tabla.getString("Codigo"),
-                        producto.tabla.getString("Nombre"),
-                        producto.tabla.getString("Precio"),
-                        producto.tabla.getString("PrecioCompra"),
-                        producto.tabla.getString("Cantidad"),
-                        producto.tabla.getString("PrecioPromocion")
+                        producto.tabla.getString("bar_code"),
+                        producto.tabla.getString("name"),
+                        producto.tabla.getString("sale_price"),
+                        producto.tabla.getString("quantity"),
                     };
                     return fila;
                 }
             }
-            producto.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
         }
+        producto.close();
         if (fila == null) {
             JOptionPane.showMessageDialog(null, "Producto no encontrado");
         }
@@ -71,23 +88,21 @@ public class ProductosBD extends Thread {
     protected void editar(String[] pro) {
         Boolean confirmar=false;
         try {
-            producto.conexion("productos");
+            producto.conexion(table_name);
             while (producto.tabla.next()) {
-                if (producto.tabla.getString("codigo").equalsIgnoreCase(pro[0])) {
-                    producto.tabla.updateString("Codigo", pro[0]);
-                    producto.tabla.updateString("Nombre", pro[1]);
-                    producto.tabla.updateString("Precio",pro[2]);
-                    producto.tabla.updateString("PrecioCompra",pro[3]);
-                    producto.tabla.updateString("Cantidad",pro[4]);
-                    producto.tabla.updateString("PrecioPromocion",pro[5]);
+                if (producto.tabla.getString("bar_code").equalsIgnoreCase(pro[0])) {
+                    producto.tabla.updateString("bar_code", pro[0]);
+                    producto.tabla.updateString("name", pro[1]);
+                    producto.tabla.updateString("sale_price",pro[2]);
+                    producto.tabla.updateString("quantity",pro[4]);
                     producto.tabla.updateRow();
                     confirmar=true;
                 }
             }
-            producto.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto"+ ex);
         }
+        producto.close();
         if(confirmar){
             JOptionPane.showMessageDialog(null,"Producto Actualizado");
         }else{
@@ -97,61 +112,58 @@ public class ProductosBD extends Thread {
 
     protected void eliminar(String codigo) {
         try {
-            producto.conexion("productos");
+            producto.conexion(table_name);
             while (producto.tabla.next()) {
-                if (producto.tabla.getString("codigo").equalsIgnoreCase(codigo)) {
+                if (producto.tabla.getString("bar_code").equalsIgnoreCase(codigo)) {
                     producto.tabla.deleteRow();
                 }
             }
-            producto.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
         }
+        producto.close();
     }
 
     protected DefaultTableModel todos() {
         DefaultTableModel productos = new DefaultTableModel();
-        String[] columnas = {"Codigo", "Descripción", "Precio", "Precio de Compra", "Cantidad", "Precio de Promocion"};
+        String[] columnas = {"Codigo", "Descripción", "Precio", "Cantidad"};
         productos.addColumn(columnas[0]);
         productos.addColumn(columnas[1]);
         productos.addColumn(columnas[2]);
         productos.addColumn(columnas[3]);
-        productos.addColumn(columnas[4]);
-        productos.addColumn(columnas[5]);
         
         try {
-            producto.conexion("productos ORDER BY Cantidad ASC");
+            producto.conexion(table_name+" ORDER BY quantity ASC");
             while (producto.tabla.next()) {
                 String[] fila ={
-                        producto.tabla.getString("Codigo"),
-                        producto.tabla.getString("Nombre"),
-                        producto.tabla.getString("Precio"),
-                        producto.tabla.getString("PrecioCompra"),
-                        producto.tabla.getString("Cantidad"),
-                        producto.tabla.getString("PrecioPromocion")
+                        producto.tabla.getString("bar_code"),
+                        producto.tabla.getString("name"),
+                        producto.tabla.getString("sale_price"),
+                        producto.tabla.getString("quantity"),
                     };
                 productos.addRow(fila);
             }
-            producto.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
         }
+        producto.close();
         return productos;
     }
     
     public void RestarProducto(String Codigo, int vendidos){
-        producto.conexion("productos");
+        producto.conexion(table_name);
         try {
             while(producto.tabla.next()){
-               if(producto.tabla.getString("Codigo").equalsIgnoreCase(Codigo)){
-                   int cantidad=Integer.parseInt(producto.tabla.getString("Cantidad"));
+               if(producto.tabla.getString("bar_code").equalsIgnoreCase(Codigo)){
+                   int cantidad=Integer.parseInt(producto.tabla.getString("quantity"));
                    cantidad-=vendidos;
-                   producto.tabla.updateString("Cantidad", cantidad+"");
+                   producto.tabla.updateString("quantity", cantidad+"");
                    producto.tabla.updateRow();
                } 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductosBD.class.getName()).log(Level.SEVERE, null, ex);
         }
+        producto.close();
     }
 }

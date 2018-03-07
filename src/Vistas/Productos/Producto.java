@@ -50,8 +50,6 @@ public class Producto extends javax.swing.JFrame {
         txtPrecio = new org.edisoncor.gui.textField.TextField();
         labelCustom6 = new org.edisoncor.gui.label.LabelCustom();
         txtUnidades = new org.edisoncor.gui.textField.TextField();
-        labelCustom7 = new org.edisoncor.gui.label.LabelCustom();
-        txtJueves = new org.edisoncor.gui.textField.TextField();
         btnActualizar = new org.edisoncor.gui.button.ButtonPopup();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -141,11 +139,6 @@ public class Producto extends javax.swing.JFrame {
 
         txtUnidades.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
 
-        labelCustom7.setText("JUEVES DE MIL");
-        labelCustom7.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
-
-        txtJueves.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
-
         btnActualizar.setText("ACTUALIZAR");
         btnActualizar.setFont(new java.awt.Font("Agency FB", 0, 18)); // NOI18N
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -162,18 +155,16 @@ public class Producto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelCustom5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelCustom7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelCustom4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelCustom3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelCustom2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelCustom6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtJueves, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtUnidades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(panelLlamada1Layout.createSequentialGroup()
@@ -200,11 +191,7 @@ public class Producto extends javax.swing.JFrame {
                 .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCustom5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCustom7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtJueves, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(58, 58, 58)
                 .addGroup(panelLlamada1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCustom6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -253,8 +240,7 @@ public class Producto extends javax.swing.JFrame {
             this.txtNombre.getText(),
             this.txtPrecio.getText(),
             pro[3],
-            cantidad+"",
-            this.txtJueves.getText()
+            cantidad+""
         };
         this.Producto.EditarProducto(producto);
         this.txtBuscarCodigo.requestFocus();
@@ -283,8 +269,7 @@ public class Producto extends javax.swing.JFrame {
             this.txtCodigo.setText(producto[0]);
             this.txtNombre.setText(producto[1]);
             this.txtPrecio.setText(producto[2]);
-            this.txtCantidad.setText(producto[4]);
-            this.txtJueves.setText(producto[5]);
+            this.txtCantidad.setText(producto[3]);
             this.txtUnidades.requestFocus();
             this.setVisible(true);
         }else{
@@ -314,14 +299,12 @@ public class Producto extends javax.swing.JFrame {
     private org.edisoncor.gui.label.LabelCustom labelCustom4;
     private org.edisoncor.gui.label.LabelCustom labelCustom5;
     private org.edisoncor.gui.label.LabelCustom labelCustom6;
-    private org.edisoncor.gui.label.LabelCustom labelCustom7;
     private org.edisoncor.gui.panel.Panel panel1;
     private org.edisoncor.gui.panel.Panel panel2;
     private org.edisoncor.gui.panel.PanelLlamada panelLlamada1;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtBuscarCodigo;
     private org.edisoncor.gui.textField.TextField txtCantidad;
     private org.edisoncor.gui.textField.TextField txtCodigo;
-    private org.edisoncor.gui.textField.TextField txtJueves;
     private org.edisoncor.gui.textField.TextField txtNombre;
     private org.edisoncor.gui.textField.TextField txtPrecio;
     private org.edisoncor.gui.textField.TextField txtUnidades;
