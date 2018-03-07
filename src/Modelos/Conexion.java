@@ -28,7 +28,7 @@ public class Conexion extends Thread {
     }
     public void conexion(String tabla) {
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "1994");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "");
             s = conexion.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             this.tabla = s.executeQuery("SELECT * FROM " + tabla);
