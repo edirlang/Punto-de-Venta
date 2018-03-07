@@ -235,16 +235,15 @@ public class Producto extends javax.swing.JFrame {
         }
         int cantidad = Integer.parseInt(this.txtCantidad.getText())
                 +Integer.parseInt(this.txtUnidades.getText());
-        String[] producto = {
+        String[] productoText = {
             this.txtCodigo.getText(),
             this.txtNombre.getText(),
             this.txtPrecio.getText(),
-            pro[3],
             cantidad+""
         };
-        this.Producto.EditarProducto(producto);
+        this.Producto.EditarProducto(productoText);
         this.txtBuscarCodigo.requestFocus();
-        this.CargarCampos(producto);
+        this.CargarCampos(productoText);
         this.txtUnidades.setText("");
     }//GEN-LAST:event_btnActualizarActionPerformed
 
@@ -262,14 +261,14 @@ public class Producto extends javax.swing.JFrame {
         this.CargarCampos(fila);
     }//GEN-LAST:event_txtBuscarCodigoActionPerformed
 
-    private void CargarCampos(String[] producto) {
+    private void CargarCampos(String[] productoArray) {
         Producto = new ProductosController();
-        pro = producto;
-        if (producto != null) {
-            this.txtCodigo.setText(producto[0]);
-            this.txtNombre.setText(producto[1]);
-            this.txtPrecio.setText(producto[2]);
-            this.txtCantidad.setText(producto[3]);
+        pro = productoArray;
+        if (productoArray != null) {
+            this.txtCodigo.setText(productoArray[0]);
+            this.txtNombre.setText(productoArray[1]);
+            this.txtPrecio.setText(productoArray[2]);
+            this.txtCantidad.setText(productoArray[3]);
             this.txtUnidades.requestFocus();
             this.setVisible(true);
         }else{

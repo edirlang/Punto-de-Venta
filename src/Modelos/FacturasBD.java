@@ -112,12 +112,12 @@ public class FacturasBD extends Conexion {
         }
 
         try {
-            conexion("productos");
+            conexion("product");
             for (int i = 0; i < facturas.getRowCount(); i++) {
                 tabla.first();
                 while (tabla.next()) {
-                    if (facturas.getValueAt(i, 0).toString().equalsIgnoreCase(tabla.getString("Codigo"))) {
-                        facturas.setValueAt(tabla.getString("Nombre"), i, 1);
+                    if (facturas.getValueAt(i, 0).toString().equalsIgnoreCase(tabla.getString("bar_code"))) {
+                        facturas.setValueAt(tabla.getString("name"), i, 1);
                     }
                 }
             }

@@ -94,7 +94,7 @@ public class ProductosBD extends Thread {
                     producto.tabla.updateString("bar_code", pro[0]);
                     producto.tabla.updateString("name", pro[1]);
                     producto.tabla.updateString("sale_price",pro[2]);
-                    producto.tabla.updateString("quantity",pro[4]);
+                    producto.tabla.updateString("quantity",pro[3]);
                     producto.tabla.updateRow();
                     confirmar=true;
                 }
