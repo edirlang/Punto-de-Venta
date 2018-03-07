@@ -93,25 +93,36 @@ public class ImprimirFactura extends Thread{
         
         factura += "\n";
         factura += "\n";
-
+        //1b700019fa  - ESC p m t1 t2
+        char ESC = (char)27;
+        char CR = (char) 13; //Ascii character for Carriage Return
+        byte[] OPEN_DRAWER = {0x1B, 0x70, 0x00, 0x32, -0x06};
+        //factura += ESC+""+CR;
+        //factura += "27,112,0,25,250";
+        DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
+        PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
         PrintService service = PrintServiceLookup.lookupDefaultPrintService();
-        DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.BYTE_ARRAY.AUTOSENSE;
+        
         DocPrintJob pj = service.createPrintJob();
 
+        
         byte[] bytes = factura.getBytes();
+       
+
         Doc doc = new SimpleDoc(bytes, flavor, null);
+        
         try {
-            pj.print(doc, null);
-           
+           pj.print(doc, null);
+           //pj.print(doc, null);
         } catch (PrintException ex) {
             JOptionPane.showMessageDialog(null, "eror" + ex);
         }
-      
+        
         this.stop();
         this.destroy();
     }
     
-    private void cut(PrintWriter ps){
+    public void cut(PrintWriter ps){
         try{
             char[] ESC_CUT_PAPER = new char[]{0x1b, 'm'};
             ps.write(ESC_CUT_PAPER);

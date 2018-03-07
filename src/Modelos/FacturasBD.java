@@ -204,6 +204,7 @@ public class FacturasBD extends Conexion {
             String FechaNueva;
             while (tabla.next()) {
                 FechaNueva = tabla.getString("Fecha");
+                
                 if (FechaActual.equalsIgnoreCase(FechaNueva)) {
                     total += Long.parseLong(tabla.getString("Total"));
                 } else {

@@ -120,7 +120,7 @@ public class ProductosBD extends Thread {
         productos.addColumn(columnas[5]);
         
         try {
-            producto.conexion("productos ORDER BY Nombre ASC");
+            producto.conexion("productos ORDER BY Cantidad ASC");
             while (producto.tabla.next()) {
                 String[] fila ={
                         producto.tabla.getString("Codigo"),

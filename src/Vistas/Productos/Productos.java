@@ -112,6 +112,7 @@ public class Productos extends javax.swing.JInternalFrame {
         PanelListado.setForeground(new java.awt.Color(255, 255, 255));
         PanelListado.setLayout(new java.awt.GridLayout(1, 0));
 
+        Lista.setAutoCreateRowSorter(true);
         Lista.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         Lista.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -127,6 +128,10 @@ public class Productos extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(Lista);
 
         PanelListado.add(jScrollPane1);
+
+        jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -150,9 +155,6 @@ public class Productos extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(PanelListado, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))
         );
-        jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

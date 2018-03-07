@@ -35,10 +35,13 @@ public class Egresos extends Conexion{
     
     public String ConsultarValor(String Fecha) {
         conexion("egresos");
+        Fecha +=" 00:00:00.0"; 
         try {
             long factura = 0;
             tabla.first();
             while (tabla.next()) {
+                System.out.println(Fecha);
+                System.out.println(tabla.getString("Fecha"));
                 if (Fecha.equalsIgnoreCase(tabla.getString("Fecha"))) {
                     factura += Long.parseLong(tabla.getString("Valor"));
                 }

@@ -8,7 +8,13 @@ package Vistas.Facturacion;
 import Controladores.FacturaController;
 import Controladores.ImprimirFactura;
 import Controladores.ImprimirPDf;
+import java.io.PrintWriter;
 import java.util.Calendar;
+import javax.print.DocFlavor;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -100,6 +106,7 @@ public class Factura extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -448,6 +455,15 @@ public class Factura extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem9);
 
+        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        jMenuItem10.setText("NuevaFactura");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem10);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Salir");
@@ -594,6 +610,11 @@ public class Factura extends javax.swing.JFrame {
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        Factura fac = new Factura();
+        fac.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void PrepararTabla() {
         ListaProducto = new DefaultTableModel();
@@ -748,7 +769,23 @@ public class Factura extends javax.swing.JFrame {
         pdf.start();
         imprimir.start();
     }
-
+    
+    private void OpenCash() {
+        DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
+        PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+        PrintService service = PrintServiceLookup.lookupDefaultPrintService();
+        this.cut((PrintWriter) service);
+    }
+    
+    public void cut(PrintWriter ps){
+        try{
+            char[] ESC_CUT_PAPER = new char[]{0x1b, 'm'};
+            ps.write(ESC_CUT_PAPER);
+        }catch(Exception e){
+            System.out.print(e);
+        }
+    }
+    
     private void GuardarBD() {
         CalcularCambio();
         NumeroFacturaCreada--;
@@ -765,6 +802,7 @@ public class Factura extends javax.swing.JFrame {
         this.OperacionesFactura.NuevoDetalle(ListaProducto, this.txtNumeroFactura.getText());
         this.setVisible(false);
         this.dispose();
+        
         JOptionPane.showMessageDialog(null, "Total: " + this.txtTotal.getText() + "\n" + "Efectivo " + this.txtEfectivo.getText() + "\n"
                 + "Cambio " + this.txtCambio.getText());
     }
@@ -779,6 +817,7 @@ public class Factura extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
