@@ -28,7 +28,7 @@ public class Conexion extends Thread {
     }
     public void conexion(String tabla) {
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/punto2", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "");
             s = conexion.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             this.tabla = s.executeQuery("SELECT * FROM " + tabla);
@@ -42,7 +42,7 @@ public class Conexion extends Thread {
         int id = 0;
         
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/punto2", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "");
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);  
             ps.execute();
             tabla = ps.getGeneratedKeys();
