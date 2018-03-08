@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
 
 /**
  *
@@ -34,21 +33,6 @@ public class FacturaController extends FacturasBD{
         return this.clientes.CedulaNombre();
     }
 
-    public void Hora(JTextField hora, int dia) {
-        Hora horaActual = new Hora(hora, dia);
-        horaActual.start();
-    }
-
-    public void Fecha(JTextField fecha) {
-        Date fechaActual = new Date();
-
-        SimpleDateFormat formato1 = new SimpleDateFormat("yyy-MM-dd");
-
-        Calendar cal1 = Calendar.getInstance();
-
-        fecha.setText(formato1.format(fechaActual));
-        fecha.setEditable(false);
-    }
     
     public String Fecha() {
         Date fechaActual = new Date();

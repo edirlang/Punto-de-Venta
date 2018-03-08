@@ -22,13 +22,16 @@ public class Conexion extends Thread {
     public ResultSet tabla;
     private Connection conexion;
     public Statement s;
+    private String userDB;
+    private String passwordDB;
 
     public Conexion() {
-        
+        this.userDB = "root";
+        this.passwordDB = "1994";
     }
     public void conexion(String tabla) {
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", this.userDB, this.passwordDB);
             s = conexion.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             this.tabla = s.executeQuery("SELECT * FROM " + tabla);
@@ -42,7 +45,7 @@ public class Conexion extends Thread {
         int id = 0;
         
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", "root", "");
+            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", this.userDB, this.passwordDB);
             PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);  
             ps.execute();
             tabla = ps.getGeneratedKeys();

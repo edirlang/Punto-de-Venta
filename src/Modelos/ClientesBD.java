@@ -24,17 +24,18 @@ public class ClientesBD extends Conexion {
         try {
             conexion("clientes");
             tabla.moveToInsertRow();
-            tabla.updateString("Cedula", clientebd[0]);
-            tabla.updateString("Nombre", clientebd[1]);
-            tabla.updateString("Apellido", "" + clientebd[2]);
-            tabla.updateString("Telefono", "" + clientebd[3]);
-            tabla.updateString("Direccion", "" + clientebd[4]);
-            tabla.updateBoolean("CreditoCliente", Credito(clientebd[5]));
+            tabla.updateString("document_number", clientebd[0]);
+            tabla.updateString("first_name", clientebd[1]);
+            tabla.updateString("last_name", "" + clientebd[2]);
+            tabla.updateString("phone_number", "" + clientebd[3]);
+            tabla.updateString("address", "" + clientebd[4]);
+            tabla.updateString("date_birth", "" + clientebd[5]);
+            tabla.updateBoolean("isCredit", Credito(clientebd[6]));
             tabla.insertRow();
             JOptionPane.showMessageDialog(null, "El cliente a sido Registrado");
             close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se logro registrar el cliente");
+            JOptionPane.showMessageDialog(null, "No se logro registrar el cliente "+ex.getMessage());
         }
     }
 
@@ -43,25 +44,27 @@ public class ClientesBD extends Conexion {
         try {
             conexion("clientes");
             while (tabla.next()) {
-                if (tabla.getString("Cedula").equalsIgnoreCase(cedula)) {
+                if (tabla.getString("document_number").equalsIgnoreCase(cedula)) {
                     fila = new String[]{
-                        tabla.getString("Cedula"),
-                        tabla.getString("Nombre"),
-                        tabla.getString("Apellido"),
-                        tabla.getString("Telefono"),
-                        tabla.getString("Direccion"),
-                        Credito(tabla.getBoolean("CreditoCliente"))
+                        tabla.getString("document_number"),
+                        tabla.getString("first_name"),
+                        tabla.getString("last_name"),
+                        tabla.getString("phone_number"),
+                        tabla.getString("address"),
+                        tabla.getString("date_birth"),
+                        Credito(tabla.getBoolean("isCredit"))
                     };
                     return fila;
                 }
             }
-            close();
+            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
         }
         if (fila == null) {
             fila = new String[]{"0","0"};
         }
+        close();
         return fila;
     }
 
@@ -70,13 +73,13 @@ public class ClientesBD extends Conexion {
         try {
             conexion("clientes");
             while (tabla.next()) {
-                if (tabla.getString("Cedula").equalsIgnoreCase(clientebd[0])) {
-                    tabla.updateString("Cedula", clientebd[0]);
-                    tabla.updateString("Nombre", clientebd[1]);
-                    tabla.updateString("Apellido", "" + clientebd[2]);
-                    tabla.updateString("Telefono", "" + clientebd[3]);
-                    tabla.updateString("Direccion", "" + clientebd[4]);
-                    tabla.updateBoolean("CreditoCliente", Credito(clientebd[5]));
+                if (tabla.getString("document_number").equalsIgnoreCase(clientebd[0])) {
+                    tabla.updateString("document_number", clientebd[0]);
+                    tabla.updateString("first_name", clientebd[1]);
+                    tabla.updateString("last_name", "" + clientebd[2]);
+                    tabla.updateString("phone_number", "" + clientebd[3]);
+                    tabla.updateString("address", "" + clientebd[4]);
+                    tabla.updateBoolean("isCredit", Credito(clientebd[5]));
                     tabla.updateRow();
                     confirmar = true;
                 }
@@ -96,7 +99,7 @@ public class ClientesBD extends Conexion {
         try {
             conexion("clientes");
             while (tabla.next()) {
-                if (tabla.getString("Cedula").equalsIgnoreCase(cedula)) {
+                if (tabla.getString("document_number").equalsIgnoreCase(cedula)) {
                     tabla.deleteRow();
                     JOptionPane.showMessageDialog(null, "El cliente a sido eliminado");
                 }
@@ -109,20 +112,28 @@ public class ClientesBD extends Conexion {
 
     public DefaultTableModel todos() {
         DefaultTableModel clientes = new DefaultTableModel();
-        String[] columnas = {"Cedula", "Nombre", "Apellido", "Telefono"};
+        String[] columnas = {"Cedula", "Nombre", "Apellido", "Telefono","Fecha de Nacimento", "Credito"};
         clientes.addColumn(columnas[0]);
         clientes.addColumn(columnas[1]);
         clientes.addColumn(columnas[2]);
         clientes.addColumn(columnas[3]);
+        clientes.addColumn(columnas[4]);
+        clientes.addColumn(columnas[5]);
 
         try {
-            conexion("clientes ORDER BY Nombre");
+            conexion("clientes ORDER BY first_name");
             while (tabla.next()) {
+                String credit = "Si";
+                if(tabla.getBoolean("isCredit") == false){
+                    credit = "No";
+                }
                 String[] fila = {
-                    tabla.getString("Cedula"),
-                    tabla.getString("Nombre"),
-                    tabla.getString("Apellido"),
-                    tabla.getString("Telefono")
+                    tabla.getString("document_number"),
+                    tabla.getString("first_name"),
+                    tabla.getString("last_name"),
+                    tabla.getString("phone_number"),
+                    tabla.getString("date_birth"),
+                    credit
                 };
                 clientes.addRow(fila);
              }
@@ -147,8 +158,8 @@ public class ClientesBD extends Conexion {
             conexion("clientes");
             int fila=0;
             while (tabla.next()) {
-                clientes[fila][0]=tabla.getString("Cedula");
-                clientes[fila][1] = tabla.getString("Nombre")+" "+ tabla.getString("Apellido");
+                clientes[fila][0]=tabla.getString("document_number");
+                clientes[fila][1] = tabla.getString("first_name")+" "+ tabla.getString("last_name");
                 fila++;
             }
             close();

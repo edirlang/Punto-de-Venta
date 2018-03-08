@@ -7,6 +7,9 @@ package Modelos;
 
 import Controladores.GuardarDetalleFactura;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,13 +19,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FacturasBD extends Conexion {
 
+    private String table_name;
     public FacturasBD() {
         super();
+        table_name = "facturas";
     }
 
     protected int NumeroUltimaFactura() {
         try {
-            this.conexion("facturas");
+            this.conexion(this.table_name);
             tabla.last();
             int numero = tabla.getInt("NumeroFactura");
             close();
@@ -32,26 +37,34 @@ public class FacturasBD extends Conexion {
         }
     }
 
-    public void nuevoFactura(String[] datos) {
-        try {
-            this.conexion("facturas");
-            tabla.moveToInsertRow();
-            tabla.updateString("NumeroFactura", datos[0]);
-            tabla.updateString("Cedula", datos[1]);
-            tabla.updateString("Fecha", datos[2]);
-            tabla.updateString("Hora", datos[3]);
-            tabla.updateString("Total", datos[4]);
-            tabla.updateBoolean("CreditoFactura", this.Credito(datos[5]));
-            tabla.insertRow();
-            close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se registro el pedido " + ex);
-            close();
-        }
+    public int newInvoice(String[] datos) {
+        int number_invoice = 0;
+        number_invoice = excecuteSQLAutoIncrement("Insert into "+table_name+" (Cedula, Fecha, Hora, Total, CreditoFactura) values ("
+                + datos[0] +","
+                + "'" + dateNowString() + "',"
+                + "'" + hourNow() + "',"
+                + datos[1] + ","
+                + this.Credito(datos[2])
+                + ")");
+        return number_invoice;
     }
 
-    public void NuevoDetalle(DefaultTableModel detalles, String datos) {
-        GuardarDetalleFactura nuevo = new GuardarDetalleFactura(detalles, datos);
+    public String dateNowString() {
+        Date fechaActual = new Date();
+        SimpleDateFormat formato1 = new SimpleDateFormat("yyy-MM-dd");
+        Calendar cal1 = Calendar.getInstance();
+        return formato1.format(fechaActual);
+    }
+    
+    private String hourNow(){
+        Date fechaActual = new Date();
+        SimpleDateFormat formato2 = new SimpleDateFormat("HH:mm");
+        Calendar cal1 = Calendar.getInstance();
+        return formato2.format(fechaActual);
+    }
+    
+    public void NuevoDetalle(DefaultTableModel detalles, int num_invoice) {
+        GuardarDetalleFactura nuevo = new GuardarDetalleFactura(detalles, num_invoice);
         nuevo.start();
     }
 

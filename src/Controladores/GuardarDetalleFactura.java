@@ -19,12 +19,12 @@ public class GuardarDetalleFactura extends Thread {
 
     Conexion conexion;
     DefaultTableModel detalles;
-    String datos;
+    int num_invoice;
     ProductosBD producto;
 
-    public GuardarDetalleFactura(DefaultTableModel detalles, String datos) {
+    public GuardarDetalleFactura(DefaultTableModel detalles, int num_invoice) {
         this.detalles = detalles;
-        this.datos = datos;
+        this.num_invoice = num_invoice;
         producto = new ProductosBD();
         conexion = new Conexion();
     }
@@ -36,7 +36,7 @@ public class GuardarDetalleFactura extends Thread {
             for (int i = 0; i < detalles.getRowCount(); i++) {
 
                 conexion.tabla.moveToInsertRow();
-                conexion.tabla.updateString("NumeroFactura", datos);
+                conexion.tabla.updateString("NumeroFactura", ""+num_invoice);
                 conexion.tabla.updateString("Codigo", detalles.getValueAt(i, 0).toString());
                 conexion.tabla.updateString("Valor", detalles.getValueAt(i, 3).toString());
                 conexion.tabla.updateString("Cantidad", detalles.getValueAt(i, 2).toString());
