@@ -24,10 +24,8 @@ public class PurchaseOrderBD extends Thread {
 
     public int newOrder(String[] pro) {
         int order_id = 0;
-        
         order_id = order.excecuteSQLAutoIncrement("Insert into "+table_name+" (provider_id, total, file) values ("
                 + pro[0]+","+pro[1]+",'base')");
-        
         return order_id;
     }
 }
