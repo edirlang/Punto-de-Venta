@@ -5,7 +5,7 @@
  */
 package Vistas;
 
-import Controladores.Usuarios;
+import Controladores.UsuariosController;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,11 +17,11 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    Usuarios usuario;
+    UsuariosController usuario;
     static public String NombreUsuario;
     public Login() {
         initComponents();
-        usuario = new Usuarios();
+        usuario = new UsuariosController();
         
     }
 

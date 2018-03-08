@@ -5,9 +5,14 @@
  */
 package Modelos;
 
+import Entity.HibernateUtil;
+import Entity.Usuarios;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -15,6 +20,9 @@ import javax.swing.JOptionPane;
  */
 public class UsuariosBD {
 
+    private Session sesion;
+    private Transaction tx;
+    
     public Conexion usuario;
     public UsuariosBD() {
         usuario = new Conexion();
@@ -134,5 +142,30 @@ public class UsuariosBD {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
         }
         return usuarios;
+    }
+    
+    private void iniciaOperacion() throws HibernateException
+    {
+        sesion = HibernateUtil.getSessionFactory().openSession();
+        tx = sesion.beginTransaction();
+    }
+    
+    private void manejaExcepcion(HibernateException he) throws HibernateException
+    {
+        tx.rollback();
+        throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he);
+    }
+    
+    
+    public Usuarios getUserByUsername(String cedula) throws HibernateException{ 
+        Usuarios usuario = new Usuarios();  
+
+        try { 
+            iniciaOperacion(); 
+            usuario = (Usuarios) sesion.get(Usuarios.class, cedula); 
+        } finally { 
+            sesion.close(); 
+        }  
+        return usuario; 
     }
 }

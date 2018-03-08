@@ -618,10 +618,7 @@ public class Factura extends javax.swing.JFrame {
         try {
             String[] producto = OperacionesFactura.BuscarProducto(this.txtCodigo.getText());
             this.txtNombre.setText(producto[1]);
-            if(dia==5){
-                this.txtPrecio.setText(producto[5]);
-            }else
-                this.txtPrecio.setText(producto[2]);
+            this.txtPrecio.setText(producto[2]);
             this.txtCantidad.setText("1");
             long codigo = Long.parseLong(this.txtCodigo.getText());
             if (codigo < 1000) {
