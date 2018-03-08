@@ -42,7 +42,7 @@ public class ClientesBD extends Conexion {
     public String[] consultar(String cedula) {
         String[] fila = null;
         try {
-            conexion("clientes");
+            conexion("clientes where document_number = '"+cedula+"'");
             while (tabla.next()) {
                 if (tabla.getString("document_number").equalsIgnoreCase(cedula)) {
                     fila = new String[]{
@@ -59,7 +59,7 @@ public class ClientesBD extends Conexion {
             }
             
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
+            JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta "+ex.getMessage());
         }
         if (fila == null) {
             fila = new String[]{"0","0"};

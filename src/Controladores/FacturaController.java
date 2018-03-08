@@ -52,6 +52,10 @@ public class FacturaController extends FacturasBD{
     
     public String CreditoCliente(String cedula){
         String[] cliente= clientes.consultar(cedula);
-        return cliente[5];
+        if(cliente.length > 2){
+            return cliente[5];
+        }else{
+            return "No";
+        }
     }
 }

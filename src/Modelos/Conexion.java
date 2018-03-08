@@ -27,7 +27,7 @@ public class Conexion extends Thread {
 
     public Conexion() {
         this.userDB = "root";
-        this.passwordDB = "1994";
+        this.passwordDB = "";
     }
     public void conexion(String tabla) {
         try {
