@@ -6,11 +6,11 @@
 package Controladores;
 
 import Entity.Clientes;
+import Entity.CustomerPoint;
 import Entity.Facturas;
 import Entity.Product;
 import Modelos.ClientesBD;
 import Modelos.FacturasBD;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,14 +46,6 @@ public class FacturaController{
         return this.clientes.getConsumerNameDocument();
     }
     
-    public String Fecha() {
-        Date fechaActual = new Date();
-        SimpleDateFormat formato1 = new SimpleDateFormat("yyy-MM-dd");
-        Calendar cal1 = Calendar.getInstance();
-        System.out.println(formato1.format(fechaActual));
-       return formato1.format(fechaActual);
-    }
-    
     public Product BuscarProducto(String codigo) {
         Product product = productos.getProduct(codigo);
         if(product == null){
@@ -63,19 +55,32 @@ public class FacturaController{
     }
     
     public int newInvoice(String[] data_invoice){
-        System.out.println(data_invoice[2]);
+        Clientes consumer = this.clientes.getConsumerById(data_invoice[0]);
         Facturas invoice = new Facturas();
+        invoice.setClientes(consumer);
         invoice.setFecha(new Date());
         invoice.setHora(new Date());
         invoice.setTotal(Long.parseLong(data_invoice[1]));
         invoice.setCreditoFactura(this.invoicesBD.Credito(data_invoice[2]));
         
         int num_invoice = this.invoicesBD.newInvoice(invoice);
+        if(num_invoice != 0){
+            this.newCustomerPoints(invoice);
+        }
         return num_invoice;
     }
     
+    private void newCustomerPoints(Facturas invoice){
+        if(invoice.getClientes().getIsPoints()){
+            CustomerPoint point = new CustomerPoint();
+            point.setCustomer(invoice.getClientes());
+            point.setQuantity((int) (invoice.getTotal()/100));
+            this.invoicesBD.saveCustomerPoints(point);
+        }
+    }
+    
     public void saveDetailsInvoice(DefaultTableModel detalles, int num_invoice){
-        
+        this.invoicesBD.saveDetailInvoice(detalles, num_invoice);
     }
     
     public String CreditoCliente(String cedula){
@@ -87,4 +92,10 @@ public class FacturaController{
         return this.invoicesBD.ReporteDia(Fecha);
     }
     
+    public String Fecha() {
+       Date fechaActual = new Date();
+       SimpleDateFormat formato1 = new SimpleDateFormat("yyy-MM-dd");
+       Calendar cal1 = Calendar.getInstance(); 
+       return formato1.format(fechaActual);
+    }
 }

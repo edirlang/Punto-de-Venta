@@ -19,11 +19,11 @@ public class Detallefactura  implements Serializable {
     private int id;
     
     @ManyToOne
-    @JoinColumn(name="NumeroFactura", nullable=true)
+    @JoinColumn(name="NumeroFactura")
     private Facturas factura;
     
     @ManyToOne
-    @JoinColumn(name="Codigo", nullable=true)
+    @JoinColumn(name="Codigo")
     private Product product;
     
     @Column(name="valor")

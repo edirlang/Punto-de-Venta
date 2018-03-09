@@ -8,6 +8,7 @@ package Controladores;
 
 import Entity.Product;
 import Modelos.ProductosBD;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -38,7 +39,11 @@ public class ProductosController extends ProductosBD implements Runnable{
     }
     
     public Product findProduct(String codigo){
-        return this.getProduct(codigo);
+        Product product = this.getProduct(codigo);
+        if(product == null){
+            JOptionPane.showMessageDialog(null, "No existe el producto");
+        }
+        return product;
     }
     
     public Product EditarProducto(String[] pro){

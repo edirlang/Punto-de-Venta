@@ -38,17 +38,15 @@ public class FacturaView extends javax.swing.JFrame {
     static int NumeroFacturaCreada = 0;
 
     public FacturaView() {
+        initComponents();
+        this.setTitle("Factura de Venta");
         OperacionesFactura = new FacturaController();
         Clientes = OperacionesFactura.getConsumerDocumentName();
         ClienteSelecionado = new String[2];
-        initComponents();
-        
-        this.setTitle("Factura de Venta");
         OperacionesFactura.CargarClientes(this.clientes);
         this.txtTotal.setText("0");
-        Calendar cal1 = Calendar.getInstance();
-        dia = cal1.get(Calendar.DAY_OF_WEEK);
         PrepararTabla();
+        this.txtCodigo.requestFocus();
     }
 
     /**
@@ -151,7 +149,7 @@ public class FacturaView extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
-        labelHeader1.setText("Factura N° 1");
+        labelHeader1.setText("Factura de venta");
         labelHeader1.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
 
         txtNombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N

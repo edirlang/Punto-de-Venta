@@ -168,7 +168,6 @@ public class ProductosBD extends Conexion {
             };
             productos.addRow(fila);
         }
-        
         return productos;
     }
     

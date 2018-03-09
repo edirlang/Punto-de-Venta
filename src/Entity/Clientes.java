@@ -41,12 +41,20 @@ public class Clientes  implements Serializable {
     @Column(name = "isCredit")
     private boolean isCredit;
     
+    @Column(name = "isPoints")
+    private boolean isPoints = true;
+    
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="clientes")
     private Set<Facturas> facturas;
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="customer")
+    private Set<CustomerPoint> points;
 
     public Clientes() {
+        this.isPoints = true;
+        this.points = null;
+        this.isCredit = false;
     }
-
 	
     public Clientes(String documentNumber, String firstName, String lastName, String phoneNumber, String address, Date dateBirth, boolean isCredit) {
         this.documentNumber = documentNumber;
@@ -144,6 +152,30 @@ public class Clientes  implements Serializable {
     
     public String getFullName(){
         return this.getFirstName()+" "+this.getLastName();
+    }
+    
+    public Set<CustomerPoint> getPoints() {
+        return points;
+    }
+
+    public void setPoints(Set<CustomerPoint> points) {
+        this.points = points;
+    }
+    
+    public void addPoints(CustomerPoint customerPoint){
+        this.points.add(customerPoint);
+    }
+    
+    public void removePoints(CustomerPoint customerPoint){
+        this.points.remove(customerPoint);
+    }
+    
+    public boolean getIsPoints() {
+        return isPoints;
+    }
+
+    public void setIsPoints(boolean isPoints) {
+        this.isPoints = isPoints;
     }
 }
 

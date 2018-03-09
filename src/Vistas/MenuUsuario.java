@@ -10,6 +10,7 @@ import Controladores.ImprimirFactura;
 import Vistas.Clientes.ClientesView;
 import Vistas.Facturacion.FacturaView;
 import Vistas.Facturacion.FacturasView;
+import Vistas.Facturacion.InvoiceView;
 import Vistas.Facturacion.ReporteDias;
 import Vistas.Productos.Productos;
 import javax.swing.JOptionPane;
@@ -27,7 +28,7 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     public MenuUsuario() {
         initComponents();
-
+        this.setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**
@@ -40,7 +41,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem7 = new javax.swing.JMenuItem();
-        panelRound1 = new org.edisoncor.gui.panel.PanelRound();
+        Botones = new javax.swing.JPanel();
         btnFactura = new org.edisoncor.gui.button.ButtonAero();
         bntClientes = new org.edisoncor.gui.button.ButtonAero();
         btnProductos = new org.edisoncor.gui.button.ButtonAero();
@@ -48,7 +49,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         btnFacturas = new org.edisoncor.gui.button.ButtonAero();
         btnCerrarSesion = new org.edisoncor.gui.button.ButtonAero();
         btnSalir = new org.edisoncor.gui.button.ButtonAero();
-        PanelPrincipal = new javax.swing.JDesktopPane();
+        Desktop = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -69,90 +70,105 @@ public class MenuUsuario extends javax.swing.JFrame {
         setTitle("SURTIALISS");
         setPreferredSize(new java.awt.Dimension(1024, 768));
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
         });
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
-        panelRound1.setLayout(new java.awt.GridLayout(1, 0));
+        Botones.setLayout(new java.awt.GridLayout(1, 0));
 
         btnFactura.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         btnFactura.setForeground(new java.awt.Color(0, 0, 0));
         btnFactura.setText("Nueva Factura (F2)");
+        btnFactura.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFacturaActionPerformed(evt);
             }
         });
-        panelRound1.add(btnFactura);
+        Botones.add(btnFactura);
 
         bntClientes.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         bntClientes.setForeground(new java.awt.Color(0, 0, 0));
         bntClientes.setText("Clientes (F3)");
+        bntClientes.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         bntClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bntClientesActionPerformed(evt);
             }
         });
-        panelRound1.add(bntClientes);
+        Botones.add(bntClientes);
 
         btnProductos.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         btnProductos.setForeground(new java.awt.Color(0, 0, 0));
         btnProductos.setText("Productos (F4)");
+        btnProductos.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProductosActionPerformed(evt);
             }
         });
-        panelRound1.add(btnProductos);
+        Botones.add(btnProductos);
 
         buttonAero1.setForeground(new java.awt.Color(0, 0, 0));
         buttonAero1.setText("Pedidos (F5)");
+        buttonAero1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         buttonAero1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonAero1ActionPerformed(evt);
             }
         });
-        panelRound1.add(buttonAero1);
+        Botones.add(buttonAero1);
 
         btnFacturas.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         btnFacturas.setForeground(new java.awt.Color(0, 0, 0));
         btnFacturas.setText("Facturas (F6)");
+        btnFacturas.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnFacturas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFacturasActionPerformed(evt);
             }
         });
-        panelRound1.add(btnFacturas);
+        Botones.add(btnFacturas);
 
         btnCerrarSesion.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         btnCerrarSesion.setForeground(new java.awt.Color(0, 0, 0));
         btnCerrarSesion.setText("Cerar Sesion");
-        panelRound1.add(btnCerrarSesion);
+        btnCerrarSesion.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        Botones.add(btnCerrarSesion);
 
         btnSalir.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("Salir");
+        btnSalir.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
             }
         });
-        panelRound1.add(btnSalir);
+        Botones.add(btnSalir);
 
-        javax.swing.GroupLayout PanelPrincipalLayout = new javax.swing.GroupLayout(PanelPrincipal);
-        PanelPrincipal.setLayout(PanelPrincipalLayout);
-        PanelPrincipalLayout.setHorizontalGroup(
-            PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        getContentPane().add(Botones);
+
+        Desktop.setBackground(new java.awt.Color(251, 253, 251));
+        Desktop.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout DesktopLayout = new javax.swing.GroupLayout(Desktop);
+        Desktop.setLayout(DesktopLayout);
+        DesktopLayout.setHorizontalGroup(
+            DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 922, Short.MAX_VALUE)
         );
-        PanelPrincipalLayout.setVerticalGroup(
-            PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 613, Short.MAX_VALUE)
+        DesktopLayout.setVerticalGroup(
+            DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 663, Short.MAX_VALUE)
         );
+
+        getContentPane().add(Desktop);
 
         jMenu1.setText("Facturacion");
 
@@ -228,21 +244,6 @@ public class MenuUsuario extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelRound1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(PanelPrincipal)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelRound1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelPrincipal))
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -253,44 +254,51 @@ public class MenuUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void bntClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntClientesActionPerformed
-        this.PanelPrincipal.removeAll();
+        this.Desktop.removeAll();
         clientes = new ClientesView();
         clientes.setVisible(true);
-        this.PanelPrincipal.add(clientes);
+        this.Desktop.add(clientes);
 
     }//GEN-LAST:event_bntClientesActionPerformed
 
     private void btnFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturaActionPerformed
         FacturaView fac = new FacturaView();
         fac.setVisible(true);
+        //InvoiceView invoiceView = new InvoiceView();
+        //this.Desktop.add(invoiceView);
+        //invoiceView.show();
+        //this.Desktop.selectFrame(true);
     }//GEN-LAST:event_btnFacturaActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
         Productos pro = new Productos();
         pro.setVisible(true);
-        this.PanelPrincipal.removeAll();
-        this.PanelPrincipal.add(pro);
+        this.Desktop.removeAll();
+        this.Desktop.add(pro);
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        //InvoiceView invoiceView = new InvoiceView();
+        //this.Desktop.add(invoiceView);
+        //invoiceView.show();
         FacturaView fac = new FacturaView();
         fac.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        this.PanelPrincipal.removeAll();
+        this.Desktop.removeAll();
         if (clientes == null) {
             clientes = new ClientesView();
             clientes.setVisible(true);
-            this.PanelPrincipal.add(clientes);
+            this.Desktop.add(clientes);
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         Productos pro = new Productos();
         pro.setVisible(true);
-        this.PanelPrincipal.removeAll();
-        this.PanelPrincipal.add(pro);
+        this.Desktop.removeAll();
+        this.Desktop.add(pro);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void buttonAero1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAero1ActionPerformed
@@ -306,15 +314,15 @@ public class MenuUsuario extends javax.swing.JFrame {
     private void btnFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturasActionPerformed
         FacturasView pro = new FacturasView();
         pro.setVisible(true);
-        this.PanelPrincipal.removeAll();
-        this.PanelPrincipal.add(pro);
+        this.Desktop.removeAll();
+        this.Desktop.add(pro);
     }//GEN-LAST:event_btnFacturasActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         FacturasView pro = new FacturasView();
         pro.setVisible(true);
-        this.PanelPrincipal.removeAll();
-        this.PanelPrincipal.add(pro);
+        this.Desktop.removeAll();
+        this.Desktop.add(pro);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
@@ -347,7 +355,8 @@ public class MenuUsuario extends javax.swing.JFrame {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane PanelPrincipal;
+    private javax.swing.JPanel Botones;
+    private javax.swing.JDesktopPane Desktop;
     private org.edisoncor.gui.button.ButtonAero bntClientes;
     private org.edisoncor.gui.button.ButtonAero btnCerrarSesion;
     private org.edisoncor.gui.button.ButtonAero btnFactura;
@@ -369,6 +378,5 @@ public class MenuUsuario extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
-    private org.edisoncor.gui.panel.PanelRound panelRound1;
     // End of variables declaration//GEN-END:variables
 }

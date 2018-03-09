@@ -7,6 +7,7 @@ package Modelos;
 
 import Controladores.GuardarDetalleFactura;
 import Entity.Clientes;
+import Entity.CustomerPoint;
 import Entity.Detallefactura;
 import Entity.Egresos;
 import Entity.Facturas;
@@ -44,22 +45,20 @@ public class FacturasBD extends Conexion {
         }  
         return id; 
     }
-
-    public String dateNowString() {
-        Date fechaActual = new Date();
-        SimpleDateFormat formato1 = new SimpleDateFormat("yyy-MM-dd");
-        Calendar cal1 = Calendar.getInstance();
-        return formato1.format(fechaActual);
+    
+    public void saveCustomerPoints(CustomerPoint point){
+        try {
+            this.iniciaOperacion(); 
+            this.sesion.save(point); 
+            this.tx.commit(); 
+        }catch(HibernateException he) { 
+            this.manejaExcepcion(he);
+        }finally { 
+            this.sesion.close(); 
+        }  
     }
     
-    private String hourNow(){
-        Date fechaActual = new Date();
-        SimpleDateFormat formato2 = new SimpleDateFormat("HH:mm");
-        Calendar cal1 = Calendar.getInstance();
-        return formato2.format(fechaActual);
-    }
-    
-    public void NuevoDetalle(DefaultTableModel detalles, int num_invoice) {
+    public void saveDetailInvoice(DefaultTableModel detalles, int num_invoice) {
         GuardarDetalleFactura nuevo = new GuardarDetalleFactura(detalles, num_invoice);
         nuevo.start();
     }
@@ -117,6 +116,18 @@ public class FacturasBD extends Conexion {
         FacturasAll f = new FacturasAll(facturas);
         f.start();
         return f.facturas;
+    }
+    
+    public List<Facturas> getAllInvoices() throws HibernateException {
+        List<Facturas> invoices = null;  
+        try { 
+            this.iniciaOperacion(); 
+            Query query = this.sesion.createQuery("from Facturas ORDER BY NumeroFactura DESC");
+            invoices = query.list();
+        } finally { 
+            this.sesion.close(); 
+        }  
+        return invoices; 
     }
     
     private List<Facturas> getInvoicesConsumerCredit(Clientes consumer){

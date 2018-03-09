@@ -7,6 +7,7 @@
 package Controladores;
 
 import Entity.Clientes;
+import Entity.CustomerPoint;
 import Modelos.ClientesBD;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +51,7 @@ public class ClientesController {
         List<Clientes> consumers = this.clientesbd.getAllConsumers();
         
         DefaultTableModel modelConsumers = new DefaultTableModel();
-        String[] columnas = {"Cedula", "Nombre", "Apellido", "Telefono","Fecha de Nacimento", "Credito"};
+        String[] columnas = {"Cedula", "Nombre", "Apellido", "Telefono","Fecha de Nacimento","Puntos", "Credito"};
         
         modelConsumers.addColumn(columnas[0]);
         modelConsumers.addColumn(columnas[1]);
@@ -58,7 +59,7 @@ public class ClientesController {
         modelConsumers.addColumn(columnas[3]);
         modelConsumers.addColumn(columnas[4]);
         modelConsumers.addColumn(columnas[5]);
-        
+        modelConsumers.addColumn(columnas[6]);
         
         for(Clientes consumer : consumers){
             
@@ -68,11 +69,20 @@ public class ClientesController {
                 consumer.getLastName(),
                 consumer.getPhoneNumber(),
                 consumer.getDateBirth().toString(),
+                this.getAcumulatePoints(consumer)+"",
                 consumer.getTextIsCredit()
             };
             modelConsumers.addRow(fila);
         }
         return modelConsumers;
+    }
+    
+    private long getAcumulatePoints(Clientes customer){
+        long totalPoints = 0;
+        for(CustomerPoint point : this.clientesbd.getCustomerPoints(customer.getDocumentNumber())){
+            totalPoints += point.getQuantity();
+        }
+        return totalPoints;
     }
     
     public void Actualizar(){

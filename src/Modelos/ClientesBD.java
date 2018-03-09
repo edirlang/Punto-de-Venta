@@ -73,6 +73,18 @@ public class ClientesBD extends Conexion {
         }
     }
 
+    public List<CustomerPoint> getCustomerPoints(String customer){
+        List<CustomerPoint> customerPoints = null;  
+        try { 
+            iniciaOperacion(); 
+            customerPoints = sesion.createQuery("from CustomerPoint where client_id = :customer")
+                    .setParameter("customer", customer).list(); 
+        }finally { 
+            sesion.close(); 
+        }  
+        return customerPoints;
+    }
+    
     public void eliminar(Clientes consumer) {
         
         try 

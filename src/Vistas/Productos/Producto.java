@@ -231,8 +231,11 @@ public class Producto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        int cantidad = Integer.parseInt(this.txtCantidad.getText())
-                +Integer.parseInt(this.txtUnidades.getText());
+        int cantidad = Integer.parseInt(this.txtCantidad.getText());
+        if(this.txtUnidades.getText() != ""){
+            cantidad += Integer.parseInt(this.txtUnidades.getText());
+        }
+        
         String[] productoText = {
             this.txtCodigo.getText(),
             this.txtNombre.getText(),

@@ -11,8 +11,6 @@ import Entity.Product;
 import Modelos.Conexion;
 import Modelos.FacturasBD;
 import Modelos.ProductosBD;
-import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.HibernateException;
 

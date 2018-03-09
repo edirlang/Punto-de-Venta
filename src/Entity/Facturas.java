@@ -22,6 +22,7 @@ public class Facturas  implements java.io.Serializable {
 
     @Id
     @GeneratedValue
+    @Column(name="NumeroFactura")
     private int numeroFactura;
     
     @ManyToOne

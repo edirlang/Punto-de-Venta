@@ -10,8 +10,6 @@ package Modelos;
 import Entity.Facturas;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
 
 /**
  *
@@ -19,9 +17,11 @@ import org.hibernate.Query;
  */
 public class FacturasAll extends Thread{
     DefaultTableModel facturas;
+    FacturasBD facturasEntity;
     Conexion con;
     public FacturasAll(DefaultTableModel tableModel){
         this.facturas = tableModel;
+        facturasEntity = new FacturasBD();
         con = new Conexion();
     }
     @Override
@@ -34,7 +34,7 @@ public class FacturasAll extends Thread{
         facturas.addColumn(columnas[4]);
         facturas.addColumn(columnas[5]);
 
-        List<Facturas> invoices = this.getAllInvoices();
+        List<Facturas> invoices = this.facturasEntity.getAllInvoices();
         for(Facturas invoice : invoices){
             
             String[] fila = {
@@ -47,17 +47,5 @@ public class FacturasAll extends Thread{
             };
             this.facturas.addRow(fila);
         }
-    }
-    
-    private List<Facturas> getAllInvoices() throws HibernateException {
-        List<Facturas> invoices = null;  
-        try { 
-            this.con.iniciaOperacion(); 
-            Query query = this.con.sesion.createQuery("from Facturas ORDER BY Fecha DESC");
-            invoices = query.list();
-        } finally { 
-            this.con.sesion.close(); 
-        }  
-        return invoices; 
     }
 }
