@@ -7,7 +7,9 @@
 package Vistas.Facturacion;
 
 import Controladores.ImprimirFactura;
+import Entity.Clientes;
 import Modelos.ClientesBD;
+import Entity.Facturas;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,20 +24,20 @@ public class FacturaVer extends javax.swing.JDialog {
      * @param modal
      */
     String[] ClienteSelecionado;
-    public FacturaVer(java.awt.Frame parent, boolean modal,String[] datos, DefaultTableModel tabla) {
+    public FacturaVer(java.awt.Frame parent, boolean modal, Facturas invoice, DefaultTableModel tabla) {
         super(parent, modal);
         initComponents();
-        this.txtNumeroFactura.setText(datos[0]);
-        this.txtFecha.setText(datos[2]);
-        this.txtHora.setText(datos[3]);
+        this.txtNumeroFactura.setText(invoice.getNumeroFactura()+"");
+        this.txtFecha.setText(invoice.getFecha().toString());
+        this.txtHora.setText(invoice.getHora().toString());
         
         ClienteSelecionado = new String[2];
-        ClientesBD cliente = new ClientesBD();
-        String[] nombre = cliente.consultar(datos[1]);
-        ClienteSelecionado[0]=nombre[0];
-        ClienteSelecionado[1]=nombre[1];
-        this.txtCliente.setText(nombre[1]);
-        this.txtTotal.setText(datos[4]);
+        //ClientesBD cliente = new ClientesBD();
+        Clientes consumer = invoice.getClientes();
+        ClienteSelecionado[0]= consumer.getDocumentNumber();
+        ClienteSelecionado[1]= consumer.getFullName();
+        this.txtCliente.setText(consumer.getFullName());
+        this.txtTotal.setText(invoice.getTotal()+"");
         this.jTable1.setModel(tabla);
     }
 

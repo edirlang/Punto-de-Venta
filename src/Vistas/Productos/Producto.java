@@ -6,6 +6,7 @@
 package Vistas.Productos;
 
 import Controladores.ProductosController;
+import Entity.Product;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,11 +19,11 @@ public class Producto extends javax.swing.JFrame {
      * Creates new form Producto
      */
     ProductosController Producto;
-    String[] pro;
+    Product pro;
 
-    public Producto(String[] producto) {
+    public Producto(Product product) {
         initComponents();
-        this.CargarCampos(producto);
+        this.CargarCampos(product);
     }
 
     /**
@@ -243,13 +244,14 @@ public class Producto extends javax.swing.JFrame {
         };
         this.Producto.EditarProducto(productoText);
         this.txtBuscarCodigo.requestFocus();
-        this.CargarCampos(productoText);
+        /** TODO - terminar*/
+        this.CargarCampos(new Product());
         this.txtUnidades.setText("");
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String[] fila = Producto.Buscar(this.txtBuscarCodigo.getText());
-        this.CargarCampos(fila);
+        Product product = Producto.findProduct(this.txtBuscarCodigo.getText());
+        this.CargarCampos(product);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -257,18 +259,18 @@ public class Producto extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void txtBuscarCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarCodigoActionPerformed
-        String[] fila = Producto.Buscar(this.txtBuscarCodigo.getText());
-        this.CargarCampos(fila);
+        Product product = Producto.findProduct(this.txtBuscarCodigo.getText());
+        this.CargarCampos(product);
     }//GEN-LAST:event_txtBuscarCodigoActionPerformed
 
-    private void CargarCampos(String[] productoArray) {
+    private void CargarCampos(Product product) {
         Producto = new ProductosController();
-        pro = productoArray;
-        if (productoArray != null) {
-            this.txtCodigo.setText(productoArray[0]);
-            this.txtNombre.setText(productoArray[1]);
-            this.txtPrecio.setText(productoArray[2]);
-            this.txtCantidad.setText(productoArray[3]);
+        this.pro = product;
+        if (product != null) {
+            this.txtCodigo.setText(product.getBarCode());
+            this.txtNombre.setText(product.getName());
+            this.txtPrecio.setText(product.getSalePrice()+"");
+            this.txtCantidad.setText(product.getQuantity()+"");
             this.txtUnidades.requestFocus();
             this.setVisible(true);
         }else{

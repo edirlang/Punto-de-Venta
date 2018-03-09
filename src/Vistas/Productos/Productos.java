@@ -6,6 +6,7 @@
 package Vistas.Productos;
 
 import Controladores.ProductosController;
+import Entity.Product;
 
 /**
  *
@@ -176,17 +177,19 @@ public class Productos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        String[] fila = Producto.Buscar(this.txtCodigo.getText());
-        this.txtCodigo.setText("");
-        Producto modificar = new Producto(fila);
+        this.onloadViewProduct();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        String[] fila = Producto.Buscar(this.txtCodigo.getText());
-        this.txtCodigo.setText("");
-        Producto modificar = new Producto(fila);
+        this.onloadViewProduct();
     }//GEN-LAST:event_txtCodigoActionPerformed
 
+    private void onloadViewProduct(){
+        Product product = Producto.findProduct(this.txtCodigo.getText());
+        this.txtCodigo.setText("");
+        Producto modificar = new Producto(product);
+    }
+    
     private void ListaProductos() {
         this.Lista.setModel(Producto.Productos());
         this.Lista.updateUI();

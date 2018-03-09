@@ -8,6 +8,8 @@ package Vistas.Facturacion;
 import Controladores.FacturaController;
 import Controladores.ImprimirFactura;
 import Controladores.ImprimirPDf;
+import Entity.Facturas;
+import Entity.Product;
 import Modelos.FacturasBD;
 import java.io.PrintWriter;
 import java.util.Calendar;
@@ -23,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Caja1
  */
-public class Factura extends javax.swing.JFrame {
+public class FacturaView extends javax.swing.JFrame {
 
     /**
      * Creates new form Factura
@@ -34,16 +36,14 @@ public class Factura extends javax.swing.JFrame {
     String[] ClienteSelecionado;
     int dia;
     static int NumeroFacturaCreada = 0;
-    private int NumeroFactura;
 
-    public Factura() {
+    public FacturaView() {
         OperacionesFactura = new FacturaController();
-        Clientes = OperacionesFactura.Cliente_CedulaNombre();
+        Clientes = OperacionesFactura.getConsumerDocumentName();
         ClienteSelecionado = new String[2];
         initComponents();
-        NumeroFacturaCreada++;
-        NumeroFactura = OperacionesFactura.NumeroFactura() + NumeroFacturaCreada;
-        this.setTitle("Factura de Venta N° " + NumeroFactura);
+        
+        this.setTitle("Factura de Venta");
         OperacionesFactura.CargarClientes(this.clientes);
         this.txtTotal.setText("0");
         Calendar cal1 = Calendar.getInstance();
@@ -343,7 +343,7 @@ public class Factura extends javax.swing.JFrame {
                 .addComponent(buttonAero1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(77, 77, 77)
                 .addComponent(buttonAero2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(550, Short.MAX_VALUE))
+                .addContainerGap(511, Short.MAX_VALUE))
         );
         panelTranslucido4Layout.setVerticalGroup(
             panelTranslucido4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -502,10 +502,8 @@ public class Factura extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAero1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAero1ActionPerformed
-        NumeroFacturaCreada--;
         this.setVisible(false);
         this.dispose();
-
     }//GEN-LAST:event_buttonAero1ActionPerformed
 
     private void clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesActionPerformed
@@ -552,7 +550,7 @@ public class Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_txtEfectivoActionPerformed
 
     private void buttonAero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAero2ActionPerformed
-        String[] invoice = this.GuardarBD();
+        Facturas invoice = this.GuardarBD();
         this.Imprimir(invoice);
         this.finishSale();
     }//GEN-LAST:event_buttonAero2ActionPerformed
@@ -579,7 +577,7 @@ public class Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        String[] invoice = GuardarBD();
+        Facturas invoice = GuardarBD();
         Imprimir(invoice);
         this.finishSale();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
@@ -595,7 +593,7 @@ public class Factura extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        Factura fac = new Factura();
+        FacturaView fac = new FacturaView();
         fac.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
@@ -616,9 +614,9 @@ public class Factura extends javax.swing.JFrame {
 
     private void CargarCampos() {
         try {
-            String[] producto = OperacionesFactura.BuscarProducto(this.txtCodigo.getText());
-            this.txtNombre.setText(producto[1]);
-            this.txtPrecio.setText(producto[2]);
+            Product producto = OperacionesFactura.BuscarProducto(this.txtCodigo.getText());
+            this.txtNombre.setText(producto.getName());
+            this.txtPrecio.setText(producto.getSalePrice()+"");
             this.txtCantidad.setText("1");
             long codigo = Long.parseLong(this.txtCodigo.getText());
             if (codigo < 1000) {
@@ -737,12 +735,12 @@ public class Factura extends javax.swing.JFrame {
         }
     }
 
-    private void Imprimir(String[] invoice) {
+    private void Imprimir(Facturas invoice) {
         
         String[] datos = new String[]{
-            invoice[0],
-            invoice[2],
-            invoice[3],
+            invoice.getNumeroFactura()+"",
+            invoice.getFecha().toString(),
+            invoice.getHora().toString(),
             this.ClienteSelecionado[0],
             this.ClienteSelecionado[1],
             this.txtTotal.getText(),
@@ -788,14 +786,14 @@ public class Factura extends javax.swing.JFrame {
     }
     
     private void saveDetails(int num_invoice){
-        this.OperacionesFactura.NuevoDetalle(ListaProducto, num_invoice);
+        this.OperacionesFactura.saveDetailsInvoice(ListaProducto, num_invoice);
     }
     
-    private String[] GuardarBD() {
+    private Facturas GuardarBD() {
         int num_invoice = this.saveInvoice();
         this.saveDetails(num_invoice);
         FacturasBD invoice = new FacturasBD();
-        String[] invoice_data = invoice.Consultar(""+num_invoice);
+        Facturas invoice_data = invoice.findInvoice(""+num_invoice);
         return invoice_data;
                 
     }

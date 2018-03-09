@@ -9,8 +9,10 @@ import Entity.HibernateUtil;
 import Entity.Usuarios;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -18,151 +20,88 @@ import org.hibernate.Transaction;
  *
  * @author Caja1
  */
-public class UsuariosBD {
+public class UsuariosBD extends Conexion{
 
-    private Session sesion;
-    private Transaction tx;
-    
     public Conexion usuario;
     public UsuariosBD() {
         usuario = new Conexion();
         
     }
     
-    public void nuevo(String[] usuarioNuevo) {
-        try {
-            usuario.conexion("usuarios");
-            usuario.tabla.moveToInsertRow();
-            usuario.tabla.updateString("Cedula", usuarioNuevo[0]);
-            usuario.tabla.updateString("Nombre", usuarioNuevo[1]);
-            usuario.tabla.updateString("Apellido", usuarioNuevo[2]);
-            usuario.tabla.updateString("Telefono", usuarioNuevo[3]);
-            usuario.tabla.updateString("Usuario", usuarioNuevo[4]);
-            usuario.tabla.updateString("Contrasena", usuarioNuevo[5]);
-            usuario.tabla.updateString("Rol", usuarioNuevo[6]);
-            usuario.tabla.insertRow();
-            usuario.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "El usuario a sido creado");
-        }
+    public void nuevo(Usuarios user) {
+        try { 
+            iniciaOperacion(); 
+            sesion.save(user); 
+            tx.commit(); 
+        }catch(HibernateException he) { 
+            manejaExcepcion(he);
+            JOptionPane.showMessageDialog(null, "No se puedo crear el usuario.");
+            throw he; 
+        }finally { 
+            sesion.close(); 
+        }  
     }
 
-    public String[] consultar(String cedula) {
-        String[] fila = null;
-        try {
-            usuario.conexion("usuarios");
-            while (usuario.tabla.next()) {
-                if (usuario.tabla.getString("Cedula").equalsIgnoreCase(cedula)) {
-                    fila = new String[]{usuario.tabla.getString("Cedula"),
-                        usuario.tabla.getString("Nombre"),
-                        usuario.tabla.getString("Apellido"),
-                        usuario.tabla.getString("Telefono"),
-                        usuario.tabla.getString("Usuario"),
-                        usuario.tabla.getString("Contrasena"),
-                        usuario.tabla.getString("Rol")
-                    };
-                }
-            }
-            usuario.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
+    public Usuarios consultar(String cedula) {
+        Usuarios usuario = null;  
+        try{
+            this.iniciaOperacion();
+            usuario = (Usuarios) this.sesion.get(Usuarios.class, cedula);
+        } finally {
+            this.sesion.close();
         }
-        return fila;
+        return usuario; 
     }
     
-    public String[] consultarSeccion(String user) {
-        String[] fila = null;
-        try {
-            usuario.conexion("usuarios");
-            while (usuario.tabla.next()) {
-                if (usuario.tabla.getString("Usuario").equalsIgnoreCase(user)) {
-                    fila = new String[]{
-                        usuario.tabla.getString("Cedula"),
-                        usuario.tabla.getString("Nombre"),
-                        usuario.tabla.getString("Apellido"),
-                        usuario.tabla.getString("Telefono"),
-                        usuario.tabla.getString("Usuario"),
-                        usuario.tabla.getString("Contrasena"),
-                        usuario.tabla.getString("Rol")
-                    };
-                }
-            }
-            usuario.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta");
-        }
-        return fila;
+    public Usuarios consultarSeccion(String user) {
+        return this.getUserByUsername(user);
     }
 
-    public void editar(String[] usuarioEditar) {
-        try {
-            usuario.conexion("usuarios");
-            while (usuario.tabla.next()) {
-                if (usuario.tabla.getString("Cedula").equalsIgnoreCase(usuarioEditar[0])) {
-                    usuario.tabla.moveToInsertRow();
-                    usuario.tabla.updateString("Cedula", usuarioEditar[0]);
-                    usuario.tabla.updateString("Nombre", usuarioEditar[1]);
-                    usuario.tabla.updateString("Apellido", usuarioEditar[2]);
-                    usuario.tabla.updateString("Telefono", usuarioEditar[3]);
-                    usuario.tabla.updateString("Usuario", usuarioEditar[4]);
-                    usuario.tabla.updateString("Contrasena", usuarioEditar[5]);
-                    usuario.tabla.updateString("Rol", usuarioEditar[6]);
-                    usuario.tabla.updateRow();
-                }
-            }
-            usuario.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
-        }
+    public void editar(Usuarios user) {
+        
+        try { 
+            iniciaOperacion(); 
+            sesion.update(user); 
+            tx.commit(); 
+        } catch (HibernateException he) { 
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar el usuario");
+        } finally { 
+            sesion.close(); 
+        } 
     }
 
     public void eliminar(String cedula) {
-        try {
-            usuario.conexion("usuarios");
-            while (usuario.tabla.next()) {
-                if (usuario.tabla.getString("Cedula").equalsIgnoreCase(cedula)) {
-                    usuario.tabla.deleteRow();
-                }
-            }
-            usuario.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
-        }
-    }
-
-    public ArrayList todos() {
-        ArrayList<String[]> usuarios = null;
-        try {
-            usuario.conexion("usuarios");
-            while (usuario.tabla.next()) {
-                usuarios.add(consultar(usuario.tabla.getString("Cedula")));
-            }
-            usuario.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo actualizar producto");
-        }
-        return usuarios;
-    }
-    
-    private void iniciaOperacion() throws HibernateException
-    {
-        sesion = HibernateUtil.getSessionFactory().openSession();
-        tx = sesion.beginTransaction();
-    }
-    
-    private void manejaExcepcion(HibernateException he) throws HibernateException
-    {
-        tx.rollback();
-        throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he);
-    }
-    
-    
-    public Usuarios getUserByUsername(String cedula) throws HibernateException{ 
-        Usuarios usuario = new Usuarios();  
-
+        Usuarios product = this.consultar(cedula);
         try { 
             iniciaOperacion(); 
-            usuario = (Usuarios) sesion.get(Usuarios.class, cedula); 
+            sesion.delete(product); 
+            tx.commit(); 
+        } catch (HibernateException he) { 
+            JOptionPane.showMessageDialog(null, "Error al eleminar el usuario.");
+        } finally { 
+            sesion.close(); 
+        }
+    }
+
+    public List<Usuarios> todos() {
+        List<Usuarios> users = null;  
+        try { 
+            iniciaOperacion(); 
+            Query query = sesion.createQuery("from Usuarios");
+            users = query.list();
+        } finally { 
+            sesion.close(); 
+        }  
+        return users; 
+    }
+    
+    public Usuarios getUserByUsername(String username) throws HibernateException{ 
+        Usuarios usuario = new Usuarios();  
+        try { 
+            iniciaOperacion(); 
+            Query query = sesion.createQuery("from Usuarios WHERE Usuario = :username")
+                    .setParameter("username", username);
+            usuario = (Usuarios) query.uniqueResult();
         } finally { 
             sesion.close(); 
         }  

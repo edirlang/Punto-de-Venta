@@ -5,10 +5,11 @@
  */
 package Modelos;
 
-import java.sql.SQLException;
-import javax.swing.JComboBox;
+import Entity.*;
+import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import org.hibernate.HibernateException;
+
 
 /**
  *
@@ -20,74 +21,51 @@ public class ClientesBD extends Conexion {
         super();
     }
 
-    public void nuevo(String[] clientebd) {
-        try {
-            conexion("clientes");
-            tabla.moveToInsertRow();
-            tabla.updateString("document_number", clientebd[0]);
-            tabla.updateString("first_name", clientebd[1]);
-            tabla.updateString("last_name", "" + clientebd[2]);
-            tabla.updateString("phone_number", "" + clientebd[3]);
-            tabla.updateString("address", "" + clientebd[4]);
-            tabla.updateString("date_birth", "" + clientebd[5]);
-            tabla.updateBoolean("isCredit", Credito(clientebd[6]));
-            tabla.insertRow();
-            JOptionPane.showMessageDialog(null, "El cliente a sido Registrado");
-            close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se logro registrar el cliente "+ex.getMessage());
-        }
+    public String saveConsumer(Clientes consumer) throws HibernateException
+    { 
+        String id = "0";  
+        try { 
+            iniciaOperacion(); 
+            id = (String)sesion.save(consumer); 
+            tx.commit(); 
+        }catch(HibernateException he) { 
+            manejaExcepcion(he);
+            throw he; 
+        }finally { 
+            sesion.close(); 
+        }  
+        return id; 
     }
-
-    public String[] consultar(String cedula) {
-        String[] fila = null;
-        try {
-            conexion("clientes where document_number = '"+cedula+"'");
-            while (tabla.next()) {
-                if (tabla.getString("document_number").equalsIgnoreCase(cedula)) {
-                    fila = new String[]{
-                        tabla.getString("document_number"),
-                        tabla.getString("first_name"),
-                        tabla.getString("last_name"),
-                        tabla.getString("phone_number"),
-                        tabla.getString("address"),
-                        tabla.getString("date_birth"),
-                        Credito(tabla.getBoolean("isCredit"))
-                    };
-                    return fila;
-                }
-            }
+    
+    public Clientes getConsumerById(String document_number) throws HibernateException{ 
+        Clientes consumer = new Clientes();  
+        try { 
+            iniciaOperacion(); 
+            consumer = (Clientes) sesion.get(Clientes.class,document_number);
             
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo realizar la consulta "+ex.getMessage());
-        }
-        if (fila == null) {
-            fila = new String[]{"0","0"};
-        }
-        close();
-        return fila;
+        } finally { 
+            sesion.close(); 
+        }  
+        return consumer; 
     }
-
-    public void editar(String[] clientebd) {
+    
+    public void editar(Clientes clientebd) throws HibernateException {
         Boolean confirmar = false;
-        try {
-            conexion("clientes");
-            while (tabla.next()) {
-                if (tabla.getString("document_number").equalsIgnoreCase(clientebd[0])) {
-                    tabla.updateString("document_number", clientebd[0]);
-                    tabla.updateString("first_name", clientebd[1]);
-                    tabla.updateString("last_name", "" + clientebd[2]);
-                    tabla.updateString("phone_number", "" + clientebd[3]);
-                    tabla.updateString("address", "" + clientebd[4]);
-                    tabla.updateBoolean("isCredit", Credito(clientebd[5]));
-                    tabla.updateRow();
-                    confirmar = true;
-                }
-            }
-            close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo actualizar los datos del cliente" + ex);
-        }
+        try 
+        { 
+            iniciaOperacion(); 
+            sesion.update(clientebd); 
+            tx.commit(); 
+            confirmar = true;
+        } catch (HibernateException he) 
+        { 
+            manejaExcepcion(he); 
+            throw he; 
+        } finally 
+        { 
+            sesion.close(); 
+        } 
+        
         if (confirmar) {
             JOptionPane.showMessageDialog(null, "Cliente actualizado");
         } else {
@@ -95,91 +73,43 @@ public class ClientesBD extends Conexion {
         }
     }
 
-    public void eliminar(String cedula) {
-        try {
-            conexion("clientes");
-            while (tabla.next()) {
-                if (tabla.getString("document_number").equalsIgnoreCase(cedula)) {
-                    tabla.deleteRow();
-                    JOptionPane.showMessageDialog(null, "El cliente a sido eliminado");
-                }
-            }
-            close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al eleminar el cliente " + ex);
+    public void eliminar(Clientes consumer) {
+        
+        try 
+        { 
+            iniciaOperacion(); 
+            sesion.delete(consumer); 
+            tx.commit(); 
+        } catch (HibernateException he) 
+        { 
+            JOptionPane.showMessageDialog(null, "Error al eleminar el cliente.");
+        } finally 
+        { 
+            sesion.close(); 
         }
     }
 
-    public DefaultTableModel todos() {
-        DefaultTableModel clientes = new DefaultTableModel();
-        String[] columnas = {"Cedula", "Nombre", "Apellido", "Telefono","Fecha de Nacimento", "Credito"};
-        clientes.addColumn(columnas[0]);
-        clientes.addColumn(columnas[1]);
-        clientes.addColumn(columnas[2]);
-        clientes.addColumn(columnas[3]);
-        clientes.addColumn(columnas[4]);
-        clientes.addColumn(columnas[5]);
-
-        try {
-            conexion("clientes ORDER BY first_name");
-            while (tabla.next()) {
-                String credit = "Si";
-                if(tabla.getBoolean("isCredit") == false){
-                    credit = "No";
-                }
-                String[] fila = {
-                    tabla.getString("document_number"),
-                    tabla.getString("first_name"),
-                    tabla.getString("last_name"),
-                    tabla.getString("phone_number"),
-                    tabla.getString("date_birth"),
-                    credit
-                };
-                clientes.addRow(fila);
-             }
-            close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error no se logro conectarse a  la tabla");
-        }
-        return clientes;
-    }
-
-    public void NombreCliente(JComboBox nombre) {
-        String[][] Clientes = this.CedulaNombre();
-        for(int i = 0; i < Clientes.length; i++){
-            nombre.addItem(Clientes[i][1]);
-           
-        }
-    }
-
-    public String[][] CedulaNombre() {
-        String[][] clientes = new String[TamañoTabla()][2];
-        try {
-            conexion("clientes");
-            int fila=0;
-            while (tabla.next()) {
-                clientes[fila][0]=tabla.getString("document_number");
-                clientes[fila][1] = tabla.getString("first_name")+" "+ tabla.getString("last_name");
-                fila++;
-            }
-            close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error no se logro conectarse a  la tabla");
-        }
-        return clientes;
+    public List<Clientes> getAllConsumers() throws HibernateException {
+        List<Clientes> clientesList = null;  
+        try { 
+            iniciaOperacion(); 
+            clientesList = sesion.createQuery("from Clientes").list(); 
+        }finally { 
+            sesion.close(); 
+        }  
+        return clientesList; 
     }
     
-    private int TamañoTabla(){
-        int clientes = 0;
-        try {
-            conexion("clientes");
-            while (tabla.next()) {
-                clientes++;
-            }
-            close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error no se logro conectarse a  la tabla");
+    public String[][] getConsumerNameDocument() {
+        List<Clientes> consumers = this.getAllConsumers();
+        
+        String[][] consumersNameDocument = new String[consumers.size()][2];
+        int i = 0;
+        for(Clientes consumer : consumers){
+            consumersNameDocument[i][0] = consumer.getDocumentNumber();
+            consumersNameDocument[i][1] = consumer.getFirstName()+" "+consumer.getLastName();
+            i++;
         }
-        return clientes;
+        return consumersNameDocument;
     }
 }

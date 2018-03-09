@@ -7,23 +7,23 @@
 package Vistas.Clientes;
 
 import Controladores.ClientesController;
+import Entity.Clientes;
 import Vistas.Productos.ProductoNuevo;
-
 
 /**
  *
  * @author Mis-Dark
  */
-public class Clientes extends javax.swing.JInternalFrame {
+public class ClientesView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Productos
      */
     ClientesController clientes;
-    public Clientes() {
+    public ClientesView() {
         initComponents();
        clientes = new ClientesController();
-       this.Lista.setModel(clientes.todos());
+       this.Lista.setModel(clientes.Clientes());
     }
 
     /**
@@ -175,6 +175,10 @@ public class Clientes extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
+        jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
@@ -196,11 +200,8 @@ public class Clientes extends javax.swing.JInternalFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(PanelListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -217,13 +218,13 @@ public class Clientes extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
-        String[] fila = clientes.Buscar(this.txtCedula.getText());
-        Cliente modificar = new Cliente(fila);
+        Clientes fila = clientes.getConsumerById(this.txtCedula.getText());
+        ConsumerView modificar = new ConsumerView(fila);
     }//GEN-LAST:event_txtCedulaActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        String[] fila = clientes.Buscar(this.txtCedula.getText());
-        Cliente modificar = new Cliente(fila);
+        Clientes fila = clientes.getConsumerById(this.txtCedula.getText());
+        ConsumerView modificar = new ConsumerView(fila);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnDeudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeudaActionPerformed

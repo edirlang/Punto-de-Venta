@@ -99,13 +99,23 @@ public class Facturas  implements java.io.Serializable {
     public void setTotal(long total) {
         this.total = total;
     }
-    public boolean isCreditoFactura() {
+    
+    public boolean getCreditoFactura() {
         return this.creditoFactura;
+    }
+    
+    public String getCreditoFacturaText() {
+        if (this.creditoFactura) {
+            return "SI";
+        } else {
+            return "NO";
+        }
     }
     
     public void setCreditoFactura(boolean creditoFactura) {
         this.creditoFactura = creditoFactura;
     }
+    
     public Set getDetallefacturas() {
         return this.detallefacturas;
     }

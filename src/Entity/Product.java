@@ -2,28 +2,26 @@ package Entity;
 // Generated 8/03/2018 08:04:03 AM by Hibernate Tools 4.3.1
 
 
-import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="facturas")
+@Table(name="product")
 public class Product  implements java.io.Serializable {
     
     @Id
-    @GeneratedValue
+    @Column(name="bar_code")
     private String barCode;
     
     @Column(name="name")
     private String name;
     
-    @Column(name="salePrice")
+    @Column(name="sale_price")
     private int salePrice;
     
     @Column(name="quantity")

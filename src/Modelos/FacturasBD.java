@@ -6,12 +6,21 @@
 package Modelos;
 
 import Controladores.GuardarDetalleFactura;
+import Entity.Clientes;
+import Entity.Detallefactura;
+import Entity.Egresos;
+import Entity.Facturas;
+import Entity.Product;
+import Vistas.Facturacion.FacturasView;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 
 /**
  *
@@ -25,28 +34,20 @@ public class FacturasBD extends Conexion {
         table_name = "facturas";
     }
 
-    protected int NumeroUltimaFactura() {
-        try {
-            this.conexion(this.table_name);
-            tabla.last();
-            int numero = tabla.getInt("NumeroFactura");
-            close();
-            return numero;
-        } catch (SQLException ex) {
-            return 0;
-        }
-    }
-
-    public int newInvoice(String[] datos) {
-        int number_invoice = 0;
-        number_invoice = excecuteSQLAutoIncrement("Insert into "+table_name+" (Cedula, Fecha, Hora, Total, CreditoFactura) values ("
-                + datos[0] +","
-                + "'" + dateNowString() + "',"
-                + "'" + hourNow() + "',"
-                + datos[1] + ","
-                + this.Credito(datos[2])
-                + ")");
-        return number_invoice;
+    public int newInvoice(Facturas invoice) throws HibernateException {
+        int id = 0;  
+        try { 
+            iniciaOperacion(); 
+            id = (int)sesion.save(invoice); 
+            tx.commit(); 
+        }catch(HibernateException he) { 
+            manejaExcepcion(he);
+            JOptionPane.showMessageDialog(null, "No se puedo crear la factura.");
+            throw he; 
+        }finally { 
+            sesion.close(); 
+        }  
+        return id; 
     }
 
     public String dateNowString() {
@@ -68,31 +69,21 @@ public class FacturasBD extends Conexion {
         nuevo.start();
     }
 
-    public String[] Consultar(String NumeroFactura) {
-        conexion("facturas");
-        try {
-            String[] factura = null;
-            while (tabla.next()) {
-                if (NumeroFactura.equals(tabla.getString("NumeroFactura"))) {
-                    factura = new String[]{
-                        tabla.getString("NumeroFactura"),
-                        tabla.getString("Cedula"),
-                        tabla.getString("Fecha"),
-                        tabla.getString("Hora"),
-                        tabla.getString("Total"),
-                        Credito(tabla.getBoolean("CreditoFactura"))
-                    };
-                }
-            }
-            close();
-            return factura;
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "La factura no existe" + ex);
-            close();
-            return null;
+    public Facturas findInvoice(String num_invoice) throws HibernateException {
+        Facturas invoice = null;  
+        try{
+            this.iniciaOperacion();
+            invoice = (Facturas) this.sesion.get(FacturasView.class, num_invoice);
+        } finally {
+            this.sesion.close();
         }
+        return invoice; 
     }
-
+    
+    private List<Detallefactura> getDetailInvoice(String num_invoice){ 
+        return (List<Detallefactura>) this.findInvoice(num_invoice).getDetallefacturas();
+    }
+    
     public DefaultTableModel ConsultarDetalleFactura(String NumeroFactura) {
         ClientesBD cliente = new ClientesBD();
 
@@ -103,41 +94,16 @@ public class FacturasBD extends Conexion {
         facturas.addColumn(columnas[2]);
         facturas.addColumn(columnas[3]);
         facturas.addColumn(columnas[4]);
-
-        try {
-            conexion("detallefactura");
-            while (tabla.next()) {
-                if (NumeroFactura.equals(tabla.getString("NumeroFactura"))) {
-                    String[] fila = {
-                        tabla.getString("Codigo"),
-                        "1",
-                        tabla.getString("Cantidad"),
-                        tabla.getString("Valor"),
-                        tabla.getString("Total")
-                    };
-                    facturas.addRow(fila);
-                }
-            }
-            close();
-        } catch (SQLException ex) {
-            close();
-            JOptionPane.showMessageDialog(null, "Error no se logro conectarse a  la tabla detalle");
-        }
-
-        try {
-            conexion("product");
-            for (int i = 0; i < facturas.getRowCount(); i++) {
-                tabla.first();
-                while (tabla.next()) {
-                    if (facturas.getValueAt(i, 0).toString().equalsIgnoreCase(tabla.getString("bar_code"))) {
-                        facturas.setValueAt(tabla.getString("name"), i, 1);
-                    }
-                }
-            }
-            close();
-        } catch (SQLException ex) {
-            close();
-            JOptionPane.showMessageDialog(null, "Error no se logro cargar productos");
+        
+        for(Detallefactura detail: this.getDetailInvoice(NumeroFactura)){
+            String[] fila = {
+                detail.getProduct().getBarCode(),
+                detail.getProduct().getName(),
+                detail.getCantidad()+"",
+                detail.getValor()+"",
+                detail.getTotal()+""
+            };
+            facturas.addRow(fila);
         }
         return facturas;
     }
@@ -160,14 +126,16 @@ public class FacturasBD extends Conexion {
         facturas.addColumn(columnas[3]);
         facturas.addColumn(columnas[4]);
         facturas.addColumn(columnas[5]);
+        
+        
         try {
             conexion("facturas");
             while (tabla.next()) {
                 if (tabla.getString("Cedula").equalsIgnoreCase(CedulaCliente) && tabla.getBoolean("CreditoFactura")) {
-                    String[] nombre = cliente.consultar(tabla.getString("Cedula"));
+                    Clientes consumer = cliente.getConsumerById(tabla.getString("Cedula"));
                     String[] fila = {
                         tabla.getString("NumeroFactura"),
-                        nombre[1],
+                        consumer.getFullName(),
                         tabla.getString("Fecha"),
                         tabla.getString("Hora"),
                         tabla.getString("Total"),
@@ -207,7 +175,7 @@ public class FacturasBD extends Conexion {
         facturas.addColumn(columnas[0]);
         facturas.addColumn(columnas[1]);
         facturas.addColumn(columnas[2]);
-        Egresos egreso = new Egresos();
+        EgresosDB egreso = new EgresosDB();
 
         try {
             conexion("facturas");
@@ -260,10 +228,10 @@ public class FacturasBD extends Conexion {
             conexion("facturas");
             while (tabla.next()) {
                 if (tabla.getString("Fecha").equalsIgnoreCase(fecha)) {
-                    String[] nombre = cliente.consultar(tabla.getString("Cedula"));
+                    Clientes consumer = cliente.getConsumerById(tabla.getString("Cedula"));
                     String[] fila = {
                         tabla.getString("NumeroFactura"),
-                        nombre[1],
+                        consumer.getFullName(),
                         tabla.getString("Fecha"),
                         tabla.getString("Hora"),
                         tabla.getString("Total"),
@@ -279,29 +247,46 @@ public class FacturasBD extends Conexion {
         return facturas;
     }
 
+    private long getTotalInvoicesDate(String date) throws HibernateException{
+        long total = 0;
+        List<Facturas> invoices = null;
+        try { 
+            this.iniciaOperacion(); 
+            Query query = this.sesion.createQuery("from Facturas where Fecha = :date")
+                    .setParameter("date", date);
+            invoices = query.list();
+        } finally { 
+            this.sesion.close(); 
+        }  
+        for(Facturas invoice : invoices){
+            total += invoice.getTotal();
+        }
+        return total;
+    }
+    
+    private long getTotalEgresosDate(String date) throws HibernateException{
+        long total = 0;
+        List<Egresos> egresos = null;
+        try { 
+            this.iniciaOperacion(); 
+            Query query = this.sesion.createQuery("from Egresos where Fecha BETWEEN '"+date+" 00:00:00:000000' AND '"+date+" 23:59:59:999999'")
+                    ;
+            egresos = query.list();
+        } finally { 
+            this.sesion.close(); 
+        }  
+        for(Egresos invoice : egresos){
+            total += invoice.getValor();
+        }
+        return total;
+    }
+    
     public String[] ReporteDia(String Fecha) {
         String[] datos = null;
-        conexion("facturas where Fecha = '"+Fecha+"'");
-        long total = 0;
-        try {
-            while (tabla.next()) {
-                total += Long.parseLong(tabla.getString("Total"));
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se Registraron ventas");
-        }
-        close();
         
-        conexion("egresos where Fecha BETWEEN '"+Fecha+" 00:00:00:000000' AND '"+Fecha+" 23:59:59:999999'");
-        long egresos = 0;
-        try {
-            while (tabla.next()) {
-                egresos += Long.parseLong(tabla.getString("Valor"));
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se Registraron pagos");
-        }
-        close();
+        long total = this.getTotalInvoicesDate(Fecha);
+        long egresos = this.getTotalEgresosDate(Fecha);
+        
         datos = new String[]{
             total + "",
             egresos + "",

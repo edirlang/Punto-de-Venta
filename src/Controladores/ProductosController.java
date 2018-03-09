@@ -6,6 +6,7 @@
 
 package Controladores;
 
+import Entity.Product;
 import Modelos.ProductosBD;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,12 +37,16 @@ public class ProductosController extends ProductosBD implements Runnable{
         
     }
     
-    public String[] Buscar(String codigo){
-        return this.consultar(codigo);
+    public Product findProduct(String codigo){
+        return this.getProduct(codigo);
     }
     
     public void EditarProducto(String[] pro){
-        this.editar(pro);
+        Product product = this.findProduct(pro[0]);
+        product.setName(pro[0]);
+        product.setSalePrice(Integer.parseInt(pro[2]));
+        product.setQuantity(Long.parseLong(pro[3]));
+        this.editar(product);
     }
     
 }

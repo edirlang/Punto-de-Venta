@@ -6,19 +6,20 @@
 
 package Vistas.Facturacion;
 
+import Entity.Facturas;
 import Modelos.FacturasBD;
 
 /**
  *
  * @author Caja1
  */
-public class Facturas extends javax.swing.JInternalFrame {
+public class FacturasView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Facturas
      */
     FacturasBD factura;
-    public Facturas() {
+    public FacturasView() {
         factura = new FacturasBD();
         initComponents();
         this.Lista.setModel(factura.todos());
@@ -158,6 +159,12 @@ public class Facturas extends javax.swing.JInternalFrame {
             }
         });
 
+        jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jButton5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(btnVerFactura, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
@@ -200,11 +207,6 @@ public class Facturas extends javax.swing.JInternalFrame {
                     .addComponent(jButton5)
                     .addContainerGap(183, Short.MAX_VALUE)))
         );
-        jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jButton5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(btnVerFactura, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -221,16 +223,16 @@ public class Facturas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNumeroFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroFacturaActionPerformed
-        String[] DatosFactura = factura.Consultar(this.txtNumeroFactura.getText());
-        FacturaVer ver = new FacturaVer(null,true,DatosFactura,factura.ConsultarDetalleFactura(DatosFactura[0]));
+        Facturas invoice = factura.findInvoice(this.txtNumeroFactura.getText());
+        FacturaVer ver = new FacturaVer(null, true, invoice, factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
         ver.setVisible(true);
     }//GEN-LAST:event_txtNumeroFacturaActionPerformed
 
     private void btnVerFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerFacturaActionPerformed
         int FilaSelecionada = this.Lista.getSelectedRow();
         
-        String[] DatosFactura = factura.Consultar(Lista.getValueAt(FilaSelecionada,0).toString());
-        FacturaVer ver = new FacturaVer(null,true,DatosFactura,factura.ConsultarDetalleFactura(DatosFactura[0]));
+        Facturas invoice = factura.findInvoice(Lista.getValueAt(FilaSelecionada,0).toString());
+        FacturaVer ver = new FacturaVer(null, true, invoice, factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
         ver.setVisible(true);
     }//GEN-LAST:event_btnVerFacturaActionPerformed
 
@@ -239,8 +241,8 @@ public class Facturas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btnBuscarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarFacturaActionPerformed
-        String[] DatosFactura = factura.Consultar(this.txtNumeroFactura.getText());
-        FacturaVer ver = new FacturaVer(null,true,DatosFactura,factura.ConsultarDetalleFactura(DatosFactura[0]));
+        Facturas invoice = factura.findInvoice(this.txtNumeroFactura.getText());
+        FacturaVer ver = new FacturaVer(null, true, invoice,factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
         ver.setVisible(true);
     }//GEN-LAST:event_btnBuscarFacturaActionPerformed
 
