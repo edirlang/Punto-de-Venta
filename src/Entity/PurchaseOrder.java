@@ -4,7 +4,6 @@ package Entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
  
 
 @Entity
@@ -34,6 +34,7 @@ public class PurchaseOrder implements Serializable  {
     private byte[] file;
     
     @Column(name = "createdAt")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date createdAt;
     
     @OneToMany(mappedBy="purchaseOrder")
@@ -41,6 +42,8 @@ public class PurchaseOrder implements Serializable  {
     private Set<Inventory> inventories;
     
     public PurchaseOrder() {
+        this.createdAt = new Date();
+        this.file = "Base".getBytes();
     }
 
 	

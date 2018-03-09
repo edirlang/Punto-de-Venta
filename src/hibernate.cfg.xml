@@ -46,11 +46,11 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/punto2</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password"></property>
-    
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
+    <!--
     <property name="show_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
-    
+    -->
     <mapping class="Entity.Usuarios"/>
     <mapping class="Entity.Clientes"/>
     <mapping class="Entity.Provider"/>
@@ -60,6 +60,5 @@ Contributor(s):
     <mapping class="Entity.Detallefactura"/>
     <mapping class="Entity.PurchaseOrder"/>
     <mapping class="Entity.Inventory"/>
-    
   </session-factory>
 </hibernate-configuration>

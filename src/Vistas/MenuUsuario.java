@@ -7,9 +7,9 @@ package Vistas;
 
 import Controladores.FacturaController;
 import Controladores.ImprimirFactura;
-import Vistas.Clientes.Clientes;
-import Vistas.Facturacion.Factura;
-import Vistas.Facturacion.Facturas;
+import Vistas.Clientes.ClientesView;
+import Vistas.Facturacion.FacturaView;
+import Vistas.Facturacion.FacturasView;
 import Vistas.Facturacion.ReporteDias;
 import Vistas.Productos.Productos;
 import javax.swing.JOptionPane;
@@ -23,7 +23,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     /**
      * Creates new form MenuUsuario
      */
-    Clientes clientes;
+    ClientesView clientes;
 
     public MenuUsuario() {
         initComponents();
@@ -254,14 +254,14 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     private void bntClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntClientesActionPerformed
         this.PanelPrincipal.removeAll();
-        clientes = new Clientes();
+        clientes = new ClientesView();
         clientes.setVisible(true);
         this.PanelPrincipal.add(clientes);
 
     }//GEN-LAST:event_bntClientesActionPerformed
 
     private void btnFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturaActionPerformed
-        Factura fac = new Factura();
+        FacturaView fac = new FacturaView();
         fac.setVisible(true);
     }//GEN-LAST:event_btnFacturaActionPerformed
 
@@ -273,14 +273,14 @@ public class MenuUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Factura fac = new Factura();
+        FacturaView fac = new FacturaView();
         fac.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         this.PanelPrincipal.removeAll();
         if (clientes == null) {
-            clientes = new Clientes();
+            clientes = new ClientesView();
             clientes.setVisible(true);
             this.PanelPrincipal.add(clientes);
         }
@@ -304,14 +304,14 @@ public class MenuUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void btnFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturasActionPerformed
-        Facturas pro = new Facturas();
+        FacturasView pro = new FacturasView();
         pro.setVisible(true);
         this.PanelPrincipal.removeAll();
         this.PanelPrincipal.add(pro);
     }//GEN-LAST:event_btnFacturasActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        Facturas pro = new Facturas();
+        FacturasView pro = new FacturasView();
         pro.setVisible(true);
         this.PanelPrincipal.removeAll();
         this.PanelPrincipal.add(pro);

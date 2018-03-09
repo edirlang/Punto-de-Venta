@@ -5,15 +5,17 @@
  */
 package Modelos;
 
+import Entity.Inventory;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import org.hibernate.HibernateException;
 
 
 /**
  *
  * @author Mis-Dark
  */
-public class InventoryBD extends Thread {
+public class InventoryBD extends Conexion {
 
     private Conexion conexion;
     private String table_name;
@@ -23,18 +25,17 @@ public class InventoryBD extends Thread {
         table_name = "inventory";
     }
 
-    public void newInventory(String[] pro) {
-        conexion.conexion(table_name);
-        try {
-            conexion.tabla.moveToInsertRow();
-            conexion.tabla.updateString("product_id", pro[0]);
-            conexion.tabla.updateString("order_id", pro[1]);
-            conexion.tabla.updateString("quantity", pro[2]);
-            conexion.tabla.updateString("price", pro[3]);
-            conexion.tabla.insertRow();
-            conexion.close();          
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo almacenar en inventario "+ex.getMessage());
+    public void newInventory(Inventory inventory) throws HibernateException {
+        try { 
+            iniciaOperacion(); 
+            sesion.save(inventory); 
+            tx.commit(); 
+        }catch(HibernateException he) { 
+            manejaExcepcion(he);
+            JOptionPane.showMessageDialog(null, "No se pudo almacenar en inventario");
+            throw he; 
+        }finally { 
+            sesion.close(); 
         }
     }
 }

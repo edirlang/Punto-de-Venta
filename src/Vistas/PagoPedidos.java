@@ -6,7 +6,8 @@
 
 package Vistas;
 
-import Modelos.Egresos;
+import Entity.Egresos;
+import Modelos.EgresosDB;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -144,16 +145,17 @@ public class PagoPedidos extends javax.swing.JDialog {
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void GuardarPedido(){
-        Egresos pago = new Egresos();
+        EgresosDB pago = new EgresosDB();
         if(this.txtDescripcion.getText()==null){
             this.txtDescripcion.setText("Pedido");
         }
-        String[] datos = new String[]{
-            this.txtFecha.getText(),
-            this.txtDescripcion.getText(),
-            this.txtValor.getText()
-        };
-        pago.NuevoEgreso(datos);
+        Egresos egreso = new Egresos();
+        
+        egreso.setFecha(new Date());
+        egreso.setDescripcion(this.txtDescripcion.getText());
+        egreso.setValor(Long.parseLong(this.txtValor.getText()));
+        
+        pago.NuevoEgreso(egreso);
         this.setVisible(false);
         this.dispose();
     }

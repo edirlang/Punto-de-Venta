@@ -5,11 +5,16 @@
  */
 package Controladores;
 
+import Entity.Detallefactura;
+import Entity.Facturas;
+import Entity.Product;
 import Modelos.Conexion;
+import Modelos.FacturasBD;
 import Modelos.ProductosBD;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.hibernate.HibernateException;
 
 /**
  *
@@ -21,33 +26,41 @@ public class GuardarDetalleFactura extends Thread {
     DefaultTableModel detalles;
     int num_invoice;
     ProductosBD producto;
+    FacturasBD facturabd;
 
     public GuardarDetalleFactura(DefaultTableModel detalles, int num_invoice) {
         this.detalles = detalles;
         this.num_invoice = num_invoice;
         producto = new ProductosBD();
+        facturabd = new FacturasBD();
         conexion = new Conexion();
     }
 
     @Override
     public void run() {
-        conexion.conexion("detallefactura");
-        try {
-            for (int i = 0; i < detalles.getRowCount(); i++) {
-
-                conexion.tabla.moveToInsertRow();
-                conexion.tabla.updateString("NumeroFactura", ""+num_invoice);
-                conexion.tabla.updateString("Codigo", detalles.getValueAt(i, 0).toString());
-                conexion.tabla.updateString("Valor", detalles.getValueAt(i, 3).toString());
-                conexion.tabla.updateString("Cantidad", detalles.getValueAt(i, 2).toString());
-                conexion.tabla.updateString("Total", detalles.getValueAt(i, 4).toString());
-                conexion.tabla.insertRow();
-                producto.RestarProducto(detalles.getValueAt(i, 0).toString(), Integer.parseInt(detalles.getValueAt(i, 2).toString()));
-            }
-            conexion.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se logro almecenar " + ex);
-            conexion.close();
+        Facturas invoice = this.facturabd.findInvoice(num_invoice+"");
+        for (int i = 0; i < detalles.getRowCount(); i++) {
+            Product product = this.producto.getProduct(detalles.getValueAt(i, 0).toString());
+            Detallefactura detail = new Detallefactura();
+            detail.setFacturas(invoice);
+            detail.setProduct(product);
+            detail.setCantidad(Double.parseDouble(detalles.getValueAt(i, 2).toString()));
+            detail.setValor(Double.parseDouble(detalles.getValueAt(i, 3).toString()));
+            detail.setTotal(Double.parseDouble(detalles.getValueAt(i, 4).toString()));
+            this.saveDetail(detail);
+            producto.RestarProducto(detalles.getValueAt(i, 0).toString(), Integer.parseInt(detalles.getValueAt(i, 2).toString()));
         }
+    }
+    
+    private void saveDetail(Detallefactura detail){
+        try { 
+            this.conexion.iniciaOperacion(); 
+            this.conexion.sesion.save(detail); 
+            this.conexion.tx.commit(); 
+        }catch(HibernateException he) { 
+            this.conexion.manejaExcepcion(he);
+        }finally { 
+            this.conexion.sesion.close(); 
+        }  
     }
 }

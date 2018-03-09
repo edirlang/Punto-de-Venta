@@ -5,34 +5,46 @@
  */
 package Controladores;
 
+import Entity.Clientes;
+import Entity.Facturas;
+import Entity.Product;
+import Modelos.ClientesBD;
 import Modelos.FacturasBD;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Caja1
  */
-public class FacturaController extends FacturasBD{
+public class FacturaController{
 
-    ProductosController productos;
-    ClientesController clientes;
+    private ProductosController productos;
+    private ClientesBD clientes;
+    private FacturasBD invoicesBD;
     
     public FacturaController() {
         productos = new ProductosController();
-        clientes = new ClientesController();
+        clientes = new ClientesBD();
+        invoicesBD = new FacturasBD();
     }
 
     public void CargarClientes(JComboBox clientes) {
-        this.clientes.NombreCliente(clientes);
+        String[][] consumers = this.clientes.getConsumerNameDocument();
+        for(int i = 0; i < consumers.length; i++){
+            clientes.addItem(consumers[i][1]);
+           
+        }
     }
-
-    public String[][] Cliente_CedulaNombre() {
-        return this.clientes.CedulaNombre();
+    
+    public String[][] getConsumerDocumentName() {
+        return this.clientes.getConsumerNameDocument();
     }
-
     
     public String Fecha() {
         Date fechaActual = new Date();
@@ -42,20 +54,37 @@ public class FacturaController extends FacturasBD{
        return formato1.format(fechaActual);
     }
     
-    public String[] BuscarProducto(String codigo) {
-        return productos.consultar(codigo);
+    public Product BuscarProducto(String codigo) {
+        Product product = productos.getProduct(codigo);
+        if(product == null){
+            JOptionPane.showMessageDialog(null,"Producto no registrado.");
+        }
+        return product;
     }
     
-    public int NumeroFactura(){
-        return NumeroUltimaFactura();
+    public int newInvoice(String[] data_invoice){
+        System.out.println(data_invoice[2]);
+        Facturas invoice = new Facturas();
+        invoice.setFecha(new Date());
+        invoice.setHora(new Date());
+        invoice.setTotal(Long.parseLong(data_invoice[1]));
+        invoice.setCreditoFactura(this.invoicesBD.Credito(data_invoice[2]));
+        
+        int num_invoice = this.invoicesBD.newInvoice(invoice);
+        return num_invoice;
+    }
+    
+    public void saveDetailsInvoice(DefaultTableModel detalles, int num_invoice){
+        
     }
     
     public String CreditoCliente(String cedula){
-        String[] cliente= clientes.consultar(cedula);
-        if(cliente.length > 2){
-            return cliente[5];
-        }else{
-            return "No";
-        }
+        Clientes consumer = clientes.getConsumerById(cedula);
+        return consumer.getTextIsCredit();
     }
+    
+    public String[] ReporteDia(String Fecha) {
+        return this.invoicesBD.ReporteDia(Fecha);
+    }
+    
 }

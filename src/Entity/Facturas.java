@@ -2,6 +2,7 @@ package Entity;
 // Generated 8/03/2018 08:04:03 AM by Hibernate Tools 4.3.1
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 @Entity
 @Table(name="facturas")
@@ -27,9 +29,11 @@ public class Facturas  implements java.io.Serializable {
     private Clientes clientes;
     
     @Column(name="Fecha")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
     
     @Column(name="Hora")
+    @Temporal(javax.persistence.TemporalType.TIME)
     private Date hora;
     
     @Column(name="Total")
@@ -39,7 +43,6 @@ public class Facturas  implements java.io.Serializable {
     private boolean creditoFactura;
     
     @OneToMany(mappedBy="factura")
-    //@JoinColumn(name="NumeroFactura", nullable=true)
     private Set<Detallefactura> detallefacturas;
 
     public Facturas() {
@@ -85,27 +88,47 @@ public class Facturas  implements java.io.Serializable {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+    
     public Date getHora() {
         return this.hora;
+    }
+    
+    public String getDateText(){
+        return new SimpleDateFormat("yyyy-MM-dd").format(this.fecha);
     }
     
     public void setHora(Date hora) {
         this.hora = hora;
     }
+    
     public long getTotal() {
         return this.total;
+    }
+    
+    public String getHourText(){
+        return new SimpleDateFormat("hh:mm:ss").format(this.hora);
     }
     
     public void setTotal(long total) {
         this.total = total;
     }
-    public boolean isCreditoFactura() {
+    
+    public boolean getCreditoFactura() {
         return this.creditoFactura;
+    }
+    
+    public String getCreditoFacturaText() {
+        if (this.creditoFactura) {
+            return "SI";
+        } else {
+            return "NO";
+        }
     }
     
     public void setCreditoFactura(boolean creditoFactura) {
         this.creditoFactura = creditoFactura;
     }
+    
     public Set getDetallefacturas() {
         return this.detallefacturas;
     }

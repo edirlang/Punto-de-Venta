@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,11 +19,11 @@ public class Detallefactura  implements Serializable {
     private int id;
     
     @ManyToOne
-    //@JoinColumn(name="NumeroFactura", nullable=false)
+    @JoinColumn(name="NumeroFactura", nullable=true)
     private Facturas factura;
     
     @ManyToOne
-    //@JoinColumn(name="Codigo", nullable=false)
+    @JoinColumn(name="Codigo", nullable=true)
     private Product product;
     
     @Column(name="valor")
@@ -69,22 +68,22 @@ public class Detallefactura  implements Serializable {
     public void setProduct(Product product) {
         this.product = product;
     }
-    public double getValor() {
-        return this.valor;
+    public long getValor() {
+        return (long)this.valor;
     }
     
     public void setValor(double valor) {
         this.valor = valor;
     }
-    public double getCantidad() {
-        return this.cantidad;
+    public long getCantidad() {
+        return (long)this.cantidad;
     }
     
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
-    public double getTotal() {
-        return this.total;
+    public long getTotal() {
+        return (long)this.total;
     }
     
     public void setTotal(double total) {

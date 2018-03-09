@@ -4,14 +4,12 @@ package Entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,7 +22,7 @@ public class Clientes  implements Serializable {
     @Column(name = "document_number")
     private String documentNumber;
     
-    @Column(name = "firts_name")
+    @Column(name = "first_name")
     private String firstName;
     
     @Column(name = "last_name")
@@ -33,7 +31,7 @@ public class Clientes  implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
     
-    @Column(name = "adress")
+    @Column(name = "address")
     private String address;
     
     @Column(name = "date_birth")
@@ -112,12 +110,20 @@ public class Clientes  implements Serializable {
     public void setDateBirth(Date dateBirth) {
         this.dateBirth = dateBirth;
     }
-    public boolean isIsCredit() {
+    public boolean getIsCredit() {
         return this.isCredit;
     }
     
     public void setIsCredit(boolean isCredit) {
         this.isCredit = isCredit;
+    }
+    
+    public String getTextIsCredit(){
+        String credit = "Si";
+        if(this.isCredit == false){
+            credit = "No";
+        }
+        return credit;
     }
     
     public Set getFacturas() {
@@ -134,6 +140,10 @@ public class Clientes  implements Serializable {
     
     public void removeFactura(Facturas factura){
         this.facturas.remove(factura);
+    }
+    
+    public String getFullName(){
+        return this.getFirstName()+" "+this.getLastName();
     }
 }
 

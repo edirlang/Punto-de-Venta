@@ -239,7 +239,7 @@ public class ClienteNuevo extends javax.swing.JFrame {
             this.date_birth.getText(),
             credit
         };
-        nuevo.NuevoCliente(cliente);
+        nuevo.newConsumer(cliente);
         this.dispose();
         this.setVisible(false);
     }

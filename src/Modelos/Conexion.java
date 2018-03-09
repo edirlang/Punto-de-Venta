@@ -5,6 +5,7 @@
  */
 package Modelos;
 
+import Entity.HibernateUtil;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,6 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  *
@@ -24,38 +28,12 @@ public class Conexion extends Thread {
     public Statement s;
     private String userDB;
     private String passwordDB;
+    public Session sesion;
+    public Transaction tx;
 
     public Conexion() {
         this.userDB = "root";
         this.passwordDB = "";
-    }
-    public void conexion(String tabla) {
-        try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", this.userDB, this.passwordDB);
-            s = conexion.createStatement(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            this.tabla = s.executeQuery("SELECT * FROM " + tabla);
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se logro conectar a la BD debido: \n" + ex);
-        }
-    }
-    
-    public int excecuteSQLAutoIncrement(String sql){
-        int id = 0;
-        
-        try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/puntoventa", this.userDB, this.passwordDB);
-            PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);  
-            ps.execute();
-            tabla = ps.getGeneratedKeys();
-            if(tabla.next()){
-                 id = tabla.getInt(1);
-             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se logro insertar el valor: \n" + ex);
-        }
-        return id;
     }
     
     public void close() {
@@ -69,8 +47,7 @@ public class Conexion extends Thread {
         }
     }
     
-    protected Boolean Credito(String credito) {
-        System.out.println(credito);
+    public Boolean Credito(String credito) {
         if ("Si".equals(credito) || "si".equals(credito) || "SI".equals(credito)) {
             return true;
         } else {
@@ -81,9 +58,20 @@ public class Conexion extends Thread {
     protected String Credito(Boolean credito) {
         if (credito) {
             return "SI";
-
         } else {
             return "NO";
         }
+    }
+    
+    public void iniciaOperacion() throws HibernateException
+    {
+        sesion = HibernateUtil.getSessionFactory().openSession();
+        tx = sesion.beginTransaction();
+    }
+    
+    public void manejaExcepcion(HibernateException he) throws HibernateException
+    {
+        tx.rollback();
+        throw new HibernateException("Ocurrió un error en la capa de acceso a datos", he);
     }
 }

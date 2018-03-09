@@ -17,8 +17,6 @@ import javax.print.PrintException;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -47,12 +45,9 @@ public class ImprimirFactura extends Thread{
     public ImprimirFactura() {
     }
 
+    @Override
     public void run() {
-       
-        
         String cadena = headTicket();
-                        
-
         cadena += "Factura #: " + NumeroFactura + " " + "Cajero(a): " + cajero + "\n"
                 + "Fecha: " + fecha + " " + "Hora: " + hora + "\n"
                 + "Cliente: " + cliente + "  " + "C.C: " + ccCliente + "\n";
@@ -103,11 +98,6 @@ public class ImprimirFactura extends Thread{
                 + "        Nit: 21061835-0\n"        
                 + "       Telefono: 3114834122\n";
                         
-
-        cadena += "Factura #: " + NumeroFactura + " " + "Cajero(a): " + cajero + "\n"
-                + "Fecha: " + fecha + " " + "Hora: " + hora + "\n"
-                + "Cliente: " + cliente + "  " + "C.C: " + ccCliente + "\n";
-        
         return cadena;
     }
     

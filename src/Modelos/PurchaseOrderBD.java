@@ -5,27 +5,45 @@
  */
 package Modelos;
 
+import Entity.PurchaseOrder;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import org.hibernate.HibernateException;
 
 
 /**
  *
  * @author Mis-Dark
  */
-public class PurchaseOrderBD extends Thread {
+public class PurchaseOrderBD extends Conexion {
 
-    private Conexion order;
-    private String table_name;
+    
     public PurchaseOrderBD() {
-        order = new Conexion();
-        table_name = "purchase_order";
+    
     }
 
-    public int newOrder(String[] pro) {
+    public int newOrder(PurchaseOrder purchaseOrder) throws HibernateException {
         int order_id = 0;
-        order_id = order.excecuteSQLAutoIncrement("Insert into "+table_name+" (provider_id, total, file) values ("
-                + pro[0]+","+pro[1]+",'base')");
+        try { 
+            iniciaOperacion(); 
+            order_id = (int) sesion.save(purchaseOrder); 
+            tx.commit(); 
+        }catch(HibernateException he) { 
+            JOptionPane.showMessageDialog(null, "No se pudo almacenar producto");
+        }finally { 
+            sesion.close(); 
+        }
         return order_id;
+    }
+    
+    public PurchaseOrder getPurchaseOrder(int id) throws HibernateException {
+        PurchaseOrder purchaseOrder = null;  
+        try{
+            this.iniciaOperacion();
+            purchaseOrder = (PurchaseOrder) this.sesion.get(PurchaseOrder.class, id);
+        } finally {
+            this.sesion.close();
+        }
+        return purchaseOrder; 
     }
 }

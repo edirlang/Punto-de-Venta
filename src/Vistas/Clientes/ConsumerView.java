@@ -6,22 +6,24 @@
 
 package Vistas.Clientes;
 
-import Controladores.ClientesController;;
+import Controladores.ClientesController;
+import Entity.Clientes;
+
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Caja1
  */
-public class Cliente extends javax.swing.JFrame {
+public class ConsumerView extends javax.swing.JFrame {
 
     /**
      * Creates new form Producto
      */
     ClientesController clientes;
-    String[] cliente;
+    Clientes cliente;
     
-    public Cliente(String[] cliente) {
+    public ConsumerView(Clientes cliente) {
         initComponents();
         this.CargarCampos(cliente);
         this.setVisible(true);
@@ -264,24 +266,24 @@ public class Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void txtBuscarCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarCedulaActionPerformed
-        this.CargarCampos(clientes.Buscar(this.txtBuscarCedula.getText()));
+        this.CargarCampos(clientes.getConsumerById(this.txtBuscarCedula.getText()));
         
     }//GEN-LAST:event_txtBuscarCedulaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        this.CargarCampos(clientes.Buscar(this.txtBuscarCedula.getText()));
+        this.CargarCampos(clientes.getConsumerById(this.txtBuscarCedula.getText()));
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void CargarCampos(String[] producto) {
+    private void CargarCampos(Clientes consumer) {
         clientes = new ClientesController();
-        cliente = producto;
-        if (producto != null) {
-            this.txtCedula.setText(producto[0]);
-            this.txtNombre.setText(producto[1]);
-            this.txtApellido.setText(producto[2]);
-            this.txtTelefono.setText(producto[3]);
-            this.txtDirrecion.setText(producto[4]);
-            this.txtFiando.setText(producto[5]);
+        cliente = consumer;
+        if (consumer != null) {
+            this.txtCedula.setText(consumer.getDocumentNumber());
+            this.txtNombre.setText(consumer.getFirstName());
+            this.txtApellido.setText(consumer.getLastName());
+            this.txtTelefono.setText(consumer.getPhoneNumber());
+            this.txtDirrecion.setText(consumer.getAddress());
+            this.txtFiando.setText(consumer.getTextIsCredit());
             this.txtBuscarCedula.requestFocus();
         }
     }

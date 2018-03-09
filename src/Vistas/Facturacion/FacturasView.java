@@ -6,19 +6,20 @@
 
 package Vistas.Facturacion;
 
+import Entity.Facturas;
 import Modelos.FacturasBD;
 
 /**
  *
  * @author Caja1
  */
-public class Facturas extends javax.swing.JInternalFrame {
+public class FacturasView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Facturas
      */
     FacturasBD factura;
-    public Facturas() {
+    public FacturasView() {
         factura = new FacturasBD();
         initComponents();
         this.Lista.setModel(factura.todos());
@@ -42,7 +43,6 @@ public class Facturas extends javax.swing.JInternalFrame {
         PanelListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Lista = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
         btnVerFactura = new javax.swing.JButton();
 
         labelHeader1.setText("FACTURAS");
@@ -139,16 +139,8 @@ public class Facturas extends javax.swing.JInternalFrame {
             PanelListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelListadoLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 27, Short.MAX_VALUE))
+                .addGap(0, 31, Short.MAX_VALUE))
         );
-
-        jButton5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton5.setText("Buscar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
 
         btnVerFactura.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnVerFactura.setText("VER");
@@ -157,6 +149,11 @@ public class Facturas extends javax.swing.JInternalFrame {
                 btnVerFacturaActionPerformed(evt);
             }
         });
+
+        jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(btnVerFactura, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -173,11 +170,6 @@ public class Facturas extends javax.swing.JInternalFrame {
                         .addComponent(btnVerFactura)
                         .addGap(0, 1, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                    .addGap(365, 365, 365)
-                    .addComponent(jButton5)
-                    .addContainerGap(526, Short.MAX_VALUE)))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,17 +186,7 @@ public class Facturas extends javax.swing.JInternalFrame {
                         .addGap(134, 134, 134)
                         .addComponent(btnVerFactura)
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                    .addGap(183, 183, 183)
-                    .addComponent(jButton5)
-                    .addContainerGap(183, Short.MAX_VALUE)))
         );
-        jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jButton5, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(btnVerFactura, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -221,26 +203,22 @@ public class Facturas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNumeroFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroFacturaActionPerformed
-        String[] DatosFactura = factura.Consultar(this.txtNumeroFactura.getText());
-        FacturaVer ver = new FacturaVer(null,true,DatosFactura,factura.ConsultarDetalleFactura(DatosFactura[0]));
+        Facturas invoice = factura.findInvoice(this.txtNumeroFactura.getText());
+        FacturaVer ver = new FacturaVer(null, true, invoice, factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
         ver.setVisible(true);
     }//GEN-LAST:event_txtNumeroFacturaActionPerformed
 
     private void btnVerFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerFacturaActionPerformed
         int FilaSelecionada = this.Lista.getSelectedRow();
         
-        String[] DatosFactura = factura.Consultar(Lista.getValueAt(FilaSelecionada,0).toString());
-        FacturaVer ver = new FacturaVer(null,true,DatosFactura,factura.ConsultarDetalleFactura(DatosFactura[0]));
+        Facturas invoice = factura.findInvoice(Lista.getValueAt(FilaSelecionada,0).toString());
+        FacturaVer ver = new FacturaVer(null, true, invoice, factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
         ver.setVisible(true);
     }//GEN-LAST:event_btnVerFacturaActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void btnBuscarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarFacturaActionPerformed
-        String[] DatosFactura = factura.Consultar(this.txtNumeroFactura.getText());
-        FacturaVer ver = new FacturaVer(null,true,DatosFactura,factura.ConsultarDetalleFactura(DatosFactura[0]));
+        Facturas invoice = factura.findInvoice(this.txtNumeroFactura.getText());
+        FacturaVer ver = new FacturaVer(null, true, invoice,factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
         ver.setVisible(true);
     }//GEN-LAST:event_btnBuscarFacturaActionPerformed
 
@@ -250,7 +228,6 @@ public class Facturas extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PanelListado;
     private javax.swing.JButton btnBuscarFactura;
     private javax.swing.JButton btnVerFactura;
-    private javax.swing.JButton jButton5;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
