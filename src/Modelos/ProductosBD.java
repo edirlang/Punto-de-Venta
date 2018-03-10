@@ -47,6 +47,7 @@ public class ProductosBD extends Conexion {
             JOptionPane.showMessageDialog(null, "No se pudo almacenar producto");
             throw he; 
         }finally { 
+            this.sesion.flush();
             sesion.close(); 
         }
         
@@ -60,7 +61,7 @@ public class ProductosBD extends Conexion {
         product.setSalePrice(Integer.parseInt(pro[2]));
         product.setQuantity(Long.parseLong(pro[4]));
         String id = this.saveProduct(product);
-        newInventory(pro);
+        this.newInventory(pro);
         
         if(id != "0"){
             JOptionPane.showMessageDialog(null, "Producto Creado");

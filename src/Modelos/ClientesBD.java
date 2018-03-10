@@ -32,6 +32,7 @@ public class ClientesBD extends Conexion {
             manejaExcepcion(he);
             throw he; 
         }finally { 
+            this.sesion.flush();
             sesion.close(); 
         }  
         return id; 

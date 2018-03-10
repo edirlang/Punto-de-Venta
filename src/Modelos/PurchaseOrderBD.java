@@ -31,6 +31,7 @@ public class PurchaseOrderBD extends Conexion {
         }catch(HibernateException he) { 
             JOptionPane.showMessageDialog(null, "No se pudo almacenar producto");
         }finally { 
+            this.sesion.flush();
             sesion.close(); 
         }
         return order_id;
@@ -42,6 +43,7 @@ public class PurchaseOrderBD extends Conexion {
             this.iniciaOperacion();
             purchaseOrder = (PurchaseOrder) this.sesion.get(PurchaseOrder.class, id);
         } finally {
+            this.sesion.flush();
             this.sesion.close();
         }
         return purchaseOrder; 

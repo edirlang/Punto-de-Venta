@@ -41,6 +41,7 @@ public class FacturasBD extends Conexion {
             JOptionPane.showMessageDialog(null, "No se puedo crear la factura.");
             throw he; 
         }finally { 
+            this.sesion.flush();
             sesion.close(); 
         }  
         return id; 
@@ -82,14 +83,13 @@ public class FacturasBD extends Conexion {
                     .setParameter("invoice", num_invoice);
             details = query.list();
         } finally { 
+            this.sesion.flush();
             sesion.close(); 
         }  
         return details;
     }
     
     public DefaultTableModel ConsultarDetalleFactura(String NumeroFactura) {
-        ClientesBD cliente = new ClientesBD();
-
         DefaultTableModel facturas = new DefaultTableModel();
         String[] columnas = {"Codigo", "Descripcion", "Cantidad", "Valor Unidad", "SubTotal"};
         facturas.addColumn(columnas[0]);
@@ -125,6 +125,7 @@ public class FacturasBD extends Conexion {
             Query query = this.sesion.createQuery("from Facturas ORDER BY NumeroFactura DESC");
             invoices = query.list();
         } finally { 
+            this.sesion.flush();
             this.sesion.close(); 
         }  
         return invoices; 
@@ -138,6 +139,7 @@ public class FacturasBD extends Conexion {
                     .setParameter("client", consumer);
             invoices = query.list();
         } finally { 
+            this.sesion.flush();
             sesion.close(); 
         }  
         return invoices; 
@@ -181,6 +183,7 @@ public class FacturasBD extends Conexion {
         } catch (HibernateException he) { 
             manejaExcepcion(he); 
         } finally { 
+            this.sesion.flush();
             sesion.close(); 
         }
     }
@@ -202,6 +205,7 @@ public class FacturasBD extends Conexion {
             Query query = sesion.createSQLQuery("SELECT Fecha, COUNT(*) as quantity, sum(total) as total FROM facturas GROUP BY Fecha ORDER BY Fecha");
             invoices = query.list();
         } finally { 
+            this.sesion.flush();
             sesion.close(); 
         }  
         return invoices; 

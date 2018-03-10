@@ -42,7 +42,7 @@ public class Clientes  implements Serializable {
     private boolean isCredit;
     
     @Column(name = "isPoints")
-    private boolean isPoints = true;
+    private boolean isPoints;
     
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="clientes")
     private Set<Facturas> facturas;

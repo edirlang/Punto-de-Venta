@@ -17,12 +17,7 @@ import org.hibernate.HibernateException;
  */
 public class InventoryBD extends Conexion {
 
-    private Conexion conexion;
-    private String table_name;
-    
     public InventoryBD() {
-        conexion = new Conexion();
-        table_name = "inventory";
     }
 
     public void newInventory(Inventory inventory) throws HibernateException {
@@ -33,8 +28,8 @@ public class InventoryBD extends Conexion {
         }catch(HibernateException he) { 
             manejaExcepcion(he);
             JOptionPane.showMessageDialog(null, "No se pudo almacenar en inventario");
-            throw he; 
         }finally { 
+            this.sesion.flush();
             sesion.close(); 
         }
     }

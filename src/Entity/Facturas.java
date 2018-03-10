@@ -3,11 +3,14 @@ package Entity;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -43,8 +46,8 @@ public class Facturas  implements java.io.Serializable {
     @Column(name="CreditoFactura")
     private boolean creditoFactura;
     
-    @OneToMany(mappedBy="factura")
-    private Set<Detallefactura> detallefacturas;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="factura")
+    private Collection<Detallefactura> detallefacturas;
 
     public Facturas() {
     }
@@ -130,7 +133,7 @@ public class Facturas  implements java.io.Serializable {
         this.creditoFactura = creditoFactura;
     }
     
-    public Set getDetallefacturas() {
+    public Collection<Detallefactura> getDetallefacturas() {
         return this.detallefacturas;
     }
     

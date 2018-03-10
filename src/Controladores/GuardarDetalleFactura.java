@@ -18,9 +18,7 @@ import org.hibernate.HibernateException;
  *
  * @author Caja1
  */
-public class GuardarDetalleFactura extends Thread {
-
-    Conexion conexion;
+public class GuardarDetalleFactura extends Conexion implements Runnable {
     DefaultTableModel detalles;
     int num_invoice;
     ProductosBD producto;
@@ -31,7 +29,6 @@ public class GuardarDetalleFactura extends Thread {
         this.num_invoice = num_invoice;
         producto = new ProductosBD();
         facturabd = new FacturasBD();
-        conexion = new Conexion();
     }
 
     @Override
@@ -52,13 +49,14 @@ public class GuardarDetalleFactura extends Thread {
     
     private void saveDetail(Detallefactura detail){
         try { 
-            this.conexion.iniciaOperacion(); 
-            this.conexion.sesion.save(detail); 
-            this.conexion.tx.commit(); 
+            this.iniciaOperacion(); 
+            this.sesion.save(detail); 
+            this.tx.commit(); 
         }catch(HibernateException he) { 
-            this.conexion.manejaExcepcion(he);
+            this.manejaExcepcion(he);
         }finally { 
-            this.conexion.sesion.close(); 
+            this.sesion.flush();
+            this.sesion.close(); 
         }  
     }
 }

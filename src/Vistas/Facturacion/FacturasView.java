@@ -212,6 +212,8 @@ public class FacturasView extends javax.swing.JInternalFrame {
         int FilaSelecionada = this.Lista.getSelectedRow();
         
         Facturas invoice = factura.findInvoice(Lista.getValueAt(FilaSelecionada,0).toString());
+        System.out.println("Factura coutn "+invoice.getDetallefacturas().size());
+        System.out.println("Facruas N: "+invoice.getNumeroFactura());
         FacturaVer ver = new FacturaVer(null, true, invoice, factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
         ver.setVisible(true);
     }//GEN-LAST:event_btnVerFacturaActionPerformed
