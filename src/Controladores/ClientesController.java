@@ -32,6 +32,7 @@ public class ClientesController {
         Date date_birth = new Date(year, month, day);
         
         Clientes consumer = new Clientes();
+        
         consumer.setDocumentNumber(cliente[0]);
         consumer.setFirstName(cliente[1]);
         consumer.setLastName(cliente[2]);
@@ -39,7 +40,9 @@ public class ClientesController {
         consumer.setAddress(cliente[4]);
         consumer.setDateBirth(date_birth);
         consumer.setIsCredit(this.clientesbd.Credito(cliente[6]));
+        
         String id = this.clientesbd.saveConsumer(consumer);
+        
         if(id == "0"){
             JOptionPane.showMessageDialog(null, "No se logro registrar el cliente");
         }else{
@@ -85,8 +88,8 @@ public class ClientesController {
         return totalPoints;
     }
     
-    public void Actualizar(){
-        
+    public void Actualizar(Clientes cliente){
+        this.clientesbd.updateClient(cliente);
     }
     
     public void Eliminar(){
@@ -99,6 +102,6 @@ public class ClientesController {
     
     public void EditarCliente(String[] cliente){
         Clientes costumer = new Clientes();
-        this.clientesbd.editar(costumer);
+        this.clientesbd.updateClient(costumer);
     }
 }

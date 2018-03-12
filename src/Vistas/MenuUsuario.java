@@ -8,7 +8,6 @@ package Vistas;
 import Controladores.FacturaController;
 import Controladores.ImprimirFactura;
 import Vistas.Clientes.ClientesView;
-import Vistas.Clientes.CustomerView;
 import Vistas.Facturacion.FacturaView;
 import Vistas.Facturacion.FacturasView;
 import Vistas.Facturacion.InvoiceView;
@@ -48,7 +47,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         btnFacturas = new org.edisoncor.gui.button.ButtonAero();
         btnCerrarSesion = new org.edisoncor.gui.button.ButtonAero();
         btnSalir = new org.edisoncor.gui.button.ButtonAero();
-        Desktop = new javax.swing.JPanel();
+        Desktop = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -77,7 +76,7 @@ public class MenuUsuario extends javax.swing.JFrame {
 
         Botones.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Botones.setMaximumSize(new java.awt.Dimension(32767, 30));
-        Botones.setLayout(new java.awt.GridLayout());
+        Botones.setLayout(new java.awt.GridLayout(1, 0));
 
         btnFactura.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         btnFactura.setForeground(new java.awt.Color(0, 0, 0));
@@ -150,16 +149,8 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         Botones.add(btnSalir);
 
-        javax.swing.GroupLayout DesktopLayout = new javax.swing.GroupLayout(Desktop);
-        Desktop.setLayout(DesktopLayout);
-        DesktopLayout.setHorizontalGroup(
-            DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        DesktopLayout.setVerticalGroup(
-            DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 716, Short.MAX_VALUE)
-        );
+        Desktop.setBackground(new java.awt.Color(72, 184, 33));
+        Desktop.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jMenu1.setText("Facturacion");
 
@@ -239,15 +230,15 @@ public class MenuUsuario extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Botones, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
-            .addComponent(Desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Botones, javax.swing.GroupLayout.DEFAULT_SIZE, 1058, Short.MAX_VALUE)
+            .addComponent(Desktop)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(Botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(Desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE))
         );
 
         pack();
@@ -261,7 +252,7 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     private void bntClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntClientesActionPerformed
         this.Desktop.removeAll();
-        CustomerView clientes = new CustomerView();
+        ClientesView clientes = new ClientesView();
         clientes.setVisible(true);
         this.Desktop.add(clientes);
 
@@ -293,10 +284,9 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         this.Desktop.removeAll();
-        
-            CustomerView clientes = new CustomerView();
-            clientes.setVisible(true);
-            this.Desktop.add(clientes);
+        ClientesView clientes = new ClientesView();
+        clientes.setVisible(true);
+        this.Desktop.add(clientes);
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -349,20 +339,17 @@ public class MenuUsuario extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
         if (eleccion == JOptionPane.YES_OPTION) {
-            FacturaController cierre = new FacturaController();
-            
+            FacturaController cierre = new FacturaController();   
             String[] datos = cierre.ReporteDia(cierre.Fecha());
             ImprimirFactura imp =  new ImprimirFactura();
             imp.ImprimirReporte(datos, cierre.Fecha());
             this.setVisible(false);
             this.dispose();
-        } else {
-            this.setVisible(true);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Botones;
-    private javax.swing.JPanel Desktop;
+    private javax.swing.JDesktopPane Desktop;
     private org.edisoncor.gui.button.ButtonAero bntClientes;
     private org.edisoncor.gui.button.ButtonAero btnCerrarSesion;
     private org.edisoncor.gui.button.ButtonAero btnFactura;

@@ -39,31 +39,27 @@ public class ClientesBD extends Conexion {
     }
     
     public Clientes getConsumerById(String document_number) throws HibernateException{ 
-        Clientes consumer = new Clientes();  
+        Clientes consumer = null;  
         try { 
             iniciaOperacion(); 
             consumer = (Clientes) sesion.get(Clientes.class,document_number);
-            
         } finally { 
             sesion.close(); 
         }  
         return consumer; 
     }
     
-    public void editar(Clientes clientebd) throws HibernateException {
+    public void updateClient(Clientes clientebd) throws HibernateException {
         Boolean confirmar = false;
-        try 
-        { 
+        try { 
             iniciaOperacion(); 
             sesion.update(clientebd); 
             tx.commit(); 
             confirmar = true;
-        } catch (HibernateException he) 
-        { 
+        } catch (HibernateException he) { 
             manejaExcepcion(he); 
             throw he; 
-        } finally 
-        { 
+        } finally { 
             sesion.close(); 
         } 
         
