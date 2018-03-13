@@ -3,8 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Vistas/Productos/ProductoNuevo.java</file>
+            <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Vistas/Clientes/ClientesView.java</file>
             <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Vistas/MenuUsuario.java</file>
+            <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Vistas/Productos/Productos.java</file>
             <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Controladores/ClientesController.java</file>
+            <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Vistas/Productos/Producto.java</file>
+            <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Vistas/Facturacion/FacturaView.java</file>
+            <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Controladores/FacturaController.java</file>
+            <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Modelos/ProductosBD.java</file>
+            <file>file:/home/dioxide/Documentos/Punto-de-Venta/src/Controladores/ProductosController.java</file>
         </group>
     </open-files>
 </project-private>

@@ -47,7 +47,7 @@ public class FacturaController{
     }
     
     public Product BuscarProducto(String codigo) {
-        Product product = productos.getProduct(codigo);
+        Product product = productos.getProduct(codigo.trim());
         if(product == null){
             JOptionPane.showMessageDialog(null,"Producto no registrado.");
         }

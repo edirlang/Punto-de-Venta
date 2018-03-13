@@ -616,7 +616,7 @@ public class FacturaView extends javax.swing.JFrame {
             this.txtNombre.setText(producto.getName());
             this.txtPrecio.setText(producto.getSalePrice()+"");
             this.txtCantidad.setText("1");
-            long codigo = Long.parseLong(this.txtCodigo.getText());
+            long codigo = Long.parseLong(this.txtCodigo.getText().trim());
             if (codigo < 1000) {
                 this.txtPrecio.requestFocus();
             } else {

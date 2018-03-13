@@ -9,10 +9,7 @@ import Entity.Inventory;
 import Entity.Product;
 import Entity.Provider;
 import Entity.PurchaseOrder;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.HibernateException;
@@ -27,30 +24,33 @@ public class ProductosBD extends Conexion {
     private Conexion utilsSession;
     private PurchaseOrderBD order;
     private InventoryBD inventory;
-    private String table_name;
+    
 
     public ProductosBD() {
         utilsSession = new Conexion();
         order = new PurchaseOrderBD();
         inventory = new InventoryBD();
-        table_name = "product";
+        
     }
 
     private String saveProduct(Product product) throws HibernateException{
         String id = "0";
+        if(this.getProduct(product.getBarCode()) == null){
+            JOptionPane.showMessageDialog(null, "El producto ya existe.");
+            return id;
+        }
+        
         try { 
             iniciaOperacion(); 
             id = (String) sesion.save(product); 
             tx.commit(); 
-        }catch(HibernateException he) { 
-            manejaExcepcion(he);
-            JOptionPane.showMessageDialog(null, "No se pudo almacenar producto");
-            throw he; 
-        }finally { 
             this.sesion.flush();
+        }catch(HibernateException he) { 
+            JOptionPane.showMessageDialog(null, "No se pudo almacenar producto.");
+            System.out.println(he.getMessage());
+        }finally { 
             sesion.close(); 
         }
-        
         return id;
     }
     

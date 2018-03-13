@@ -39,7 +39,7 @@ public class ProductosController extends ProductosBD implements Runnable{
     }
     
     public Product findProduct(String codigo){
-        Product product = this.getProduct(codigo);
+        Product product = this.getProduct(codigo.trim());
         if(product == null){
             JOptionPane.showMessageDialog(null, "No existe el producto");
         }

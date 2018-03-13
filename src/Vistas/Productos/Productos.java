@@ -7,6 +7,7 @@ package Vistas.Productos;
 
 import Controladores.ProductosController;
 import Entity.Product;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +19,8 @@ public class Productos extends javax.swing.JInternalFrame {
      * Creates new form Productos
      */
     ProductosController Producto;
+    Product product;
+    boolean isNew = true;
 
     public Productos() {
         initComponents();
@@ -40,10 +43,26 @@ public class Productos extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         PanelListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Lista = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        labelNew = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        labelCustom2 = new org.edisoncor.gui.label.LabelCustom();
+        txtCodigo1 = new org.edisoncor.gui.textField.TextField();
+        labelCustom3 = new org.edisoncor.gui.label.LabelCustom();
+        txtNombre = new org.edisoncor.gui.textField.TextField();
+        labelCustom4 = new org.edisoncor.gui.label.LabelCustom();
+        txtCantidad = new org.edisoncor.gui.textField.TextField();
+        labelCustom5 = new org.edisoncor.gui.label.LabelCustom();
+        txtPrecio = new org.edisoncor.gui.textField.TextField();
+        labelCustom8 = new org.edisoncor.gui.label.LabelCustom();
+        txtComprado = new org.edisoncor.gui.textField.TextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtUnidades = new javax.swing.JTextField();
+        btnCrear = new org.edisoncor.gui.button.ButtonPopup();
 
         setTitle("SURTIALISS - PRODUCTOS");
         setPreferredSize(new java.awt.Dimension(1000, 500));
@@ -56,6 +75,7 @@ public class Productos extends javax.swing.JInternalFrame {
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(254, 254, 254));
         jLabel1.setText("Ingrese Codigo:");
 
         txtCodigo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -73,28 +93,18 @@ public class Productos extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButton3.setText("Nuevo");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(123, 123, 123)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65))
+                .addContainerGap(453, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,8 +113,7 @@ public class Productos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3))
+                    .addComponent(jButton4))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
@@ -130,9 +139,109 @@ public class Productos extends javax.swing.JInternalFrame {
 
         PanelListado.add(jScrollPane1);
 
+        labelNew.setFont(new java.awt.Font("Century Schoolbook L", 1, 14)); // NOI18N
+        labelNew.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelNew.setText("Nuevo Producto");
+        labelNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jPanel4.setLayout(new java.awt.GridLayout(7, 2, 10, 10));
+
+        labelCustom2.setForeground(new java.awt.Color(7, 7, 7));
+        labelCustom2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelCustom2.setText("CODIGO");
+        labelCustom2.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(labelCustom2);
+
+        txtCodigo1.setForeground(new java.awt.Color(5, 5, 5));
+        txtCodigo1.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(txtCodigo1);
+
+        labelCustom3.setForeground(new java.awt.Color(7, 7, 7));
+        labelCustom3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelCustom3.setText("NOMBRE");
+        labelCustom3.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(labelCustom3);
+
+        txtNombre.setForeground(new java.awt.Color(5, 5, 5));
+        txtNombre.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(txtNombre);
+
+        labelCustom4.setForeground(new java.awt.Color(7, 7, 7));
+        labelCustom4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelCustom4.setText("CANTIDAD");
+        labelCustom4.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(labelCustom4);
+
+        txtCantidad.setForeground(new java.awt.Color(5, 5, 5));
+        txtCantidad.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(txtCantidad);
+
+        labelCustom5.setForeground(new java.awt.Color(7, 7, 7));
+        labelCustom5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelCustom5.setText("PRECIO");
+        labelCustom5.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(labelCustom5);
+
+        txtPrecio.setForeground(new java.awt.Color(5, 5, 5));
+        txtPrecio.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(txtPrecio);
+
+        labelCustom8.setForeground(new java.awt.Color(7, 7, 7));
+        labelCustom8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelCustom8.setText("PRECIO DE COMPRA");
+        labelCustom8.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(labelCustom8);
+
+        txtComprado.setForeground(new java.awt.Color(5, 5, 5));
+        txtComprado.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        jPanel4.add(txtComprado);
+
+        jLabel3.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(7, 7, 7));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Agregar Unidades");
+        jLabel3.setFocusable(false);
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel4.add(jLabel3);
+
+        txtUnidades.setEditable(false);
+        jPanel4.add(txtUnidades);
+
+        btnCrear.setForeground(new java.awt.Color(5, 5, 5));
+        btnCrear.setText("CREAR");
+        btnCrear.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnCrear);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                    .addComponent(labelNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(labelNew, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
+        );
+
+        jScrollPane2.setViewportView(jPanel2);
+
         jDesktopPane1.setLayer(labelHeader1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(PanelListado, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -141,9 +250,12 @@ public class Productos extends javax.swing.JInternalFrame {
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PanelListado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelHeader1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addComponent(PanelListado, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jDesktopPane1Layout.setVerticalGroup(
@@ -153,8 +265,10 @@ public class Productos extends javax.swing.JInternalFrame {
                 .addComponent(labelHeader1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(PanelListado, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelListado, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -171,11 +285,6 @@ public class Productos extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ProductoNuevo nuevo = new ProductoNuevo();
-        nuevo.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         this.onloadViewProduct();
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -184,27 +293,129 @@ public class Productos extends javax.swing.JInternalFrame {
         this.onloadViewProduct();
     }//GEN-LAST:event_txtCodigoActionPerformed
 
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        if(this.isNew){
+            this.saveProduct();
+        }else{
+            this.updateProduct();
+        }
+        
+    }//GEN-LAST:event_btnCrearActionPerformed
+
     private void onloadViewProduct(){
-        Product product = Producto.findProduct(this.txtCodigo.getText());
+        this.product = Producto.findProduct(this.txtCodigo.getText());
         this.txtCodigo.setText("");
-        Producto modificar = new Producto(product);
+        this.CargarCampos(product);
     }
     
     private void ListaProductos() {
         this.Lista.setModel(Producto.Productos());
         this.Lista.updateUI();
     }
+    
+    private void saveProduct(){
+        ProductosController nuevo = new ProductosController();
+        String[] producto = {
+            this.txtCodigo1.getText().trim(),
+            this.txtNombre.getText(),
+            this.txtPrecio.getText(),
+            this.txtComprado.getText(),
+            this.txtCantidad.getText()
+        };
+        nuevo.nuevoPro(producto);
+        this.reloadVariables();
+    }
+    
+    private void CargarCampos(Product product) {
+        Producto = new ProductosController();
+        this.product = product;
+        if (product != null) {
+            this.txtCodigo1.setText(product.getBarCode());
+            this.txtCodigo.setText(product.getBarCode());
+            this.txtNombre.setText(product.getName());
+            this.txtPrecio.setText(product.getSalePrice()+"");
+            
+            this.txtCantidad.setText(product.getQuantity()+"");
+            this.txtUnidades.requestFocus();
+            
+            this.labelNew.setText("Agregar Unidades");
+            this.btnCrear.setText("Actualizar");
+            this.txtCodigo1.setEditable(false);
+            this.txtCantidad.setEditable(false);
+            this.txtUnidades.setEditable(true);
+            this.txtUnidades.setText("");
+            
+            this.isNew = false;
+        }else{
+            //JOptionPane.showMessageDialog(null, "No se encontro el producto.");
+           this.reloadVariables();
+           this.txtCodigo1.requestFocus();
+        }
+    }
 
+    private void reloadVariables(){
+        this.isNew = true;
+        this.btnCrear.setText("Crear");
+        this.labelNew.setText("Nuevo Producto");
+        this.txtCodigo1.setEditable(true);
+        this.txtCodigo.setEditable(true);
+        this.txtCantidad.setEditable(true);
+        this.txtUnidades.setEditable(false);
+        
+        this.txtCodigo1.setText("");
+        this.txtNombre.setText("");
+        this.txtPrecio.setText("");
+        this.txtCantidad.setText("");
+        this.txtComprado.setText("");
+        this.txtUnidades.setText("");
+        
+        this.Lista.setModel(Producto.Productos());
+    } 
+    
+    private void updateProduct(){
+        int cantidad = Integer.parseInt(this.txtCantidad.getText());
+        try{
+            cantidad += Integer.parseInt(this.txtUnidades.getText());
+            String[] productoText = {
+                this.txtCodigo.getText().trim(),
+                this.txtNombre.getText(),
+                this.txtPrecio.getText(),
+                cantidad+""
+            };
+            this.product = this.Producto.EditarProducto(productoText);
+            this.txtCodigo.requestFocus();
+            this.CargarCampos(this.product);
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Por Favor ingresa las unidades de entrada.");
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Lista;
     private javax.swing.JPanel PanelListado;
-    private javax.swing.JButton jButton3;
+    private org.edisoncor.gui.button.ButtonPopup btnCrear;
     private javax.swing.JButton jButton4;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private org.edisoncor.gui.label.LabelCustom labelCustom2;
+    private org.edisoncor.gui.label.LabelCustom labelCustom3;
+    private org.edisoncor.gui.label.LabelCustom labelCustom4;
+    private org.edisoncor.gui.label.LabelCustom labelCustom5;
+    private org.edisoncor.gui.label.LabelCustom labelCustom8;
     private org.edisoncor.gui.label.LabelHeader labelHeader1;
+    private javax.swing.JLabel labelNew;
+    private org.edisoncor.gui.textField.TextField txtCantidad;
     private javax.swing.JTextField txtCodigo;
+    private org.edisoncor.gui.textField.TextField txtCodigo1;
+    private org.edisoncor.gui.textField.TextField txtComprado;
+    private org.edisoncor.gui.textField.TextField txtNombre;
+    private org.edisoncor.gui.textField.TextField txtPrecio;
+    private javax.swing.JTextField txtUnidades;
     // End of variables declaration//GEN-END:variables
 }
