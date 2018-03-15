@@ -64,8 +64,9 @@ public class Productos extends javax.swing.JInternalFrame {
         txtUnidades = new javax.swing.JTextField();
         btnCrear = new org.edisoncor.gui.button.ButtonPopup();
 
+        setMaximizable(true);
+        setResizable(true);
         setTitle("SURTIALISS - PRODUCTOS");
-        setPreferredSize(new java.awt.Dimension(1000, 500));
 
         labelHeader1.setText("Productos");
         labelHeader1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -104,7 +105,7 @@ public class Productos extends javax.swing.JInternalFrame {
                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
-                .addContainerGap(453, Short.MAX_VALUE))
+                .addContainerGap(466, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,16 +216,19 @@ public class Productos extends javax.swing.JInternalFrame {
                 btnCrearActionPerformed(evt);
             }
         });
-        jPanel4.add(btnCrear);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
-                    .addComponent(labelNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+                        .addComponent(labelNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(149, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -233,7 +237,9 @@ public class Productos extends javax.swing.JInternalFrame {
                 .addComponent(labelNew, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel2);
@@ -268,7 +274,7 @@ public class Productos extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PanelListado, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -350,6 +356,7 @@ public class Productos extends javax.swing.JInternalFrame {
             //JOptionPane.showMessageDialog(null, "No se encontro el producto.");
            this.reloadVariables();
            this.txtCodigo1.requestFocus();
+           this.txtCodigo.setText("");
         }
     }
 
@@ -363,6 +370,7 @@ public class Productos extends javax.swing.JInternalFrame {
         this.txtUnidades.setEditable(false);
         
         this.txtCodigo1.setText("");
+        this.txtCodigo.setText("");
         this.txtNombre.setText("");
         this.txtPrecio.setText("");
         this.txtCantidad.setText("");

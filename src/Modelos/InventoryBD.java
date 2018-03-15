@@ -22,15 +22,15 @@ public class InventoryBD extends Conexion {
 
     public void newInventory(Inventory inventory) throws HibernateException {
         try { 
-            iniciaOperacion(); 
+            this.iniciaOperacion(); 
             sesion.save(inventory); 
             tx.commit(); 
         }catch(HibernateException he) { 
             manejaExcepcion(he);
             JOptionPane.showMessageDialog(null, "No se pudo almacenar en inventario");
         }finally { 
-            this.sesion.flush();
-            sesion.close(); 
+            //this.sesion.flush();
+            this.sesion.close(); 
         }
     }
 }

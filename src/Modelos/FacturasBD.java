@@ -135,7 +135,7 @@ public class FacturasBD extends Conexion {
         List<Facturas> invoices = null;
         try { 
             iniciaOperacion(); 
-            Query query = sesion.createQuery("from Facturas WHERE Clientes = :client and isCredit = true")
+            Query query = sesion.createQuery("from Facturas WHERE cedula = :client and CreditoFactura = true")
                     .setParameter("client", consumer);
             invoices = query.list();
         } finally { 

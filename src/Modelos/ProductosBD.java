@@ -22,20 +22,20 @@ import org.hibernate.Query;
 public class ProductosBD extends Conexion {
 
     private Conexion utilsSession;
-    private PurchaseOrderBD order;
-    private InventoryBD inventory;
+    private PurchaseOrderBD orderEnity;
+    private InventoryBD inventoryEntity;
     
 
     public ProductosBD() {
         utilsSession = new Conexion();
-        order = new PurchaseOrderBD();
-        inventory = new InventoryBD();
+        orderEnity = new PurchaseOrderBD();
+        inventoryEntity = new InventoryBD();
         
     }
 
     private String saveProduct(Product product) throws HibernateException{
         String id = "0";
-        if(this.getProduct(product.getBarCode()) == null){
+        if(this.getProduct(product.getBarCode()) != null){
             JOptionPane.showMessageDialog(null, "El producto ya existe.");
             return id;
         }
@@ -61,9 +61,9 @@ public class ProductosBD extends Conexion {
         product.setSalePrice(Integer.parseInt(pro[2]));
         product.setQuantity(Long.parseLong(pro[4]));
         String id = this.saveProduct(product);
-        this.newInventory(pro);
         
         if(id != "0"){
+            this.newInventory(pro, product);
             JOptionPane.showMessageDialog(null, "Producto Creado");
         }else{
             JOptionPane.showMessageDialog(null, "No se pudo almacenar producto");
@@ -76,7 +76,7 @@ public class ProductosBD extends Conexion {
         
         po.setProvider(this.getProvider(1));
         po.setTotal(total+"");
-        return order.newOrder(po);
+        return orderEnity.newOrder(po);
     }
     
     private Provider getProvider(int id){
@@ -90,15 +90,15 @@ public class ProductosBD extends Conexion {
         return provider; 
     }
     
-    protected void newInventory(String[] pro){
+    protected void newInventory(String[] pro, Product product){
         int order_id = newPurchaseOrder(pro);
         Inventory inventory = new Inventory();
-        inventory.setPurchaseOrder(this.order.getPurchaseOrder(order_id));
-        inventory.setProduct(this.getProduct(pro[0]));
+        inventory.setPurchaseOrder(this.orderEnity.getPurchaseOrder(order_id));
+        inventory.setProduct(product);
         inventory.setQuantity(Long.parseLong(pro[2]));
         inventory.setPrice(Long.parseLong(pro[3]));
-        
-        this.inventory.newInventory(inventory);
+        System.out.println(inventory.getProduct().getName());
+        this.inventoryEntity.newInventory(inventory);
     }
     
     public Product getProduct(String bar_code) throws HibernateException {
