@@ -47,6 +47,8 @@ public class FacturaView extends javax.swing.JFrame {
         this.txtTotal.setText("0");
         PrepararTabla();
         this.txtCodigo.requestFocus();
+         ImprimirFactura imprimir = new ImprimirFactura();
+         imprimir.openCash();
     }
 
     /**

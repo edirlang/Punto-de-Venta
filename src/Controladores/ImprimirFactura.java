@@ -9,6 +9,7 @@ package Controladores;
 import Vistas.Login;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 import javax.print.Doc;
 import javax.print.DocFlavor;
@@ -17,6 +18,8 @@ import javax.print.PrintException;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -110,6 +113,22 @@ public class ImprimirFactura extends Thread{
         }
     }
     
+    public void openCash(){
+        try{
+            FileWriter imp = new FileWriter("/dev/lp0 ");
+            imp.write(27);
+            imp.write(112);
+            imp.write(0);
+            imp.write(150);
+            imp.write(150);
+            imp.write(0);
+            imp.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }
+    
     public void ImprimirReporte(String[] Datos, String fecha) {
         String cadena =  headTicket();
         cadena +="Fecha: " + fecha +"\n";
@@ -131,11 +150,12 @@ public class ImprimirFactura extends Thread{
         PrintService service = PrintServiceLookup.lookupDefaultPrintService();
         DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.BYTE_ARRAY.AUTOSENSE;
         DocPrintJob pj = service.createPrintJob();
-
+        PrintRequestAttributeSet attributeSet = new HashPrintRequestAttributeSet();
+        
         byte[] bytes = text.getBytes();
         Doc doc = new SimpleDoc(bytes, flavor, null);
         try {
-            pj.print(doc, null);
+            pj.print(doc, attributeSet);
         } catch (PrintException e) {
             JOptionPane.showMessageDialog(null, "eror" + e);
         }
