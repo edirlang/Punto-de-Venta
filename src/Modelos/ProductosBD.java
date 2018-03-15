@@ -152,6 +152,19 @@ public class ProductosBD extends Conexion {
         return products; 
     }
     
+    public List<Product> getLikeNameProducts(String name) throws HibernateException {
+        List<Product> products = null;  
+        try { 
+            iniciaOperacion(); 
+            Query query = sesion.createQuery("from Product where name like :name")
+                    .setParameter("name", "%"+name+"%");
+            products = query.list();
+        } finally { 
+            sesion.close(); 
+        }  
+        return products; 
+    }
+    
     protected DefaultTableModel todos() {
         DefaultTableModel productos = new DefaultTableModel();
         String[] columnas = {"Codigo", "Descripción", "Precio", "Cantidad"};

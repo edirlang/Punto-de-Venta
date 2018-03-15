@@ -105,6 +105,11 @@ public class Product  implements java.io.Serializable {
     public void removeInventory(Inventory inventory){
         this.inventories.remove(inventory);
     }
+    
+    @Override
+    public String toString() {
+        return this.getName()+" $"+this.getSalePrice();
+    }
 }
 
 

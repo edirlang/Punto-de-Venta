@@ -14,6 +14,7 @@ import Modelos.FacturasBD;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -97,5 +98,9 @@ public class FacturaController{
        SimpleDateFormat formato1 = new SimpleDateFormat("yyy-MM-dd");
        Calendar cal1 = Calendar.getInstance(); 
        return formato1.format(fechaActual);
+    }
+    
+    public List<Product> getAllProducts(){
+        return this.productos.getAllProducts();
     }
 }

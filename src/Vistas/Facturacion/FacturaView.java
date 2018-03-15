@@ -11,15 +11,17 @@ import Controladores.ImprimirPDf;
 import Entity.Facturas;
 import Entity.Product;
 import Modelos.FacturasBD;
+import java.awt.event.KeyEvent;
 import java.io.PrintWriter;
-import java.util.Calendar;
 import javax.print.DocFlavor;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -35,7 +37,8 @@ public class FacturaView extends javax.swing.JFrame {
     String[][] Clientes;
     String[] ClienteSelecionado;
     int dia;
-    static int NumeroFacturaCreada = 0;
+    Product product;
+    //static int NumeroFacturaCreada = 0;
 
     public FacturaView() {
         initComponents();
@@ -47,8 +50,12 @@ public class FacturaView extends javax.swing.JFrame {
         this.txtTotal.setText("0");
         PrepararTabla();
         this.txtCodigo.requestFocus();
-         ImprimirFactura imprimir = new ImprimirFactura();
-         imprimir.openCash();
+        this.initCombobox();
+        this.setExtendedState(MAXIMIZED_BOTH);
+        
+        ImprimirFactura imprimir = new ImprimirFactura();
+        imprimir.openCash();   
+        
     }
 
     /**
@@ -66,7 +73,6 @@ public class FacturaView extends javax.swing.JFrame {
         isCredit = new javax.swing.JRadioButton();
         labelHeader1 = new org.edisoncor.gui.label.LabelHeader();
         panelTranslucido2 = new org.edisoncor.gui.panel.PanelTranslucido();
-        txtNombre = new org.edisoncor.gui.textField.TextField();
         labelRect5 = new org.edisoncor.gui.label.LabelRect();
         labelRect6 = new org.edisoncor.gui.label.LabelRect();
         txtCantidad = new org.edisoncor.gui.textField.TextField();
@@ -75,6 +81,9 @@ public class FacturaView extends javax.swing.JFrame {
         txtPrecio = new org.edisoncor.gui.textField.TextField();
         labelRect8 = new org.edisoncor.gui.label.LabelRect();
         btnSumar = new org.edisoncor.gui.button.ButtonIcon();
+        jcbName = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         panelTranslucido3 = new org.edisoncor.gui.panel.PanelTranslucido();
@@ -148,18 +157,11 @@ public class FacturaView extends javax.swing.JFrame {
                     .addComponent(labelRect4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(clientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(isCredit))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         labelHeader1.setText("Factura de venta");
         labelHeader1.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
-
-        txtNombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
 
         labelRect5.setText("Nombre:");
         labelRect5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -192,6 +194,18 @@ public class FacturaView extends javax.swing.JFrame {
             }
         });
 
+        jcbName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbNameActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(253, 251, 251));
+        jLabel1.setText("Producto:");
+
+        txtName.setEditable(false);
+
         javax.swing.GroupLayout panelTranslucido2Layout = new javax.swing.GroupLayout(panelTranslucido2);
         panelTranslucido2.setLayout(panelTranslucido2Layout);
         panelTranslucido2Layout.setHorizontalGroup(
@@ -202,47 +216,49 @@ public class FacturaView extends javax.swing.JFrame {
                     .addComponent(labelRect5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelRect7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(43, 43, 43)
+                .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                    .addComponent(jcbName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelRect6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelRect8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3)
+                .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(155, 155, 155)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
                 .addComponent(btnSumar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(34, 34, 34))
         );
         panelTranslucido2Layout.setVerticalGroup(
             panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTranslucido2Layout.createSequentialGroup()
                 .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelTranslucido2Layout.createSequentialGroup()
-                        .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelTranslucido2Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(labelRect6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelTranslucido2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(labelRect7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addContainerGap()
+                        .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelRect7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelRect6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
                         .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelRect5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelRect8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbName, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelTranslucido2Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(btnSumar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                        .addGap(25, 25, 25)
+                        .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSumar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -486,16 +502,16 @@ public class FacturaView extends javax.swing.JFrame {
                 .addComponent(panelTranslucido2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(161, 161, 161)
+                        .addGap(177, 177, 177)
                         .addComponent(buttonIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(8, 8, 8)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
                 .addComponent(panelTranslucido3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelTranslucido4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -582,12 +598,7 @@ public class FacturaView extends javax.swing.JFrame {
         this.finishSale();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        NumeroFacturaCreada--;
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
@@ -600,6 +611,14 @@ public class FacturaView extends javax.swing.JFrame {
     private void isCreditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isCreditActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_isCreditActionPerformed
+
+    private void jcbNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbNameActionPerformed
+        if("comboBoxEdited".equals(evt.getActionCommand())){
+            Product product = (Product) this.jcbName.getSelectedItem();
+            this.txtCodigo.setText(product.getBarCode());
+            this.CargarCampos();
+        }
+    }//GEN-LAST:event_jcbNameActionPerformed
 
     private void PrepararTabla() {
         ListaProducto = new DefaultTableModel();
@@ -614,9 +633,9 @@ public class FacturaView extends javax.swing.JFrame {
 
     private void CargarCampos() {
         try {
-            Product producto = OperacionesFactura.BuscarProducto(this.txtCodigo.getText());
-            this.txtNombre.setText(producto.getName());
-            this.txtPrecio.setText(producto.getSalePrice()+"");
+            this.product = OperacionesFactura.BuscarProducto(this.txtCodigo.getText());
+            this.txtName.setText(product.getName());
+            this.txtPrecio.setText(product.getSalePrice()+"");
             this.txtCantidad.setText("1");
             long codigo = Long.parseLong(this.txtCodigo.getText().trim());
             if (codigo < 1000) {
@@ -644,7 +663,7 @@ public class FacturaView extends javax.swing.JFrame {
         int total = cantidad * precio;
         String[] filaFactura = new String[]{
             this.txtCodigo.getText(),
-            this.txtNombre.getText(),
+            this.product.getName(),
             cantidad + "",
             precio + "",
             total + ""
@@ -655,8 +674,9 @@ public class FacturaView extends javax.swing.JFrame {
         this.ListaProducto.addRow(filaFactura);
         this.txtCantidad.setText("1");
         this.txtCodigo.setText(null);
-        this.txtNombre.setText(null);
+        
         this.txtPrecio.setText("");
+        this.txtName.setText("");
         this.txtCodigo.requestFocus();
     }
 
@@ -682,7 +702,7 @@ public class FacturaView extends javax.swing.JFrame {
                     total += precio;
                     this.txtTotal.setText(total + "");
                     this.txtCodigo.setText(null);
-                    this.txtNombre.setText(null);
+                    this.txtPrecio.setText("");
                     this.txtPrecio.setText("");
                     this.txtCodigo.requestFocus();
                 }
@@ -805,6 +825,28 @@ public class FacturaView extends javax.swing.JFrame {
                 + "Cambio " + this.txtCambio.getText());
     }
 
+    private void CalcularCambio() {
+        long total = Long.parseLong(this.txtTotal.getText());
+        long efectivo;
+        try {
+            efectivo = Long.parseLong(this.txtEfectivo.getText());
+        } catch (NumberFormatException ex) {
+            efectivo = total;
+            this.txtEfectivo.setText(total+"");
+        }
+        this.txtCambio.setText("" + (efectivo - total));
+    }
+    
+    private void initCombobox(){
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        for(Product productItem : this.OperacionesFactura.getAllProducts()){
+            model.addElement(productItem);
+        }
+        this.jcbName.setModel(model);
+        AutoCompleteDecorator.decorate(this.jcbName);
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonIcon btnSumar;
     private org.edisoncor.gui.button.ButtonAero buttonAero1;
@@ -812,6 +854,7 @@ public class FacturaView extends javax.swing.JFrame {
     private org.edisoncor.gui.button.ButtonIcon buttonIcon1;
     private javax.swing.JComboBox clientes;
     private javax.swing.JRadioButton isCredit;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -827,6 +870,7 @@ public class FacturaView extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JComboBox<String> jcbName;
     private org.edisoncor.gui.label.LabelHeader labelHeader1;
     private org.edisoncor.gui.label.LabelRect labelRect10;
     private org.edisoncor.gui.label.LabelRect labelRect11;
@@ -844,20 +888,9 @@ public class FacturaView extends javax.swing.JFrame {
     private org.edisoncor.gui.textField.TextField txtCantidad;
     private org.edisoncor.gui.textField.TextField txtCodigo;
     private org.edisoncor.gui.textField.TextField txtEfectivo;
-    private org.edisoncor.gui.textField.TextField txtNombre;
+    private javax.swing.JTextField txtName;
     private org.edisoncor.gui.textField.TextField txtPrecio;
     private org.edisoncor.gui.textField.TextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
-    private void CalcularCambio() {
-        long total = Long.parseLong(this.txtTotal.getText());
-        long efectivo;
-        try {
-            efectivo = Long.parseLong(this.txtEfectivo.getText());
-        } catch (NumberFormatException ex) {
-            efectivo = total;
-            this.txtEfectivo.setText(total+"");
-        }
-        this.txtCambio.setText("" + (efectivo - total));
-    }
 }
