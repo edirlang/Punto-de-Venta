@@ -51,6 +51,11 @@ public class ProductosController extends ProductosBD implements Runnable{
         product.setName(pro[1]);
         product.setSalePrice(Integer.parseInt(pro[2]));
         product.setQuantity(Long.parseLong(pro[3]));
+        if(pro[4] == "1"){
+            product.setIsPayPoints(true);
+        }else{
+            product.setIsPayPoints(false);
+        }
         return this.editar(product);
     }
     

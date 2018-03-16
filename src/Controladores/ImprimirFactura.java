@@ -6,6 +6,7 @@
 
 package Controladores;
 
+import Entity.Clientes;
 import Vistas.Login;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,9 +31,10 @@ import javax.swing.table.DefaultTableModel;
 public class ImprimirFactura extends Thread{
     String total, efectivo, cambio, NumeroFactura, cajero, fecha, hora, cliente, ccCliente;
     DefaultTableModel Productos;
+    ClientesController customerController;
     
     public ImprimirFactura(DefaultTableModel m,String[] datos) {
-        
+        this.customerController = new ClientesController();
         this.total = datos[5];
         this.efectivo = datos[6];
         this.cambio = datos[7];
@@ -46,10 +48,12 @@ public class ImprimirFactura extends Thread{
     }
 
     public ImprimirFactura() {
+        this.customerController = new ClientesController();
     }
 
     @Override
     public void run() {
+        long points = this.customerController.getAcumulatePoints(this.ccCliente);
         String cadena = headTicket();
         cadena += "Factura #: " + NumeroFactura + " " + "Cajero(a): " + cajero + "\n"
                 + "Fecha: " + fecha + " " + "Hora: " + hora + "\n"
@@ -84,6 +88,11 @@ public class ImprimirFactura extends Thread{
         pie += "Efectivo : $" + efectivo + "\n";
         pie += "Cambio: $" + cambio + "\n";
         
+        if(points > 10){
+            pie += "\n";
+            pie += "Puntos Surtialiss"+"\n";
+            pie += "Acumulados: "+points;
+        }
         
         String factura = cadena+imp2+pie;
         
@@ -106,27 +115,31 @@ public class ImprimirFactura extends Thread{
     
     public void cut(PrintWriter ps){
         try{
-            char[] ESC_CUT_PAPER = new char[]{0x1b, 'm'};
-            ps.write(ESC_CUT_PAPER);
+            ps.write(27);
+            ps.write(112);
+            ps.write(0);
+            ps.write(150);
+            ps.write(150);
+            ps.write(0);
+            ps.close();
         }catch(Exception e){
-            System.out.print(e);
+            System.out.print(e.getMessage());
         }
     }
     
     public void openCash(){
-        try{
-            FileWriter imp = new FileWriter("/dev/lp0 ");
-            imp.write(27);
-            imp.write(112);
-            imp.write(0);
-            imp.write(150);
-            imp.write(150);
-            imp.write(0);
-            imp.close();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        PrintService service = PrintServiceLookup.lookupDefaultPrintService();
+        DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.BYTE_ARRAY.AUTOSENSE;
+        DocPrintJob pj = service.createPrintJob();
+        PrintRequestAttributeSet attributeSet = new HashPrintRequestAttributeSet();
         
+        byte[] open = {27, 112, 48, 55, 121};
+        Doc doc = new SimpleDoc(open, flavor, null);
+        try {
+            pj.print(doc, attributeSet);
+        } catch (PrintException e) {
+            JOptionPane.showMessageDialog(null, "error" + e);
+        }
     }
     
     public void ImprimirReporte(String[] Datos, String fecha) {
@@ -157,7 +170,7 @@ public class ImprimirFactura extends Thread{
         try {
             pj.print(doc, attributeSet);
         } catch (PrintException e) {
-            JOptionPane.showMessageDialog(null, "eror" + e);
+            JOptionPane.showMessageDialog(null, "error" + e);
         }
     }
 }

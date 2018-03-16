@@ -60,6 +60,12 @@ public class ProductosBD extends Conexion {
         product.setName(pro[1]);
         product.setSalePrice(Integer.parseInt(pro[2]));
         product.setQuantity(Long.parseLong(pro[4]));
+        if(pro[5] == "1"){
+            product.setIsPayPoints(true);
+        }else{
+            product.setIsPayPoints(false);
+        }
+        
         String id = this.saveProduct(product);
         
         if(id != "0"){

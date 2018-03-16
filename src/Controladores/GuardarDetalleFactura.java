@@ -5,6 +5,7 @@
  */
 package Controladores;
 
+import Entity.CustomerPoint;
 import Entity.Detallefactura;
 import Entity.Facturas;
 import Entity.Product;
@@ -59,4 +60,5 @@ public class GuardarDetalleFactura extends Conexion implements Runnable {
             this.sesion.close(); 
         }  
     }
+    
 }

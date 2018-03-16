@@ -80,9 +80,17 @@ public class ClientesController {
         return modelConsumers;
     }
     
-    private long getAcumulatePoints(Clientes customer){
+    public long getAcumulatePoints(Clientes customer){
         long totalPoints = 0;
         for(CustomerPoint point : this.clientesbd.getCustomerPoints(customer.getDocumentNumber())){
+            totalPoints += point.getQuantity();
+        }
+        return totalPoints;
+    }
+    
+    public long getAcumulatePoints(String document){
+        long totalPoints = 0;
+        for(CustomerPoint point : this.clientesbd.getCustomerPoints(document)){
             totalPoints += point.getQuantity();
         }
         return totalPoints;

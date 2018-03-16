@@ -68,6 +68,9 @@ public class FacturaController{
         if(num_invoice != 0){
             this.newCustomerPoints(invoice);
         }
+        if(Integer.parseInt(data_invoice[3]) < 0){
+            this.invoicesBD.saveDescountPoints(invoice.getClientes(), Integer.parseInt(data_invoice[3]));
+        }
         return num_invoice;
     }
     
@@ -102,5 +105,13 @@ public class FacturaController{
     
     public List<Product> getAllProducts(){
         return this.productos.getAllProducts();
+    }
+    
+    public Long getPointsCliente(String cedula){
+        long totalPoints = 0;
+        for(CustomerPoint point : this.clientes.getCustomerPoints(cedula)){
+            totalPoints += point.getQuantity();
+        }
+        return totalPoints;
     }
 }

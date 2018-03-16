@@ -6,6 +6,7 @@
 
 package Vistas;
 
+import Controladores.ImprimirFactura;
 import Entity.Egresos;
 import Modelos.EgresosDB;
 import java.text.SimpleDateFormat;
@@ -158,6 +159,8 @@ public class PagoPedidos extends javax.swing.JDialog {
         pago.NuevoEgreso(egreso);
         this.setVisible(false);
         this.dispose();
+        ImprimirFactura imprimir = new ImprimirFactura();
+        imprimir.openCash(); 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonAction btnCancelar;

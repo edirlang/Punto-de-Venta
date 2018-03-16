@@ -27,16 +27,17 @@ public class Product  implements java.io.Serializable {
     @Column(name="quantity")
     private long quantity;
     
+    @Column(name="isPayPoints")
+    private boolean isPayPoints = false;
+    
     @OneToMany(mappedBy="product")
-    //@JoinColumn(name="Codigo", nullable=true)
     private Set<Detallefactura> detallefacturas;
     
     @OneToMany(mappedBy="product")
-    //@JoinColumn(name="product_id", nullable=true)
     private Set<Inventory> inventories;
 
     public Product() {
-        
+        this.isPayPoints = false;
     }
 
 	
@@ -105,6 +106,15 @@ public class Product  implements java.io.Serializable {
     public void removeInventory(Inventory inventory){
         this.inventories.remove(inventory);
     }
+
+    public boolean getIsPayPoints() {
+        return isPayPoints;
+    }
+
+    public void setIsPayPoints(boolean isPayPoints) {
+        this.isPayPoints = isPayPoints;
+    }
+    
     
     @Override
     public String toString() {

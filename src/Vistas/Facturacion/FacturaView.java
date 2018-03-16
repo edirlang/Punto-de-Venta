@@ -11,13 +11,6 @@ import Controladores.ImprimirPDf;
 import Entity.Facturas;
 import Entity.Product;
 import Modelos.FacturasBD;
-import java.awt.event.KeyEvent;
-import java.io.PrintWriter;
-import javax.print.DocFlavor;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -38,6 +31,7 @@ public class FacturaView extends javax.swing.JFrame {
     String[] ClienteSelecionado;
     int dia;
     Product product;
+    int points;
     //static int NumeroFacturaCreada = 0;
 
     public FacturaView() {
@@ -52,10 +46,7 @@ public class FacturaView extends javax.swing.JFrame {
         this.txtCodigo.requestFocus();
         this.initCombobox();
         this.setExtendedState(MAXIMIZED_BOTH);
-        
-        ImprimirFactura imprimir = new ImprimirFactura();
-        imprimir.openCash();   
-        
+        this.points = 0;
     }
 
     /**
@@ -622,12 +613,13 @@ public class FacturaView extends javax.swing.JFrame {
 
     private void PrepararTabla() {
         ListaProducto = new DefaultTableModel();
-        String[] columnas = {"ID", "Producto", "Cantidad", "Valor unidad", "Valor total"};
+        String[] columnas = {"ID", "Producto", "Cantidad", "Valor unidad", "Valor total","Puntos"};
         ListaProducto.addColumn(columnas[0]);
         ListaProducto.addColumn(columnas[1]);
         ListaProducto.addColumn(columnas[2]);
         ListaProducto.addColumn(columnas[3]);
         ListaProducto.addColumn(columnas[4]);
+        ListaProducto.addColumn(columnas[5]);
         this.jTable1.setModel(ListaProducto);
     }
 
@@ -661,25 +653,42 @@ public class FacturaView extends javax.swing.JFrame {
         }
 
         int total = cantidad * precio;
-        String[] filaFactura = new String[]{
-            this.txtCodigo.getText(),
-            this.product.getName(),
-            cantidad + "",
-            precio + "",
-            total + ""
-        };
         long totalcuenta = Long.parseLong(this.txtTotal.getText());
-        totalcuenta += total;
+        String[] filaFactura = new String[6];
+        
+        filaFactura[0] = this.txtCodigo.getText();
+        filaFactura[1] = this.product.getName();
+        filaFactura[2] = cantidad + "";
+        
+        if(this.product.getIsPayPoints()){
+            if(!this.checkPointsCustomer(total)){
+                JOptionPane.showMessageDialog(this, "No se puede agregar el premio, no tienes suficientes puntos.");
+                this.rebootForm();
+                return ;
+            }
+            filaFactura[3] = "0";
+            filaFactura[4] = "0";
+            filaFactura[5] = total+"";
+            this.points -= total;
+        }else{
+            filaFactura[3] = precio+"";
+            filaFactura[4] = total+"";
+            filaFactura[5] = "0";
+            totalcuenta += total;
+        }
+        
         this.txtTotal.setText("" + totalcuenta);
         this.ListaProducto.addRow(filaFactura);
+        this.rebootForm();
+    }
+
+    private void rebootForm(){
         this.txtCantidad.setText("1");
         this.txtCodigo.setText(null);
-        
         this.txtPrecio.setText("");
         this.txtName.setText("");
         this.txtCodigo.requestFocus();
     }
-
     private void ComprobarExistencia() {
         int a;
         Boolean Nosumado = true;
@@ -739,15 +748,16 @@ public class FacturaView extends javax.swing.JFrame {
             if ((this.txtCodigo.getText().equalsIgnoreCase(ListaProducto.getValueAt(i, 0).toString()))
                     && (this.txtPrecio.getText().equals(ListaProducto.getValueAt(i, 3).toString()))) {
                 total -= Integer.parseInt(ListaProducto.getValueAt(i, 4).toString());
+                this.points += Integer.parseInt(ListaProducto.getValueAt(i, 5).toString());
                 if (this.txtCantidad.getText().equalsIgnoreCase(ListaProducto.getValueAt(i, 2).toString())) {
                     ListaProducto.removeRow(i);
                 } else {
-
                     cant = (Integer.parseInt(ListaProducto.getValueAt(i, 2).toString())) - Integer.parseInt(this.txtCantidad.getText());
                     ListaProducto.setValueAt(cant, i, 2);
                     long subtotal = cant * (Integer.parseInt(ListaProducto.getValueAt(i, 4).toString()));
                     ListaProducto.setValueAt(subtotal, i, 4);
                     total += (Integer.parseInt(ListaProducto.getValueAt(i, 4).toString()));
+                    this.points -= Integer.parseInt(ListaProducto.getValueAt(i, 5).toString());
                 }
                 this.txtTotal.setText("" + total);
                 break;
@@ -772,23 +782,7 @@ public class FacturaView extends javax.swing.JFrame {
         pdf.start();
         imprimir.start();
     }
-    
-    private void OpenCash() {
-        DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
-        PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-        PrintService service = PrintServiceLookup.lookupDefaultPrintService();
-        this.cut((PrintWriter) service);
-    }
-    
-    public void cut(PrintWriter ps){
-        try{
-            char[] ESC_CUT_PAPER = new char[]{0x1b, 'm'};
-            ps.write(ESC_CUT_PAPER);
-        }catch(Exception e){
-            System.out.print(e);
-        }
-    }
-    
+ 
     private int saveInvoice(){
         CalcularCambio();
         String isCredit = "No";
@@ -799,7 +793,8 @@ public class FacturaView extends javax.swing.JFrame {
         String[] DatosFactura = new String[]{
             this.ClienteSelecionado[0],
             this.txtTotal.getText(),
-            isCredit
+            isCredit,
+            this.points+""
         };
         int num_invoice = this.OperacionesFactura.newInvoice(DatosFactura);
         return num_invoice;
@@ -810,12 +805,14 @@ public class FacturaView extends javax.swing.JFrame {
     }
     
     private Facturas GuardarBD() {
+        ImprimirFactura imprimir = new ImprimirFactura();
+        imprimir.openCash(); 
+        
         int num_invoice = this.saveInvoice();
         this.saveDetails(num_invoice);
         FacturasBD invoice = new FacturasBD();
         Facturas invoice_data = invoice.findInvoice(""+num_invoice);
         return invoice_data;
-                
     }
     
     private void finishSale(){
@@ -846,7 +843,15 @@ public class FacturaView extends javax.swing.JFrame {
         AutoCompleteDecorator.decorate(this.jcbName);
     }
     
-    
+    private boolean checkPointsCustomer(int poinsNew){
+        long totalPoins = this.OperacionesFactura.getPointsCliente(this.ClienteSelecionado[0]);
+        
+        if((this.points + poinsNew) > totalPoins){
+            return false;
+        }else{
+            return true;
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonIcon btnSumar;
     private org.edisoncor.gui.button.ButtonAero buttonAero1;

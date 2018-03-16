@@ -47,6 +47,13 @@ public class FacturasBD extends Conexion {
         return id; 
     }
     
+    public void saveDescountPoints(Clientes customer, int points){
+       CustomerPoint point = new CustomerPoint();
+       point.setCustomer(customer);
+       point.setQuantity(points);
+       this.saveCustomerPoints(point);
+    }
+    
     public void saveCustomerPoints(CustomerPoint point){
         try {
             this.iniciaOperacion(); 
