@@ -102,7 +102,7 @@ public class ClientesBD extends Conexion {
         List<Clientes> clientesList = null;  
         try { 
             iniciaOperacion(); 
-            clientesList = sesion.createQuery("from Clientes").list(); 
+            clientesList = sesion.createQuery("from Clientes ORDER BY document_number").list(); 
         }finally { 
             sesion.close(); 
         }  
@@ -116,7 +116,7 @@ public class ClientesBD extends Conexion {
         int i = 0;
         for(Clientes consumer : consumers){
             consumersNameDocument[i][0] = consumer.getDocumentNumber();
-            consumersNameDocument[i][1] = consumer.getFirstName()+" "+consumer.getLastName();
+            consumersNameDocument[i][1] = consumer.getFullName()+" CC: "+ consumer.getDocumentNumber();
             i++;
         }
         return consumersNameDocument;

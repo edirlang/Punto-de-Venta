@@ -177,6 +177,11 @@ public class Clientes  implements Serializable {
     public void setIsPoints(boolean isPoints) {
         this.isPoints = isPoints;
     }
+    
+    @Override
+    public String toString(){
+        return this.getFullName()+" CC: "+this.getDocumentNumber();
+    }
 }
 
 

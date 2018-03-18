@@ -353,7 +353,7 @@ public class ClientesView extends javax.swing.JInternalFrame {
             credit = "Si";
         }
         String[] cliente = {
-            this.txtCedula.getText(),
+            this.txtCedula1.getText(),
             this.txtNombre.getText(),
             this.txtApellido.getText(),
             this.txtTelefono.getText(),
@@ -362,7 +362,7 @@ public class ClientesView extends javax.swing.JInternalFrame {
             credit
         };
         this.CustomerController.newConsumer(cliente);
-        this.setVisible(false);
+        this.reloadVariables();
     }
     
     private void updateCustomer(){
@@ -380,7 +380,6 @@ public class ClientesView extends javax.swing.JInternalFrame {
         new_data_bith.setMonth(month);
         new_data_bith.setDate(day);
         
-        System.out.println(new_data_bith.toString());
         this.customer.setFirstName(txtNombre.getText());
         this.customer.setLastName(this.txtApellido.getText());
         this.customer.setPhoneNumber(this.txtTelefono.getText());

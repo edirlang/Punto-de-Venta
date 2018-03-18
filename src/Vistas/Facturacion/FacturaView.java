@@ -8,6 +8,7 @@ package Vistas.Facturacion;
 import Controladores.FacturaController;
 import Controladores.ImprimirFactura;
 import Controladores.ImprimirPDf;
+import Entity.Clientes;
 import Entity.Facturas;
 import Entity.Product;
 import Modelos.FacturasBD;
@@ -27,7 +28,6 @@ public class FacturaView extends javax.swing.JFrame {
      */
     FacturaController OperacionesFactura;
     DefaultTableModel ListaProducto;
-    String[][] Clientes;
     String[] ClienteSelecionado;
     int dia;
     Product product;
@@ -38,15 +38,17 @@ public class FacturaView extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Factura de Venta");
         OperacionesFactura = new FacturaController();
-        Clientes = OperacionesFactura.getConsumerDocumentName();
         ClienteSelecionado = new String[2];
-        OperacionesFactura.CargarClientes(this.clientes);
+        this.OperacionesFactura.CargarClientes(this.clientes);
+        this.ClienteSelecionado[0] = "0";
+        this.ClienteSelecionado[1] = "_____ _____";
         this.txtTotal.setText("0");
         PrepararTabla();
         this.txtCodigo.requestFocus();
         this.initCombobox();
         this.setExtendedState(MAXIMIZED_BOTH);
         this.points = 0;
+        
     }
 
     /**
@@ -108,11 +110,6 @@ public class FacturaView extends javax.swing.JFrame {
         labelRect4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         clientes.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        clientes.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                clientesItemStateChanged(evt);
-            }
-        });
         clientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clientesActionPerformed(evt);
@@ -514,27 +511,22 @@ public class FacturaView extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonAero1ActionPerformed
 
     private void clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesActionPerformed
-        this.txtCodigo.requestFocus();
+        if("comboBoxEdited".equals(evt.getActionCommand())){
+            Clientes customer =  (Clientes) this.clientes.getSelectedItem();
+            ClienteSelecionado[0] = customer.getDocumentNumber();
+            ClienteSelecionado[1] = customer.getFullName();
+            if(customer.getIsCredit()){
+                this.isCredit.enable();
+            }else{
+                this.isCredit.disable();
+            }
+            this.txtCodigo.requestFocus();
+        }
     }//GEN-LAST:event_clientesActionPerformed
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
         CargarCampos();
     }//GEN-LAST:event_txtCodigoActionPerformed
-
-    private void clientesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_clientesItemStateChanged
-        for (int i = 0; i < Clientes.length; i++) {
-            if (Clientes[i][1].equalsIgnoreCase(evt.getItem().toString())) {
-                ClienteSelecionado[0] = this.Clientes[i][0];
-                ClienteSelecionado[1] = this.Clientes[i][1];
-                this.txtCodigo.requestFocus();
-                if(this.OperacionesFactura.CreditoCliente(this.ClienteSelecionado[0]) == "SI"){
-                    this.isCredit.enable();
-                }else{
-                    this.isCredit.disable();
-                }
-            }
-        }
-    }//GEN-LAST:event_clientesItemStateChanged
 
     private void btnSumarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSumarActionPerformed
         this.ComprobarExistencia();
@@ -841,6 +833,7 @@ public class FacturaView extends javax.swing.JFrame {
         }
         this.jcbName.setModel(model);
         AutoCompleteDecorator.decorate(this.jcbName);
+        AutoCompleteDecorator.decorate(this.clientes);
     }
     
     private boolean checkPointsCustomer(int poinsNew){

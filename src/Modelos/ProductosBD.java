@@ -158,6 +158,18 @@ public class ProductosBD extends Conexion {
         return products; 
     }
     
+    public List<Product> getAllProductsOrderByName() throws HibernateException {
+        List<Product> products = null;  
+        try { 
+            iniciaOperacion(); 
+            Query query = sesion.createQuery("from Product Order BY name ASC");
+            products = query.list();
+        } finally { 
+            sesion.close(); 
+        }  
+        return products; 
+    }
+    
     public List<Product> getLikeNameProducts(String name) throws HibernateException {
         List<Product> products = null;  
         try { 

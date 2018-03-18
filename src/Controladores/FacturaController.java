@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -26,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class FacturaController{
 
     private ProductosController productos;
-    private ClientesBD clientes;
+    public ClientesBD clientes;
     private FacturasBD invoicesBD;
     
     public FacturaController() {
@@ -36,11 +37,14 @@ public class FacturaController{
     }
 
     public void CargarClientes(JComboBox clientes) {
-        String[][] consumers = this.clientes.getConsumerNameDocument();
-        for(int i = 0; i < consumers.length; i++){
-            clientes.addItem(consumers[i][1]);
-           
+        List<Clientes> consumers = this.clientes.getAllConsumers();
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        
+        for(Clientes customer : consumers){
+            model.addElement(customer);
         }
+        clientes.setModel(model);
+        clientes.setSelectedIndex(0);
     }
     
     public String[][] getConsumerDocumentName() {
@@ -104,7 +108,7 @@ public class FacturaController{
     }
     
     public List<Product> getAllProducts(){
-        return this.productos.getAllProducts();
+        return this.productos.getAllProductsOrderByName();
     }
     
     public Long getPointsCliente(String cedula){

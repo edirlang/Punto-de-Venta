@@ -90,7 +90,7 @@ public class ImprimirFactura extends Thread{
         
         if(points > 10){
             pie += "\n";
-            pie += "Puntos Surtialiss"+"\n";
+            pie += "Puntos Aliss"+"\n";
             pie += "Acumulados: "+points;
         }
         
