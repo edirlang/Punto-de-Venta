@@ -29,7 +29,8 @@ public class ClientesController {
         int year = Integer.parseInt(cliente[5].split("-")[0]);
         int month = Integer.parseInt(cliente[5].split("-")[1]);
         int day = Integer.parseInt(cliente[5].split("-")[2]);
-        Date date_birth = new Date(year, month, day);
+        
+        Date date_birth = new Date(year - 1900, month - 1, day);
         
         Clientes consumer = new Clientes();
         
@@ -51,7 +52,7 @@ public class ClientesController {
     }
     
     public DefaultTableModel Clientes(){
-        List<Clientes> consumers = this.clientesbd.getAllConsumers();
+        List<Clientes> consumers = this.clientesbd.getAllConsumersOrderByName();
         
         DefaultTableModel modelConsumers = new DefaultTableModel();
         String[] columnas = {"Cedula", "Nombre", "Apellido", "Telefono","Fecha de Nacimento","Puntos", "Credito"};

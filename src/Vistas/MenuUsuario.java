@@ -247,7 +247,7 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.Cerrar();
-        System.exit(0);
+       
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void bntClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntClientesActionPerformed
@@ -345,6 +345,7 @@ public class MenuUsuario extends javax.swing.JFrame {
             imp.ImprimirReporte(datos, cierre.Fecha());
             this.setVisible(false);
             this.dispose();
+            System.exit(0);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

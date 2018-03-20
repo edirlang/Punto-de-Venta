@@ -109,6 +109,17 @@ public class ClientesBD extends Conexion {
         return clientesList; 
     }
     
+    public List<Clientes> getAllConsumersOrderByName() throws HibernateException {
+        List<Clientes> clientesList = null;  
+        try { 
+            iniciaOperacion(); 
+            clientesList = sesion.createQuery("from Clientes ORDER BY first_name").list(); 
+        }finally { 
+            sesion.close(); 
+        }  
+        return clientesList; 
+    }
+    
     public String[][] getConsumerNameDocument() {
         List<Clientes> consumers = this.getAllConsumers();
         

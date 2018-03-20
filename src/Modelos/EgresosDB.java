@@ -41,8 +41,9 @@ public class EgresosDB extends Conexion{
         List<Egresos> egresos = null;  
         try { 
             iniciaOperacion(); 
-            Query query = sesion.createQuery("from Egresos WHERE Fecha = :date")
-                    .setParameter("date", Fecha);
+            Query query = sesion.createQuery("from Egresos WHERE Fecha Between :start AND :end")
+                    .setParameter("start", Fecha+" 00:00:00")
+                    .setParameter("end", Fecha+" 23:59:59");
             egresos = query.list();
             for(Egresos egreso: egresos){
                 total += egreso.getValor();

@@ -8,6 +8,10 @@ package Vistas.Facturacion;
 
 import Entity.Facturas;
 import Modelos.FacturasBD;
+import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
+import Entity.MonthDate;
+
 
 /**
  *
@@ -23,8 +27,51 @@ public class FacturasView extends javax.swing.JInternalFrame {
         factura = new FacturasBD();
         initComponents();
         this.Lista.setModel(factura.todos());
+        
+        DefaultComboBoxModel daysStart = new DefaultComboBoxModel();
+        DefaultComboBoxModel daysEnd = new DefaultComboBoxModel();
+        for(int i = 1 ; i <= 31 ; i++){
+            daysStart.addElement(i);
+            daysEnd.addElement(i);
+        }
+        this.starDay.setModel(daysStart);
+        this.endDay.setModel(daysEnd);
+        
+        this.startMonth.setModel(this.geneareateModelMoths());
+        this.endMonth.setModel(this.geneareateModelMoths());
+        
+        int yearNow = new Date().getYear()+1900;
+        DefaultComboBoxModel years = new DefaultComboBoxModel();
+        DefaultComboBoxModel years2 = new DefaultComboBoxModel();
+        
+        years.addElement("");
+        years2.addElement("");
+        for(int i = 2017; i <= (yearNow); i++ ){
+            years.addElement(i);
+            years2.addElement(i);
+        }
+        this.startYear.setModel(years);
+        this.endYear.setModel(years2);
     }
 
+    private DefaultComboBoxModel geneareateModelMoths(){
+        DefaultComboBoxModel months = new DefaultComboBoxModel();
+        
+        months.addElement(new MonthDate(1 ,"Enero"));
+        months.addElement(new MonthDate(2,"Febrero"));
+        months.addElement(new MonthDate(3,"Marzo"));
+        months.addElement(new MonthDate(4,"Abril"));
+        months.addElement(new MonthDate(5,"Mayo"));
+        months.addElement(new MonthDate(6,"Junio"));
+        months.addElement(new MonthDate(7,"Julio"));
+        months.addElement(new MonthDate(8,"Agosto"));
+        months.addElement(new MonthDate(9,"Septiembre"));
+        months.addElement(new MonthDate(10,"Octubre"));
+        months.addElement(new MonthDate(11,"Noviembre"));
+        months.addElement(new MonthDate(12,"Diciembre"));
+        
+        return months;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,12 +85,26 @@ public class FacturasView extends javax.swing.JInternalFrame {
         labelHeader1 = new org.edisoncor.gui.label.LabelHeader();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtNumeroFactura = new javax.swing.JTextField();
+        txtNumeroFacturaEnd = new javax.swing.JTextField();
         btnBuscarFactura = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        starDay = new javax.swing.JComboBox<>();
+        startMonth = new javax.swing.JComboBox<>();
+        startYear = new javax.swing.JComboBox<>();
+        endDay = new javax.swing.JComboBox<>();
+        endMonth = new javax.swing.JComboBox<>();
+        endYear = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtNumeroFacturaInit = new javax.swing.JTextField();
         PanelListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Lista = new javax.swing.JTable();
         btnVerFactura = new javax.swing.JButton();
+
+        setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
 
         labelHeader1.setText("FACTURAS");
         labelHeader1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -52,21 +113,55 @@ public class FacturasView extends javax.swing.JInternalFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("NUMERO DE FACTURA");
 
-        txtNumeroFactura.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtNumeroFactura.addActionListener(new java.awt.event.ActionListener() {
+        txtNumeroFacturaEnd.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtNumeroFacturaEnd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNumeroFacturaActionPerformed(evt);
+                txtNumeroFacturaEndActionPerformed(evt);
             }
         });
 
         btnBuscarFactura.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        btnBuscarFactura.setText("Buscar");
+        btnBuscarFactura.setText("Filtar");
         btnBuscarFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarFacturaActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Fecha:");
+
+        starDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        startMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        startYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+
+        endDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        endMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        endYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("-");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("-");
+
+        txtNumeroFacturaInit.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtNumeroFacturaInit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumeroFacturaInitActionPerformed(evt);
             }
         });
 
@@ -75,23 +170,66 @@ public class FacturasView extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(137, 137, 137)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtNumeroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(starDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(startMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(startYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNumeroFacturaInit))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(endDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(endMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(endYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNumeroFacturaEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(35, 35, 35)
                 .addComponent(btnBuscarFactura)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNumeroFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarFactura))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(starDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(endDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(endMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(endYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtNumeroFacturaInit, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNumeroFacturaEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(48, 48, 48))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(btnBuscarFactura)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         PanelListado.setBackground(new java.awt.Color(51, 51, 51));
@@ -138,8 +276,9 @@ public class FacturasView extends javax.swing.JInternalFrame {
         PanelListadoLayout.setVerticalGroup(
             PanelListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelListadoLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 31, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnVerFactura.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -176,14 +315,14 @@ public class FacturasView extends javax.swing.JInternalFrame {
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(labelHeader1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PanelListado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
+                        .addGap(206, 206, 206)
                         .addComponent(btnVerFactura)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
@@ -202,27 +341,58 @@ public class FacturasView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNumeroFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroFacturaActionPerformed
-        Facturas invoice = factura.findInvoice(this.txtNumeroFactura.getText());
+    private void txtNumeroFacturaEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroFacturaEndActionPerformed
+        Facturas invoice = factura.findInvoice(this.txtNumeroFacturaEnd.getText());
         FacturaVer ver = new FacturaVer(null, true, invoice, factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
         ver.setVisible(true);
-    }//GEN-LAST:event_txtNumeroFacturaActionPerformed
+    }//GEN-LAST:event_txtNumeroFacturaEndActionPerformed
 
     private void btnVerFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerFacturaActionPerformed
         int FilaSelecionada = this.Lista.getSelectedRow();
         
         Facturas invoice = factura.findInvoice(Lista.getValueAt(FilaSelecionada,0).toString());
-        System.out.println("Factura coutn "+invoice.getDetallefacturas().size());
-        System.out.println("Facruas N: "+invoice.getNumeroFactura());
         FacturaVer ver = new FacturaVer(null, true, invoice, factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
         ver.setVisible(true);
     }//GEN-LAST:event_btnVerFacturaActionPerformed
 
     private void btnBuscarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarFacturaActionPerformed
-        Facturas invoice = factura.findInvoice(this.txtNumeroFactura.getText());
-        FacturaVer ver = new FacturaVer(null, true, invoice,factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
-        ver.setVisible(true);
+        MonthDate month = (MonthDate) this.startMonth.getSelectedItem();
+        String startDate = "";
+        if(this.startYear.getSelectedItem().toString().length() > 0){
+            startDate = 
+                this.startYear.getSelectedItem().toString()
+                + "-" + month.getId()
+                + "-" + this.starDay.getSelectedItem().toString();
+        }
+        MonthDate month2 = (MonthDate) this.endMonth.getSelectedItem();
+        String endDate = "";
+        if(this.endYear.getSelectedItem().toString().length() > 0){
+            endDate = 
+                this.endYear.getSelectedItem().toString()
+                + "-" + month2.getId()
+                + "-" + this.endDay.getSelectedItem().toString();
+        }
+        String numInitInvoice = "";
+        String numEndInvoice = "";
+        if(this.txtNumeroFacturaInit.getText().length() > 0 && this.txtNumeroFacturaInit.getText().length() > 0){
+            numInitInvoice = this.txtNumeroFacturaInit.getText();
+            numEndInvoice = this.txtNumeroFacturaEnd.getText();
+        }
+        
+        
+        
+        this.Lista.setModel(this.factura.likeDateOrIdInvoice(new String[]{
+            startDate, endDate, numInitInvoice, numEndInvoice
+        }));
+        
+        //Facturas invoice = factura.findInvoice(this.txtNumeroFacturaEnd.getText());
+        //FacturaVer ver = new FacturaVer(null, true, invoice,factura.ConsultarDetalleFactura(invoice.getNumeroFactura()+""));
+        //ver.setVisible(true);
     }//GEN-LAST:event_btnBuscarFacturaActionPerformed
+
+    private void txtNumeroFacturaInitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroFacturaInitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumeroFacturaInitActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -230,11 +400,21 @@ public class FacturasView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PanelListado;
     private javax.swing.JButton btnBuscarFactura;
     private javax.swing.JButton btnVerFactura;
+    private javax.swing.JComboBox<String> endDay;
+    private javax.swing.JComboBox<String> endMonth;
+    private javax.swing.JComboBox<String> endYear;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.edisoncor.gui.label.LabelHeader labelHeader1;
-    private javax.swing.JTextField txtNumeroFactura;
+    private javax.swing.JComboBox<String> starDay;
+    private javax.swing.JComboBox<String> startMonth;
+    private javax.swing.JComboBox<String> startYear;
+    private javax.swing.JTextField txtNumeroFacturaEnd;
+    private javax.swing.JTextField txtNumeroFacturaInit;
     // End of variables declaration//GEN-END:variables
 }

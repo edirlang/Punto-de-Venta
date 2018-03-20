@@ -449,7 +449,7 @@ public class Productos extends javax.swing.JInternalFrame {
     
     private void initCombobox(){
         DefaultComboBoxModel model = new DefaultComboBoxModel();
-        for(Product productItem : this.Producto.getAllProducts()){
+        for(Product productItem : this.Producto.getAllProductsOrderByName()){
             model.addElement(productItem);
         }
         this.jcbName.setModel(model);

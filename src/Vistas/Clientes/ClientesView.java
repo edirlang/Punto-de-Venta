@@ -128,6 +128,7 @@ public class ClientesView extends javax.swing.JInternalFrame {
         PanelListado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         PanelListado.setForeground(new java.awt.Color(255, 255, 255));
 
+        Lista.setAutoCreateRowSorter(true);
         Lista.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         Lista.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -376,8 +377,8 @@ public class ClientesView extends javax.swing.JInternalFrame {
         int day = Integer.parseInt(this.date_birth.getText().split("-")[2]);
         System.out.println(""+year+"-"+month);
         Date new_data_bith = new Date();
-        new_data_bith.setYear(year);
-        new_data_bith.setMonth(month);
+        new_data_bith.setYear(year - 1900);
+        new_data_bith.setMonth(month - 1);
         new_data_bith.setDate(day);
         
         this.customer.setFirstName(txtNombre.getText());

@@ -82,6 +82,55 @@ public class FacturasBD extends Conexion {
         return invoice; 
     }
     
+    public DefaultTableModel likeDateOrIdInvoice(String[] filters) throws HibernateException {
+        List<Facturas> invoices = null;  
+        DefaultTableModel invoicesModel = this.headDateTable();
+        try{
+            this.iniciaOperacion();
+            String sql = "from Facturas WHERE ";
+            if(filters[0].length() > 0){
+                sql +=" Fecha Between '"+filters[0]+"' and '"+filters[1]+"'";
+            }
+            
+            System.out.println("FIltro: "+filters[2]+"-"+filters[3]);
+            if(filters[0].length() > 0 && filters[2].length() > 0){
+                sql +=" and ";
+            }
+            if(filters[2].length() > 0){
+                sql +="NumeroFactura Between "+filters[2]+" and "+filters[3];
+            }
+            Query query = sesion.createQuery(sql);
+            invoices = query.list();
+        } finally {
+            this.sesion.close();
+        }
+        
+        for(Facturas invoice : invoices){
+            String[] fila = {
+                invoice.getNumeroFactura()+"",
+                invoice.getClientes().getFullName(),
+                invoice.getDateText(),
+                invoice.getHourText(),
+                invoice.getTotal()+"",
+                invoice.getCreditoFacturaText()
+            };
+            invoicesModel.addRow(fila);
+        }
+        return invoicesModel; 
+    }
+    
+    private DefaultTableModel headDateTable(){
+        DefaultTableModel facturas = new DefaultTableModel();
+        String[] columnas = {"Numero", "Cliente", "Fecha", "Hora", "Total", "Credito"};
+        facturas.addColumn(columnas[0]);
+        facturas.addColumn(columnas[1]);
+        facturas.addColumn(columnas[2]);
+        facturas.addColumn(columnas[3]);
+        facturas.addColumn(columnas[4]);
+        facturas.addColumn(columnas[5]);
+        return facturas;
+
+    }
     private List<Detallefactura> getDetailInvoice(String num_invoice){ 
        List<Detallefactura> details = null;
         try { 
@@ -229,6 +278,7 @@ public class FacturasBD extends Conexion {
         
         List<Object[]> invoicesDay = this.getInnvoicesDay();
         for(Object[] invoice : invoicesDay){
+            System.out.println("fecha: "+invoice[0].toString());
             String[] fila = {
                 invoice[0].toString(),
                 invoice[2].toString(),
