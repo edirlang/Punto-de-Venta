@@ -7,13 +7,14 @@ package Vistas;
 
 import Controladores.FacturaController;
 import Controladores.ImprimirFactura;
+import Controladores.MainController;
 import Vistas.Clientes.ClientesView;
 import Vistas.Facturacion.FacturaView;
 import Vistas.Facturacion.FacturasView;
-import Vistas.Facturacion.InvoiceView;
 import Vistas.Facturacion.ReporteDias;
 import Vistas.Productos.Productos;
 import javax.swing.JOptionPane;
+import view.provider.ProvidersView;
 
 /**
  *
@@ -24,10 +25,12 @@ public class MenuUsuario extends javax.swing.JFrame {
     /**
      * Creates new form MenuUsuario
      */
+    public static MainController mainCtrl = new MainController();
     
     public MenuUsuario() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
+        this.dasboard();
     }
 
     /**
@@ -40,6 +43,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     private void initComponents() {
 
         Botones = new javax.swing.JPanel();
+        btnFactura1 = new org.edisoncor.gui.button.ButtonAero();
         btnFactura = new org.edisoncor.gui.button.ButtonAero();
         bntClientes = new org.edisoncor.gui.button.ButtonAero();
         btnProductos = new org.edisoncor.gui.button.ButtonAero();
@@ -51,19 +55,22 @@ public class MenuUsuario extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SURTIALISS");
+        setBackground(new java.awt.Color(102, 102, 102));
         setPreferredSize(new java.awt.Dimension(1024, 768));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
@@ -78,8 +85,19 @@ public class MenuUsuario extends javax.swing.JFrame {
         Botones.setMaximumSize(new java.awt.Dimension(32767, 30));
         Botones.setLayout(new java.awt.GridLayout(1, 0));
 
+        btnFactura1.setBackground(new java.awt.Color(255, 51, 51));
+        btnFactura1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        btnFactura1.setText("Surtialiss");
+        btnFactura1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnFactura1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFactura1ActionPerformed(evt);
+            }
+        });
+        Botones.add(btnFactura1);
+
+        btnFactura.setBackground(new java.awt.Color(255, 51, 51));
         btnFactura.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        btnFactura.setForeground(new java.awt.Color(0, 0, 0));
         btnFactura.setText("Nueva Factura (F2)");
         btnFactura.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnFactura.addActionListener(new java.awt.event.ActionListener() {
@@ -89,8 +107,8 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         Botones.add(btnFactura);
 
+        bntClientes.setBackground(new java.awt.Color(255, 51, 51));
         bntClientes.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
-        bntClientes.setForeground(new java.awt.Color(0, 0, 0));
         bntClientes.setText("Clientes (F3)");
         bntClientes.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         bntClientes.addActionListener(new java.awt.event.ActionListener() {
@@ -100,8 +118,8 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         Botones.add(bntClientes);
 
+        btnProductos.setBackground(new java.awt.Color(255, 51, 51));
         btnProductos.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
-        btnProductos.setForeground(new java.awt.Color(0, 0, 0));
         btnProductos.setText("Productos (F4)");
         btnProductos.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnProductos.addActionListener(new java.awt.event.ActionListener() {
@@ -111,7 +129,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         Botones.add(btnProductos);
 
-        buttonAero1.setForeground(new java.awt.Color(0, 0, 0));
+        buttonAero1.setBackground(new java.awt.Color(255, 51, 51));
         buttonAero1.setText("Pedidos (F5)");
         buttonAero1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         buttonAero1.addActionListener(new java.awt.event.ActionListener() {
@@ -121,8 +139,8 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         Botones.add(buttonAero1);
 
+        btnFacturas.setBackground(new java.awt.Color(255, 51, 51));
         btnFacturas.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
-        btnFacturas.setForeground(new java.awt.Color(0, 0, 0));
         btnFacturas.setText("Facturas (F6)");
         btnFacturas.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnFacturas.addActionListener(new java.awt.event.ActionListener() {
@@ -132,14 +150,14 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         Botones.add(btnFacturas);
 
+        btnCerrarSesion.setBackground(new java.awt.Color(255, 51, 51));
         btnCerrarSesion.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
-        btnCerrarSesion.setForeground(new java.awt.Color(0, 0, 0));
         btnCerrarSesion.setText("Cerar Sesion");
         btnCerrarSesion.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         Botones.add(btnCerrarSesion);
 
+        btnSalir.setBackground(new java.awt.Color(255, 51, 51));
         btnSalir.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
-        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("Salir");
         btnSalir.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -152,6 +170,9 @@ public class MenuUsuario extends javax.swing.JFrame {
         Desktop.setBackground(new java.awt.Color(72, 184, 33));
         Desktop.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jMenuBar1.setBackground(new java.awt.Color(255, 51, 51));
+
+        jMenu1.setBackground(new java.awt.Color(255, 51, 51));
         jMenu1.setText("Facturacion");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
@@ -162,15 +183,6 @@ public class MenuUsuario extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
-        jMenuItem2.setText("Clientes");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem2);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
         jMenuItem3.setText("Productos");
@@ -190,16 +202,9 @@ public class MenuUsuario extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem4);
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
-        jMenuItem5.setText("Facturas");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem5);
-
         jMenuBar1.add(jMenu1);
+
+        jMenu3.setBackground(new java.awt.Color(255, 51, 51));
 
         jMenuItem6.setText("Ventas Diarias");
         jMenu3.add(jMenuItem6);
@@ -209,6 +214,43 @@ public class MenuUsuario extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
+        jMenu5.setBackground(new java.awt.Color(255, 51, 51));
+        jMenu5.setText("Administracion");
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
+
+        jMenuItem7.setText("Proveedores");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem7);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        jMenuItem2.setText("Clientes");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem2);
+
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        jMenuItem5.setText("Facturas");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu5);
+
+        jMenu4.setBackground(new java.awt.Color(255, 51, 51));
         jMenu4.setText("Reporte");
 
         jMenuItem9.setText("Reporte por dias");
@@ -221,6 +263,7 @@ public class MenuUsuario extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
+        jMenu2.setBackground(new java.awt.Color(255, 51, 51));
         jMenu2.setText("Ayuda");
         jMenuBar1.add(jMenu2);
 
@@ -236,9 +279,9 @@ public class MenuUsuario extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(Botones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Botones, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE))
+                .addComponent(Desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))
         );
 
         pack();
@@ -247,7 +290,6 @@ public class MenuUsuario extends javax.swing.JFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.Cerrar();
-       
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void bntClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntClientesActionPerformed
@@ -333,6 +375,28 @@ public class MenuUsuario extends javax.swing.JFrame {
         this.Cerrar();
     }//GEN-LAST:event_formWindowClosed
 
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+        
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        ProvidersView providerView = new ProvidersView();
+        providerView.setVisible(true);
+        this.Desktop.removeAll();
+        this.Desktop.add(providerView);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void btnFactura1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFactura1ActionPerformed
+        this.dasboard();
+    }//GEN-LAST:event_btnFactura1ActionPerformed
+
+    private void dasboard(){
+        dashboard dasboard = new dashboard();
+        dasboard.setVisible(true);
+        this.Desktop.removeAll();
+        this.Desktop.add(dasboard);
+        dasboard.setSize(this.Desktop.getSize());
+    }
     private void Cerrar(){
         Object[] opciones = {"Aceptar", "Cancelar"};
         int eleccion = JOptionPane.showOptionDialog(rootPane, "Estas Seguro?", "Mensaje de Confirmacion",
@@ -354,6 +418,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     private org.edisoncor.gui.button.ButtonAero bntClientes;
     private org.edisoncor.gui.button.ButtonAero btnCerrarSesion;
     private org.edisoncor.gui.button.ButtonAero btnFactura;
+    private org.edisoncor.gui.button.ButtonAero btnFactura1;
     private org.edisoncor.gui.button.ButtonAero btnFacturas;
     private org.edisoncor.gui.button.ButtonAero btnProductos;
     private org.edisoncor.gui.button.ButtonAero btnSalir;
@@ -362,6 +427,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -369,6 +435,7 @@ public class MenuUsuario extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables

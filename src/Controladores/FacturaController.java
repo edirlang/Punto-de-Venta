@@ -6,11 +6,13 @@
 package Controladores;
 
 import Entity.Clientes;
+import Entity.Config;
 import Entity.CustomerPoint;
 import Entity.Facturas;
 import Entity.Product;
 import Modelos.ClientesBD;
 import Modelos.FacturasBD;
+import Vistas.MenuUsuario;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -80,9 +82,10 @@ public class FacturaController{
     
     private void newCustomerPoints(Facturas invoice){
         if(invoice.getClientes().getIsPoints()){
+            Config config_points = MenuUsuario.mainCtrl.getConfigByName("price_point");
             CustomerPoint point = new CustomerPoint();
             point.setCustomer(invoice.getClientes());
-            point.setQuantity((int) (invoice.getTotal()/100));
+            point.setQuantity((int) (invoice.getTotal()/Integer.parseInt(config_points.getValue())));
             this.invoicesBD.saveCustomerPoints(point);
         }
     }

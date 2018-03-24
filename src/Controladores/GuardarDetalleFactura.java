@@ -11,7 +11,7 @@ import Entity.Facturas;
 import Entity.Product;
 import Modelos.Conexion;
 import Modelos.FacturasBD;
-import Modelos.ProductosBD;
+import Modelos.ProductosDAO;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.HibernateException;
 
@@ -22,13 +22,13 @@ import org.hibernate.HibernateException;
 public class GuardarDetalleFactura extends Conexion implements Runnable {
     DefaultTableModel detalles;
     int num_invoice;
-    ProductosBD producto;
+    ProductosDAO producto;
     FacturasBD facturabd;
 
     public GuardarDetalleFactura(DefaultTableModel detalles, int num_invoice) {
         this.detalles = detalles;
         this.num_invoice = num_invoice;
-        producto = new ProductosBD();
+        producto = new ProductosDAO();
         facturabd = new FacturasBD();
     }
 

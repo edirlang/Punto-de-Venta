@@ -7,7 +7,7 @@
 package Controladores;
 
 import Entity.Product;
-import Modelos.ProductosBD;
+import Modelos.ProductosDAO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Caja1
  */
-public class ProductosController extends ProductosBD implements Runnable{
+public class ProductosController extends ProductosDAO implements Runnable{
     
     
     public ProductosController(){

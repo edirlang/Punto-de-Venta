@@ -64,5 +64,6 @@ Contributor(s):
     <mapping class="Entity.PurchaseOrder"/>
     <mapping class="Entity.Inventory"/>
     <mapping class="Entity.CustomerPoint"/>
+    <mapping class="Entity.Config"/>
   </session-factory>
 </hibernate-configuration>

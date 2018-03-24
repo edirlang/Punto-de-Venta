@@ -19,15 +19,13 @@ import org.hibernate.Query;
  *
  * @author Mis-Dark
  */
-public class ProductosBD extends Conexion {
+public class ProductosDAO extends Conexion {
 
-    private Conexion utilsSession;
     private PurchaseOrderBD orderEnity;
     private InventoryBD inventoryEntity;
     
 
-    public ProductosBD() {
-        utilsSession = new Conexion();
+    public ProductosDAO() {
         orderEnity = new PurchaseOrderBD();
         inventoryEntity = new InventoryBD();
         
@@ -183,6 +181,33 @@ public class ProductosBD extends Conexion {
         return products; 
     }
     
+    public List<Product> getProductsSoldOut() throws HibernateException {
+        List<Product> products = null;  
+        try { 
+            iniciaOperacion(); 
+            Query query = sesion.createQuery("from Product where quantity <= 0 Order BY quantity ASC");
+            products = query.list();
+        } finally { 
+            sesion.close(); 
+        }  
+        return products; 
+    }
+    
+    public List<Object[]> getProductMoreSale() throws HibernateException {
+        List<Object[]> products = null;  
+        try { 
+            iniciaOperacion(); 
+            Query query = this.sesion.createSQLQuery(
+            "SELECT p.name as name, COUNT(d.Cantidad) as quantity from product p join detallefactura d ON p.bar_code = d.Codigo GROUP By p.bar_code ORDER BY quantity DESC Limit 10");
+            products = query.list();
+        } finally { 
+            sesion.close(); 
+        }  
+        return products; 
+    }
+    
+    
+    //SELECT p.name, COUNT(d.Cantidad) as quantity from product p join detallefactura d ON p.bar_code = d.Codigo GROUP By p.bar_code ORDER BY quantity DESC Limit 10
     protected DefaultTableModel todos() {
         DefaultTableModel productos = new DefaultTableModel();
         String[] columnas = {"Codigo", "Descripción", "Precio", "Cantidad"};

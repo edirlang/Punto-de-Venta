@@ -6,6 +6,8 @@
 package Modelos;
 
 import Entity.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
@@ -103,6 +105,22 @@ public class ClientesBD extends Conexion {
         try { 
             iniciaOperacion(); 
             clientesList = sesion.createQuery("from Clientes ORDER BY document_number").list(); 
+        }finally { 
+            sesion.close(); 
+        }  
+        return clientesList; 
+    }
+    
+    public List<Clientes> getConsumersHappyBirthDay() throws HibernateException {
+        List<Clientes> clientesList = null;  
+        Calendar now = Calendar.getInstance();
+        try { 
+            iniciaOperacion(); 
+            
+            clientesList = sesion.createQuery("from Clientes where DAY(date_birth) = :day and MONTH(date_birth) = :month")
+                    .setParameter("day", now.get(Calendar.DAY_OF_MONTH))
+                    .setParameter("month", now.get(Calendar.MONTH)+1)
+                    .list(); 
         }finally { 
             sesion.close(); 
         }  

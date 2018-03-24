@@ -87,6 +87,11 @@ public class Provider implements Serializable{
     public void addPurchaseOrder(PurchaseOrder purchaseOrders) {
         this.purchaseOrders.add(purchaseOrders);
     }
+    
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }
 
 

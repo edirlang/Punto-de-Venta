@@ -7,11 +7,14 @@
 package Controladores;
 
 import Entity.Clientes;
+import Entity.Config;
 import Vistas.Login;
+import Vistas.MenuUsuario;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -106,9 +109,20 @@ public class ImprimirFactura extends Thread{
     }
     
     private String headTicket(){
-        String cadena =   "    Autoservicio Surtialiss\n"
-                + "        Nit: 21061835-0\n"        
-                + "       Telefono: 3114834122\n";
+        List<Config> configs = MenuUsuario.mainCtrl.getAllConfig();
+        String name = "", nit ="", phone = "";
+        for(Config config: configs){
+            if("name_company".equals(config.getName())){
+                name = config.getValue();
+            }else if("nit_company".equals(config.getName())){
+                nit = config.getValue();
+            }else if("company_phone".equals(config.getName())){
+                phone = config.getValue();
+            }
+        }
+        String cadena =   "    "+name+"\n"
+                + "        Nit: "+nit+"\n"        
+                + "       Telefono: "+phone+"\n";
                         
         return cadena;
     }

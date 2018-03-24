@@ -3,7 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Punto-de-Venta/src/Vistas/Productos/Productos.java</file>
+            <file>file:/D:/Punto-de-Venta/src/hibernate.cfg.xml</file>
+            <file>file:/D:/Punto-de-Venta/src/Controladores/ImprimirFactura.java</file>
         </group>
     </open-files>
 </project-private>
