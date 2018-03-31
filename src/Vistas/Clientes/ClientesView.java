@@ -27,6 +27,8 @@ public class ClientesView extends javax.swing.JInternalFrame {
         initComponents();
        CustomerController = new ClientesController();
        this.Lista.setModel(CustomerController.Clientes());
+       //this.Lista.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
+       //this.Lista.getColumnModel().getColumn(6).setCellEditor(new ButtonEditorCustomer(new JTextField()));
     }
 
     /**

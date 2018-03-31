@@ -55,7 +55,7 @@ public class ClientesController {
         List<Clientes> consumers = this.clientesbd.getAllConsumersOrderByName();
         
         DefaultTableModel modelConsumers = new DefaultTableModel();
-        String[] columnas = {"Cedula", "Nombre", "Apellido", "Telefono","Fecha de Nacimento","Puntos", "Credito"};
+        String[] columnas = {"Cedula", "Nombre", "Telefono","Fecha de Nacimento","Puntos", "Credito"};
         
         modelConsumers.addColumn(columnas[0]);
         modelConsumers.addColumn(columnas[1]);
@@ -63,18 +63,17 @@ public class ClientesController {
         modelConsumers.addColumn(columnas[3]);
         modelConsumers.addColumn(columnas[4]);
         modelConsumers.addColumn(columnas[5]);
-        modelConsumers.addColumn(columnas[6]);
         
         for(Clientes consumer : consumers){
             
             String[] fila = {
                 consumer.getDocumentNumber(),
-                consumer.getFirstName(),
-                consumer.getLastName(),
+                consumer.getFullName(),
                 consumer.getPhoneNumber(),
                 consumer.getDateBirth().toString(),
                 this.getAcumulatePoints(consumer)+"",
-                consumer.getTextIsCredit()
+                consumer.getTextIsCredit(),
+                "Editar"
             };
             modelConsumers.addRow(fila);
         }

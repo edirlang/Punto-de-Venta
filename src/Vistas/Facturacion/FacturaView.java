@@ -33,7 +33,7 @@ public class FacturaView extends javax.swing.JFrame {
     int dia;
     Product product;
     int points;
-    //static int NumeroFacturaCreada = 0;
+    boolean descountPoints = false;
 
     public FacturaView() {
         initComponents();
@@ -78,6 +78,7 @@ public class FacturaView extends javax.swing.JFrame {
         jcbName = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
+        jCbPoints = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         panelTranslucido3 = new org.edisoncor.gui.panel.PanelTranslucido();
@@ -158,6 +159,7 @@ public class FacturaView extends javax.swing.JFrame {
         labelRect6.setText("Cantidad:");
         labelRect6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
+        txtCantidad.setText("1");
         txtCantidad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         labelRect7.setText("Codigo:");
@@ -211,6 +213,13 @@ public class FacturaView extends javax.swing.JFrame {
 
         txtName.setEditable(false);
 
+        jCbPoints.setText("¿Descontar a Puntos?");
+        jCbPoints.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCbPointsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelTranslucido2Layout = new javax.swing.GroupLayout(panelTranslucido2);
         panelTranslucido2.setLayout(panelTranslucido2Layout);
         panelTranslucido2Layout.setHorizontalGroup(
@@ -226,7 +235,7 @@ public class FacturaView extends javax.swing.JFrame {
                         .addComponent(labelRect6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 130, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelRect8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,12 +244,16 @@ public class FacturaView extends javax.swing.JFrame {
                 .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelTranslucido2Layout.createSequentialGroup()
                         .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
+                        .addGap(108, 108, 108)
+                        .addComponent(jCbPoints)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelTranslucido2Layout.createSequentialGroup()
+                        .addComponent(jcbName, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jcbName, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSumar, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
@@ -250,19 +263,22 @@ public class FacturaView extends javax.swing.JFrame {
                 .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelTranslucido2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelRect7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelRect5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcbName, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(labelRect7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(labelRect5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jcbName, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(6, 6, 6)
                         .addGroup(panelTranslucido2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelRect8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelRect6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jCbPoints)))
                     .addGroup(panelTranslucido2Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(btnSumar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -650,6 +666,10 @@ public class FacturaView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPrecioKeyPressed
 
+    private void jCbPointsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCbPointsActionPerformed
+        this.txtCodigo.requestFocus();
+    }//GEN-LAST:event_jCbPointsActionPerformed
+
     private void PrepararTabla() {
         ListaProducto = new DefaultTableModel();
         String[] columnas = {"ID", "Producto", "Cantidad", "Valor unidad", "Valor total","Puntos"};
@@ -667,7 +687,7 @@ public class FacturaView extends javax.swing.JFrame {
             this.product = OperacionesFactura.BuscarProducto(this.txtCodigo.getText());
             this.txtName.setText(product.getName());
             this.txtPrecio.setText(product.getSalePrice()+"");
-            this.txtCantidad.setText("1");
+            //this.txtCantidad.setText("1");
             long codigo = Long.parseLong(this.txtCodigo.getText().trim());
             if (codigo < 1000) {
                 this.txtPrecio.requestFocus();
@@ -699,7 +719,7 @@ public class FacturaView extends javax.swing.JFrame {
         filaFactura[1] = this.product.getName();
         filaFactura[2] = cantidad + "";
         
-        if(this.product.getIsPayPoints()){
+        if(this.product.getIsPayPoints() || this.jCbPoints.isSelected()){
             if(!this.checkPointsCustomer(total)){
                 JOptionPane.showMessageDialog(this, "No se puede agregar el premio, no tienes suficientes puntos.");
                 this.rebootForm();
@@ -727,6 +747,7 @@ public class FacturaView extends javax.swing.JFrame {
         this.txtPrecio.setText("");
         this.txtName.setText("");
         this.txtCodigo.requestFocus();
+        this.jCbPoints.setSelected(false);
     }
     private void ComprobarExistencia() {
         int a;
@@ -899,6 +920,7 @@ public class FacturaView extends javax.swing.JFrame {
     private org.edisoncor.gui.button.ButtonIcon buttonIcon1;
     private javax.swing.JComboBox clientes;
     private javax.swing.JRadioButton isCredit;
+    private javax.swing.JCheckBox jCbPoints;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

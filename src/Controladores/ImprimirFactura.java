@@ -120,7 +120,7 @@ public class ImprimirFactura extends Thread{
                 phone = config.getValue();
             }
         }
-        String cadena =   "    "+name+"\n"
+        String cadena =   "    "+name+"\n"
                 + "        Nit: "+nit+"\n"        
                 + "       Telefono: "+phone+"\n";
                         

@@ -29,6 +29,7 @@ public class Productos extends javax.swing.JInternalFrame {
         Producto = new ProductosController();
         this.Lista.setModel(Producto.Productos());
         this.initCombobox();
+        this.txtCodigo.requestFocus();
     }
 
     /**
@@ -438,10 +439,9 @@ public class Productos extends javax.swing.JInternalFrame {
                 isPayPoints
             };
             this.product = this.Producto.EditarProducto(productoText);
-            this.txtCodigo.requestFocus();
             this.CargarCampos(this.product);
             this.txtCodigo.setText("");
-            
+            this.txtCodigo.requestFocus();
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Por Favor ingresa las unidades de entrada.");
         }

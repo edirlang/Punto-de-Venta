@@ -297,16 +297,12 @@ public class MenuUsuario extends javax.swing.JFrame {
         ClientesView clientes = new ClientesView();
         clientes.setVisible(true);
         this.Desktop.add(clientes);
-
+        clientes.setSize(this.Desktop.getSize());
     }//GEN-LAST:event_bntClientesActionPerformed
 
     private void btnFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturaActionPerformed
         FacturaView fac = new FacturaView();
         fac.setVisible(true);
-        //InvoiceView invoiceView = new InvoiceView();
-        //this.Desktop.add(invoiceView);
-        //invoiceView.show();
-        //this.Desktop.selectFrame(true);
     }//GEN-LAST:event_btnFacturaActionPerformed
 
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
@@ -314,6 +310,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         pro.setVisible(true);
         this.Desktop.removeAll();
         this.Desktop.add(pro);
+        pro.setSize(this.Desktop.getSize());
     }//GEN-LAST:event_btnProductosActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -329,7 +326,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         ClientesView clientes = new ClientesView();
         clientes.setVisible(true);
         this.Desktop.add(clientes);
-        
+        clientes.setSize(this.Desktop.getSize());
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -337,6 +334,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         pro.setVisible(true);
         this.Desktop.removeAll();
         this.Desktop.add(pro);
+        pro.setSize(this.Desktop.getSize());
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void buttonAero1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAero1ActionPerformed
@@ -354,6 +352,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         pro.setVisible(true);
         this.Desktop.removeAll();
         this.Desktop.add(pro);
+        pro.setSize(this.Desktop.getSize());
     }//GEN-LAST:event_btnFacturasActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -361,6 +360,7 @@ public class MenuUsuario extends javax.swing.JFrame {
         pro.setVisible(true);
         this.Desktop.removeAll();
         this.Desktop.add(pro);
+        pro.setSize(this.Desktop.getSize());
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
