@@ -13,6 +13,8 @@ import Entity.Facturas;
 import Entity.Product;
 import Modelos.FacturasBD;
 import com.sun.glass.events.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +34,7 @@ public class FacturaView extends javax.swing.JFrame {
     String[] ClienteSelecionado;
     int dia;
     Product product;
+    ArrayList products;
     int points;
     boolean descountPoints = false;
 
@@ -49,7 +52,7 @@ public class FacturaView extends javax.swing.JFrame {
         this.initCombobox();
         this.setExtendedState(MAXIMIZED_BOTH);
         this.points = 0;
-        
+        this.products = new ArrayList();
     }
 
     /**
@@ -786,6 +789,7 @@ public class FacturaView extends javax.swing.JFrame {
     private void QuitarFila() {
         long total = Long.parseLong(this.txtTotal.getText());
         int FilaSelecionada = this.jTable1.getSelectedRow();
+        String barCode = ListaProducto.getValueAt(FilaSelecionada, 0).toString();
         int ValorRestar = Integer.parseInt(ListaProducto.getValueAt(FilaSelecionada, 4).toString());
         int CantidadActual = Integer.parseInt(ListaProducto.getValueAt(FilaSelecionada, 2).toString());
         int ValorUnidad = Integer.parseInt(ListaProducto.getValueAt(FilaSelecionada, 3).toString());
@@ -796,7 +800,12 @@ public class FacturaView extends javax.swing.JFrame {
         } else {
             ListaProducto.removeRow(FilaSelecionada);
         }
-        total -= ValorUnidad;
+        if(ValorUnidad > 0){
+            total -= ValorUnidad;
+        }else{
+            this.product = OperacionesFactura.BuscarProducto(barCode);
+            this.points += this.product.getSalePrice();
+        }
         this.txtTotal.setText("" + total);
     }
 
@@ -823,6 +832,7 @@ public class FacturaView extends javax.swing.JFrame {
                 break;
             }
         }
+        this.rebootForm();
     }
 
     private void Imprimir(Facturas invoice) {
